@@ -19,13 +19,15 @@ public class Authentication {
 
     private final static String VALID_EMAIL_REGEX = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$";
 
-    public static synchronized User login(String email, String password) throws UserNotFoundException, NoSuchAlgorithmException {
+    public static synchronized User login(String email, String password) throws UserNotFoundException,
+        NoSuchAlgorithmException {
 
         String entryToSearch = email + " " + getHash(password);
 
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader("data/registeredUsersList.txt"))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new
+            FileReader("data/registeredUsersList.txt"))) {
 
-            if(bufferedReader.lines()
+            if (bufferedReader.lines()
                 .filter(currentEntry -> currentEntry.equals(entryToSearch))
                 .toList().size() == 1) {
 
@@ -46,9 +48,9 @@ public class Authentication {
 
     private static synchronized boolean doesExist(String email) {
 
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader("data/registeredUsersList.txt"))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("data/registeredUsersList.txt"))) {
 
-            if(bufferedReader.lines()
+            if (bufferedReader.lines()
                 .filter(currentEntry -> currentEntry.split(INTERVAL_REGEX)[0].equals(email))
                 .toList().size() == 1) {
 
@@ -68,7 +70,8 @@ public class Authentication {
 
         if (doesExist(email)) {
 
-            throw new EmailAlreadyRegisteredException("There is already a profile with that email. Please, try to login.");
+            throw new EmailAlreadyRegisteredException("There is already a profile with that email. " +
+                "Please, try to login.");
         }
 
         if (!email.matches(VALID_EMAIL_REGEX))     {
@@ -77,7 +80,7 @@ public class Authentication {
 
         String toWrite = email + " " + getHash(password) + System.lineSeparator();
 
-        try(BufferedWriter bufferedWriter = new BufferedWriter(new
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new
             FileWriter("data/registeredUsersList.txt", true))) {
 
             bufferedWriter.write(toWrite);

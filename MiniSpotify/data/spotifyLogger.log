@@ -1,0 +1,61 @@
+Jan 28, 2023 6:24:43 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: The registration process is not successful as there is already a registration with such email.
+bg.sofia.uni.fmi.mjt.server.exceptions.EmailAlreadyRegisteredException: There is already a profile with that email. Please, try to login.
+	at bg.sofia.uni.fmi.mjt.server.login.Authentication.register(Authentication.java:71)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processRegisterCommand(CommandExecutor.java:64)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:51)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.main(CommandExecutor.java:103)
+
+Jan 28, 2023 6:25:14 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: The registration process is not successful as there is already a registration with such email.
+bg.sofia.uni.fmi.mjt.server.exceptions.EmailAlreadyRegisteredException: There is already a profile with that email. Please, try to login.
+	at bg.sofia.uni.fmi.mjt.server.login.Authentication.register(Authentication.java:71)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processRegisterCommand(CommandExecutor.java:64)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:51)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.main(CommandExecutor.java:103)
+
+Jan 28, 2023 6:40:17 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: The login process is not successful as there is not such a profile.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException: User with such an email and password does not exist
+	at bg.sofia.uni.fmi.mjt.server.login.Authentication.login(Authentication.java:40)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:85)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:52)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:132)
+
+Jan 28, 2023 6:40:49 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: The registration process is not successful as the provided email is not valid.
+bg.sofia.uni.fmi.mjt.server.exceptions.NotValidEmailFormatException: The provided email is not valid
+	at bg.sofia.uni.fmi.mjt.server.login.Authentication.register(Authentication.java:75)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processRegisterCommand(CommandExecutor.java:64)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:51)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:132)
+
+Jan 28, 2023 6:41:37 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: The login process is not successful as there is not such a profile.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException: User with such an email and password does not exist
+	at bg.sofia.uni.fmi.mjt.server.login.Authentication.login(Authentication.java:40)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:85)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:52)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:132)
+
+Jan 28, 2023 6:42:53 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: The registration process is not successful as there is already a registration with such email.
+bg.sofia.uni.fmi.mjt.server.exceptions.EmailAlreadyRegisteredException: There is already a profile with that email. Please, try to login.
+	at bg.sofia.uni.fmi.mjt.server.login.Authentication.register(Authentication.java:71)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processRegisterCommand(CommandExecutor.java:64)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:51)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:132)
+
+Jan 28, 2023 6:43:06 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: The registration process is not successful as there is already a registration with such email.
+bg.sofia.uni.fmi.mjt.server.exceptions.EmailAlreadyRegisteredException: There is already a profile with that email. Please, try to login.
+	at bg.sofia.uni.fmi.mjt.server.login.Authentication.register(Authentication.java:71)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processRegisterCommand(CommandExecutor.java:64)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:51)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:132)
+

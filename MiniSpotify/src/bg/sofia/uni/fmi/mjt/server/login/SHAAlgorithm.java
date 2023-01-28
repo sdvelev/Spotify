@@ -7,6 +7,9 @@ import java.security.NoSuchAlgorithmException;
 
 public class SHAAlgorithm {
 
+    private final static int RADIX = 16;
+    private final static int MAX_LENGTH = 32;
+
     private static byte[] getSHA(String toEncrypt) throws NoSuchAlgorithmException {
 
         MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
@@ -18,9 +21,9 @@ public class SHAAlgorithm {
     private static String toHexadecimal(byte[] hash) {
 
         BigInteger bigInteger = new BigInteger(1, hash);
-        StringBuilder hexadecimalString = new StringBuilder(bigInteger.toString(16));
+        StringBuilder hexadecimalString = new StringBuilder(bigInteger.toString(RADIX));
 
-        while(hexadecimalString.length() < 32) {
+        while (hexadecimalString.length() < MAX_LENGTH) {
 
             hexadecimalString.insert(0, '0');
         }
@@ -40,7 +43,7 @@ public class SHAAlgorithm {
             String str = "JavaTpoint";
             String hash = getHash(str);
             System.out.println("\n" + str + " : " + hash);
-        } catch(NoSuchAlgorithmException e) {
+        } catch (NoSuchAlgorithmException e) {
 
             System.out.println("There is a mistake in algorithm");
         }
