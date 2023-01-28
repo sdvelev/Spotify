@@ -41,9 +41,6 @@ public class Authentication {
 
         throw new UserNotFoundException("User with such an email and password does not exist");
     }
-
-    private final static String BEFORE_EMAIL = "^";
-    private final static String AFTER_EMAIL = " [.]+$";
     private final static String INTERVAL_REGEX = " ";
 
     private static synchronized boolean doesExist(String email) {

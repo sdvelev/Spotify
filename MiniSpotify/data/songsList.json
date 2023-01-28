@@ -1,0 +1,38 @@
+[
+  {
+    "song": {
+      "title": "Vivaldi Variation",
+      "artist": "Florian Christl",
+      "duration": 114,
+      "genre": "classical"
+    },
+    "listeningTimes": 3
+  },
+  {
+    "song": {
+      "title": "The Crown - Bittersweet Symphony",
+      "artist": "Richard Ashcroft",
+      "duration": 248,
+      "genre": "modern"
+    },
+    "listeningTimes": 0
+  },
+  {
+    "song": {
+      "title": "The Crown - Main title",
+      "artist": "Hans Zimmer",
+      "duration": 87,
+      "genre": "classical"
+    },
+    "listeningTimes": 6
+  },
+  {
+    "song": {
+      "title": "No Time To Die",
+      "artist": "Billie Eilish",
+      "duration": 239,
+      "genre": "pop"
+    },
+    "listeningTimes": 0
+  }
+]

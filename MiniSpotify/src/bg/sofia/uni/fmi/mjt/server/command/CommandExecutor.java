@@ -6,6 +6,7 @@ import bg.sofia.uni.fmi.mjt.server.exceptions.NotValidEmailFormatException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException;
 import bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger;
 import bg.sofia.uni.fmi.mjt.server.login.User;
+import bg.sofia.uni.fmi.mjt.server.storage.SongEntity;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -34,7 +35,11 @@ public class CommandExecutor {
         "problem in the hashing algorithm.";
     private final static String DISCONNECT_COMMAND = "disconnect";
     private final static String SEARCH_COMMAND = "search";
-    private final static String TOP_COMMAND = "top";
+
+    private final static String TOP_COMMAND_NAME = "top";
+    private final static String TOP_COMMAND_INVALID_ARGUMENT_REPLY = "The provided input is in invalid format. " +
+        "Please, enter whole non-negative number.";
+
     private final static String CREATE_PLAYLIST = "create-playlist";
     private final static String ADD_SONG_TO = "add-song-to";
     private final static String SHOW_PLAYLIST = "show-playlist";
@@ -57,6 +62,7 @@ public class CommandExecutor {
 
             case REGISTER_COMMAND_NAME -> this.processRegisterCommand(cmd.arguments());
             case LOGIN_COMMAND_NAME -> this.processLoginCommand(cmd.arguments());
+            case TOP_COMMAND_NAME -> this.processTopCommand(cmd.arguments());
             default -> UNKNOWN_COMMAND_REPLY;
         };
 
@@ -102,6 +108,31 @@ public class CommandExecutor {
         }
 
         return LOGIN_COMMAND_SUCCESSFULLY_REPLY;
+    }
+
+    private final static String POSITIVE_NUMBER_REGEX = "^[0-9]+$";
+
+    private String processTopCommand(List<String> arguments) {
+
+        if (arguments.get(0).equals("0") || !arguments.get(0).matches(POSITIVE_NUMBER_REGEX)) {
+
+            SpotifyLogger.log(Level.SEVERE, TOP_COMMAND_INVALID_ARGUMENT_REPLY);
+            return TOP_COMMAND_INVALID_ARGUMENT_REPLY;
+        }
+
+        List<SongEntity> result = this.streamingPlatform.getTopNMostListenedSongs(
+            Integer.parseInt(arguments.get(0)));
+
+        StringBuilder toReturn = new StringBuilder();
+
+        for (SongEntity currentSongEntity : result) {
+
+            String toAppend = "# " + currentSongEntity.getListeningTimes() + ". Title: " +
+                currentSongEntity.getSong().getTitle() + ". Artist: " + currentSongEntity.getSong().getArtist()
+                + System.lineSeparator();
+            toReturn.append(toAppend);
+        }
+        return toReturn.toString();
     }
 
     public static void main(String[] args) {

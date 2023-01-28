@@ -40,6 +40,11 @@ public class SpotifyLogger {
         spotifyLogger.getLogger().log(level, message, exception);
     }
 
+    public static void log(Level level, String message) {
+
+        spotifyLogger.getLogger().log(level, message);
+    }
+
    /* public static void main(String[] args) {
         SpotifyLogger spotifyLogger = new SpotifyLogger();
 

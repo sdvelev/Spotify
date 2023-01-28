@@ -59,3 +59,13 @@ bg.sofia.uni.fmi.mjt.server.exceptions.EmailAlreadyRegisteredException: There is
 	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
 	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:132)
 
+Jan 28, 2023 11:24:33 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: The provided number is in invalid format. Please, enter whole positive number.
+Jan 28, 2023 11:24:40 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: The provided number is in invalid format. Please, enter whole positive number.
+Jan 28, 2023 11:26:49 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: The provided number is in invalid format. Please, enter whole positive number.
+Jan 28, 2023 11:27:13 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: The provided number is in invalid format. Please, enter whole positive number.
+Jan 28, 2023 11:27:17 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: The provided number is in invalid format. Please, enter whole positive number.
