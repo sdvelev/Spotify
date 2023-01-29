@@ -197,7 +197,7 @@ public class StreamingPlatform {
 
         if (!this.playlists.get(emailCreator).contains(new Playlist(emailCreator, playlistTitle))) {
 
-            throw new NoSuchPlaylistException("Threre is not a playlist with such a title associated with that user.");
+            throw new NoSuchPlaylistException("There is not a playlist with such a title associated with that user.");
         }
 
 
@@ -210,6 +210,29 @@ public class StreamingPlatform {
             }
         }
         this.writePlaylists();
+    }
+
+    public Playlist showPlaylist(String playlistTitle) throws UserNotLoggedException, NoSuchPlaylistException {
+
+        if (!this.isLogged) {
+            throw new UserNotLoggedException("You cannot create playlist unless you have logged-in.");
+        }
+
+        String emailCreator = this.user.getEmail();
+
+        if (!this.playlists.get(emailCreator).contains(new Playlist(emailCreator, playlistTitle))) {
+
+            throw new NoSuchPlaylistException("There is not a playlist with such a title associated with that user.");
+        }
+
+        Set<Playlist> allPlaylists =  this.playlists.get(emailCreator);
+        for (Playlist currentPlaylist : allPlaylists) {
+
+            if (currentPlaylist.getTitle().equals(playlistTitle)) {
+                return currentPlaylist;
+            }
+        }
+        return new Playlist();
     }
 
     public void setUser(User user) {

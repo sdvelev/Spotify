@@ -9,6 +9,8 @@ import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException;
 import bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger;
 import bg.sofia.uni.fmi.mjt.server.login.User;
+import bg.sofia.uni.fmi.mjt.server.storage.Playlist;
+import bg.sofia.uni.fmi.mjt.server.storage.Song;
 import bg.sofia.uni.fmi.mjt.server.storage.SongEntity;
 
 import java.security.NoSuchAlgorithmException;
@@ -57,7 +59,11 @@ public class CommandExecutor {
     private final static String ADD_SONG_TO_NOT_LOGGED_REPLY = "The song was not added to the playlist as " +
         "you are not logged-in. Please, try first to login.";
 
-    private final static String SHOW_PLAYLIST = "show-playlist";
+    private final static String SHOW_PLAYLIST_NAME = "show-playlist";
+    private final static String SHOW_PLAYLIST_NOT_LOGGED_REPLY = "You are not logged-in. Please, try to log-in first.";
+    private final static String SHOW_PLAYLIST_NO_SUCH_PLAYLIST_REPLY = "We could not find such a playlist " +
+        "associated with that profile.";
+
     private final static String PLAY_SONG = "play-song";
     private final static String STOP_COMMAND = "stop";
 
@@ -82,9 +88,41 @@ public class CommandExecutor {
             case TOP_COMMAND_NAME -> this.processTopCommand(cmd.arguments());
             case CREATE_PLAYLIST_NAME -> this.processCreatePlaylistCommand(cmd.arguments());
             case ADD_SONG_TO_NAME -> this.processAddSongToCommand(cmd.arguments());
+            case SHOW_PLAYLIST_NAME -> this.processShowPlaylistCommand(cmd.arguments());
             default -> UNKNOWN_COMMAND_REPLY;
         };
 
+    }
+
+    private String processShowPlaylistCommand(List<String> arguments) {
+
+        String playlistTitle = arguments.get(0);
+
+        try {
+
+            Playlist toReturn = this.streamingPlatform.showPlaylist(playlistTitle);
+            if (toReturn == null) {
+                return "Something went wrong.";
+            }
+
+            StringBuilder resultString = new StringBuilder();
+            int counter = 1;
+            for (Song currentSong : toReturn.getPlaylistSongs()) {
+
+                String toAppend = counter + ". Title: " + currentSong.getTitle() + " Artist: " +
+                    currentSong.getArtist() + System.lineSeparator();
+                resultString.append(toAppend);
+            }
+            return resultString.toString();
+
+        } catch (UserNotLoggedException e) {
+            SpotifyLogger.log(Level.SEVERE, SHOW_PLAYLIST_NOT_LOGGED_REPLY, e);
+            return SHOW_PLAYLIST_NOT_LOGGED_REPLY;
+        } catch (NoSuchPlaylistException e) {
+            SpotifyLogger.log(Level.SEVERE, "User: " + this.streamingPlatform.getUser().getEmail() + " " +
+                SHOW_PLAYLIST_NO_SUCH_PLAYLIST_REPLY, e);
+            return SHOW_PLAYLIST_NO_SUCH_PLAYLIST_REPLY;
+        }
     }
 
     private String processAddSongToCommand(List<String> arguments) {

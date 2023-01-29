@@ -10,6 +10,9 @@ public class Playlist {
     private String title;
     private Set<Song> playlistSongs;
 
+    public Playlist() {
+        this.playlistSongs = new HashSet<>();
+    }
     public Playlist(String emailCreator, String title) {
         this.emailCreator = emailCreator;
         this.title = title;
