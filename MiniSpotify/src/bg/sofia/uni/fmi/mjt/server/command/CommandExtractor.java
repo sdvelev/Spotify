@@ -19,8 +19,10 @@ public class CommandExtractor {
 
         for (int i = 2; i < lineArray.length; i++) {
 
-            secondArgument.append(lineArray[i]);
+            secondArgument.append(lineArray[i] + " ");
         }
+
+        secondArgument.deleteCharAt(secondArgument.length() - 1);
 
         arguments.add(secondArgument.toString());
 

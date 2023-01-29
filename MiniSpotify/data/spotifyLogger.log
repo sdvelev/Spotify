@@ -123,3 +123,84 @@ bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot create
 	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
 	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:132)
 
+Jan 29, 2023 12:22:17 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: The song was not added to the playlist as you are not logged-in. Please, try first to login.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot create playlist unless you have logged-in.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.addSongToPlaylist(StreamingPlatform.java:179)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processAddSongToCommand(CommandExecutor.java:97)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:84)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:132)
+
+Jan 29, 2023 12:23:00 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: User: sdvelev@gmail.com We could not find such a song in out platform.
+bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException: There is not a song with such a title in the system.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.addSongToPlaylist(StreamingPlatform.java:193)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processAddSongToCommand(CommandExecutor.java:97)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:84)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:132)
+
+Jan 29, 2023 12:23:56 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: User: sdvelev@gmail.com We could not find such a song in out platform.
+bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException: There is not a song with such a title in the system.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.addSongToPlaylist(StreamingPlatform.java:193)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processAddSongToCommand(CommandExecutor.java:97)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:84)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:132)
+
+Jan 29, 2023 12:24:21 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: User: sdvelev@gmail.com We could not find such a song in out platform.
+bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException: There is not a song with such a title in the system.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.addSongToPlaylist(StreamingPlatform.java:193)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processAddSongToCommand(CommandExecutor.java:97)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:84)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:132)
+
+Jan 29, 2023 12:24:48 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: User: sdvelev@gmail.com We could not find such a song in out platform.
+bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException: There is not a song with such a title in the system.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.addSongToPlaylist(StreamingPlatform.java:193)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processAddSongToCommand(CommandExecutor.java:97)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:84)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:132)
+
+Jan 29, 2023 12:26:45 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: email: sdvelev@gmail.com password: 123 The login process is not successful as there is not such a profile.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException: User with such an email and password does not exist
+	at bg.sofia.uni.fmi.mjt.server.login.Authentication.login(Authentication.java:42)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:173)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:79)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:132)
+
+Jan 29, 2023 12:27:41 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: User: sdvelev@gmail.com We could not find such a song in our platform.
+bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException: There is not a song with such a title in the system.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.addSongToPlaylist(StreamingPlatform.java:193)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processAddSongToCommand(CommandExecutor.java:97)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:84)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:132)
+
+Jan 29, 2023 12:28:08 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: User: sdvelev@gmail.com We could not find such a song in our platform.
+bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException: There is not a song with such a title in the system.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.addSongToPlaylist(StreamingPlatform.java:193)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processAddSongToCommand(CommandExecutor.java:97)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:84)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:132)
+
+Jan 29, 2023 12:31:00 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: User: sdvelev@gmail.com We could not find such a playlist associated with that profile
+bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchPlaylistException: Threre is not a playlist with such a title associated with that user.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.addSongToPlaylist(StreamingPlatform.java:200)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processAddSongToCommand(CommandExecutor.java:97)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:84)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:132)
+

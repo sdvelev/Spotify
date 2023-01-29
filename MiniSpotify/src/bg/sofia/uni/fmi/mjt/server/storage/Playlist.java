@@ -1,6 +1,7 @@
 package bg.sofia.uni.fmi.mjt.server.storage;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Playlist {
@@ -15,7 +16,7 @@ public class Playlist {
         this.playlistSongs = new HashSet<>();
     }
 
-    public void addSongToPlaylist(Song toAdd) {
+    public void addSong(Song toAdd) {
 
         this.playlistSongs.add(toAdd);
     }
@@ -25,5 +26,25 @@ public class Playlist {
         return this.emailCreator;
     }
 
+    public String getTitle() {
+        return title;
+    }
 
+    public Set<Song> getPlaylistSongs() {
+        return playlistSongs;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Playlist playlist = (Playlist) o;
+        return Objects.equals(emailCreator, playlist.emailCreator) &&
+            Objects.equals(title, playlist.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(emailCreator, title);
+    }
 }

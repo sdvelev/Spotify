@@ -2,6 +2,8 @@ package bg.sofia.uni.fmi.mjt.server.command;
 
 import bg.sofia.uni.fmi.mjt.server.StreamingPlatform;
 import bg.sofia.uni.fmi.mjt.server.exceptions.EmailAlreadyRegisteredException;
+import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchPlaylistException;
+import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NotValidEmailFormatException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException;
@@ -47,7 +49,14 @@ public class CommandExecutor {
         "you are not logged-in. Please, try first to login.";
 
 
-    private final static String ADD_SONG_TO = "add-song-to";
+    private final static String ADD_SONG_TO_NAME = "add-song-to";
+    private final static String ADD_SONG_TO_SUCCESSFULLY_REPLY = "You have successfully added the song to the playlist";
+    private final static String ADD_SONG_TO_NO_SUCH_SONG_REPLY = "We could not find such a song in our platform.";
+    private final static String ADD_SONG_TO_NO_SUCH_PLAYLIST_REPLY = "We could not find such a playlist " +
+        "associated with that profile";
+    private final static String ADD_SONG_TO_NOT_LOGGED_REPLY = "The song was not added to the playlist as " +
+        "you are not logged-in. Please, try first to login.";
+
     private final static String SHOW_PLAYLIST = "show-playlist";
     private final static String PLAY_SONG = "play-song";
     private final static String STOP_COMMAND = "stop";
@@ -72,9 +81,34 @@ public class CommandExecutor {
             case SEARCH_COMMAND_NAME -> this.processSearchCommand(cmd.arguments());
             case TOP_COMMAND_NAME -> this.processTopCommand(cmd.arguments());
             case CREATE_PLAYLIST_NAME -> this.processCreatePlaylistCommand(cmd.arguments());
+            case ADD_SONG_TO_NAME -> this.processAddSongToCommand(cmd.arguments());
             default -> UNKNOWN_COMMAND_REPLY;
         };
 
+    }
+
+    private String processAddSongToCommand(List<String> arguments) {
+
+        String playlistTitle = arguments.get(0);
+        String songTitle = arguments.get(1);
+
+        try {
+
+            this.streamingPlatform.addSongToPlaylist(playlistTitle, songTitle);
+        } catch (UserNotLoggedException e) {
+            SpotifyLogger.log(Level.SEVERE, ADD_SONG_TO_NOT_LOGGED_REPLY, e);
+            return ADD_SONG_TO_NOT_LOGGED_REPLY;
+        } catch (NoSuchSongException e) {
+            SpotifyLogger.log(Level.SEVERE, "User: " + this.streamingPlatform.getUser().getEmail() + " " +
+                ADD_SONG_TO_NO_SUCH_SONG_REPLY, e);
+            return ADD_SONG_TO_NO_SUCH_SONG_REPLY;
+        } catch (NoSuchPlaylistException e) {
+            SpotifyLogger.log(Level.SEVERE, "User: " + this.streamingPlatform.getUser().getEmail() + " " +
+                ADD_SONG_TO_NO_SUCH_PLAYLIST_REPLY, e);
+            return ADD_SONG_TO_NO_SUCH_PLAYLIST_REPLY;
+        }
+
+        return ADD_SONG_TO_SUCCESSFULLY_REPLY;
     }
 
     private String processCreatePlaylistCommand(List<String> arguments) {

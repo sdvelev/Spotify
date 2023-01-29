@@ -1,5 +1,7 @@
 package bg.sofia.uni.fmi.mjt.server;
 
+import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchPlaylistException;
+import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException;
 import bg.sofia.uni.fmi.mjt.server.login.User;
@@ -36,7 +38,7 @@ public class StreamingPlatform {
     private Set<SongEntity> songs;
     private User user;
     private boolean isLogged;
-    private Map<String, List<Playlist>> playlists;
+    private Map<String, Set<Playlist>> playlists;
 
     public StreamingPlatform() {
 
@@ -66,7 +68,7 @@ public class StreamingPlatform {
 
         List<Playlist> divided = new ArrayList<>();
 
-        for (Map.Entry<String, List<Playlist>> currentEntry : this.playlists.entrySet()) {
+        for (Map.Entry<String, Set<Playlist>> currentEntry : this.playlists.entrySet()) {
 
             for (Playlist currentPlaylist : currentEntry.getValue()) {
 
@@ -87,7 +89,17 @@ public class StreamingPlatform {
 
     private void allocatePlaylists(Set<Playlist> toAllocate) {
 
-        this.playlists = toAllocate.stream().collect(Collectors.groupingBy(Playlist::getEmailCreator));
+        Map<String, List<Playlist>> resultWithList = toAllocate.stream()
+            .collect(Collectors.groupingBy(Playlist::getEmailCreator));
+
+        Map<String, Set<Playlist>> resultWithSet = new HashMap<>();
+
+        for (Map.Entry<String, List<Playlist>> currentEntry : resultWithList.entrySet()) {
+
+            Set<Playlist> currentSet = new HashSet<>(currentEntry.getValue());
+            resultWithSet.put(currentEntry.getKey(), currentSet);
+        }
+        this.playlists = resultWithSet;
     }
 
     private void readSongs() {
@@ -153,16 +165,59 @@ public class StreamingPlatform {
             this.playlists.get(this.user.getEmail()).add(toAdd);
         } else {
 
-            this.playlists.put(this.user.getEmail(), new LinkedList<>());
+            this.playlists.put(this.user.getEmail(), new HashSet<>());
             this.playlists.get(this.user.getEmail()).add(toAdd);
         }
 
         this.writePlaylists();
+    }
 
+    public void addSongToPlaylist(String playlistTitle, String songTitle) throws UserNotLoggedException,
+        NoSuchSongException, NoSuchPlaylistException {
+
+        if (!this.isLogged) {
+            throw new UserNotLoggedException("You cannot create playlist unless you have logged-in.");
+        }
+
+        boolean isFound = false;
+        Song songToAdd = new Song();
+        for (SongEntity currentSongEntity : this.songs) {
+            if (currentSongEntity.getSong().getTitle().equalsIgnoreCase(songTitle)) {
+                isFound = true;
+                songToAdd = currentSongEntity.getSong();
+                break;
+            }
+        }
+
+        if (!isFound) {
+            throw new NoSuchSongException("There is not a song with such a title in the system.");
+        }
+
+        String emailCreator = this.user.getEmail();
+
+        if (!this.playlists.get(emailCreator).contains(new Playlist(emailCreator, playlistTitle))) {
+
+            throw new NoSuchPlaylistException("Threre is not a playlist with such a title associated with that user.");
+        }
+
+
+        Set<Playlist> allPlaylists =  this.playlists.get(emailCreator);
+
+        for (Playlist currentPlaylist : allPlaylists) {
+
+            if (currentPlaylist.getTitle().equals(playlistTitle)) {
+                currentPlaylist.addSong(songToAdd);
+            }
+        }
+        this.writePlaylists();
     }
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public void setIsLogged(boolean isLogged) {
@@ -207,11 +262,6 @@ public class StreamingPlatform {
         StreamingPlatform streamingPlatform = new StreamingPlatform();
 
         Map<String, List<Playlist>> toWrite = new HashMap<>();
-
-
-
-
-
 
     }
 

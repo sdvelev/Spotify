@@ -20,7 +20,14 @@
   {
     "emailCreator": "sdvelev@gmail.com",
     "title": "Others",
-    "playlistSongs": []
+    "playlistSongs": [
+      {
+        "title": "The Crown - Main title",
+        "artist": "Hans Zimmer",
+        "duration": 87,
+        "genre": "classical"
+      }
+    ]
   },
   {
     "emailCreator": "sampleEmail2@abv.bg",
