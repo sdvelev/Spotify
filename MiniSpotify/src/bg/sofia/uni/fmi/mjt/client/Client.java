@@ -12,6 +12,10 @@ public class Client {
     private static final int BUFFER_SIZE = 512;
     private static ByteBuffer buffer = ByteBuffer.allocateDirect(BUFFER_SIZE);
 
+    private final static String DISCONNECT_COMMAND_NAME = "disconnect";
+    private final static String DISCONNECT_COMMAND_REPLY = "You have successfully disconnected.";
+
+
     public static void main(String[] args) {
 
         try (SocketChannel socketChannel = SocketChannel.open();
@@ -26,7 +30,8 @@ public class Client {
                 System.out.print("Enter message: ");
                 String message = scanner.nextLine();
 
-                if ("disconnect".equalsIgnoreCase(message)) {
+                if (DISCONNECT_COMMAND_NAME.equalsIgnoreCase(message)) {
+                    System.out.println(DISCONNECT_COMMAND_REPLY);
                     break;
                 }
 

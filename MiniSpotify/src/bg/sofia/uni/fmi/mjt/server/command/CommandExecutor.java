@@ -33,7 +33,7 @@ public class CommandExecutor {
         "there is not such a profile.";
     private final static String LOGIN_COMMAND_ALGORITHM_REPLY = "The login process is not successful as there is a " +
         "problem in the hashing algorithm.";
-    private final static String DISCONNECT_COMMAND = "disconnect";
+
     private final static String SEARCH_COMMAND = "search";
 
     private final static String TOP_COMMAND_NAME = "top";
@@ -62,6 +62,7 @@ public class CommandExecutor {
 
             case REGISTER_COMMAND_NAME -> this.processRegisterCommand(cmd.arguments());
             case LOGIN_COMMAND_NAME -> this.processLoginCommand(cmd.arguments());
+           // case DISCONNECT_COMMAND_NAME -> DISCONNECT_COMMAND_REPLY;
             case TOP_COMMAND_NAME -> this.processTopCommand(cmd.arguments());
             default -> UNKNOWN_COMMAND_REPLY;
         };

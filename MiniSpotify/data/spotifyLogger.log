@@ -69,3 +69,21 @@ Jan 28, 2023 11:27:13 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
 SEVERE: The provided number is in invalid format. Please, enter whole positive number.
 Jan 28, 2023 11:27:17 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
 SEVERE: The provided number is in invalid format. Please, enter whole positive number.
+Jan 29, 2023 9:52:31 AM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: email: sdvelev@abv.bg password: 123456 The login process is not successful as there is not such a profile.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException: User with such an email and password does not exist
+	at bg.sofia.uni.fmi.mjt.server.login.Authentication.login(Authentication.java:42)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:98)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:64)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:132)
+
+Jan 29, 2023 9:52:47 AM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: email: sdvelev@gmail.com password: 1234567 The login process is not successful as there is not such a profile.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException: User with such an email and password does not exist
+	at bg.sofia.uni.fmi.mjt.server.login.Authentication.login(Authentication.java:42)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:98)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:64)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:132)
+
