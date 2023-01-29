@@ -17,12 +17,15 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class StreamingPlatform {
+
+    private static final String INTERVAL_REGEX = " ";
 
     private static final Gson GSON = new Gson();
     private Set<SongEntity> songs;
@@ -85,6 +88,28 @@ public class StreamingPlatform {
                 content1.getListeningTimes()))
             .limit(n)
             .toList();
+    }
+
+    public List<SongEntity> searchSongs(String word) {
+
+        List<SongEntity> result = new LinkedList<>();
+        for (SongEntity currentSongEntity : this.songs) {
+
+            boolean contains = true;
+            for (String currentWord : word.split(INTERVAL_REGEX)) {
+
+                if (!currentSongEntity.getSong().getTitle().toLowerCase().contains(currentWord.toLowerCase()) &&
+                    !currentSongEntity.getSong().getArtist().toLowerCase().contains(currentWord.toLowerCase())) {
+
+                    contains = false;
+                }
+            }
+
+            if (contains) {
+                result.add(currentSongEntity);
+            }
+        }
+        return result;
     }
 
     public void setUser(User user) {

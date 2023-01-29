@@ -34,7 +34,7 @@ public class CommandExecutor {
     private final static String LOGIN_COMMAND_ALGORITHM_REPLY = "The login process is not successful as there is a " +
         "problem in the hashing algorithm.";
 
-    private final static String SEARCH_COMMAND = "search";
+    private final static String SEARCH_COMMAND_NAME = "search";
 
     private final static String TOP_COMMAND_NAME = "top";
     private final static String TOP_COMMAND_INVALID_ARGUMENT_REPLY = "The provided input is in invalid format. " +
@@ -63,10 +63,29 @@ public class CommandExecutor {
             case REGISTER_COMMAND_NAME -> this.processRegisterCommand(cmd.arguments());
             case LOGIN_COMMAND_NAME -> this.processLoginCommand(cmd.arguments());
            // case DISCONNECT_COMMAND_NAME -> DISCONNECT_COMMAND_REPLY;
+            case SEARCH_COMMAND_NAME -> this.processSearchCommand(cmd.arguments());
             case TOP_COMMAND_NAME -> this.processTopCommand(cmd.arguments());
             default -> UNKNOWN_COMMAND_REPLY;
         };
 
+    }
+
+    private String processSearchCommand(List<String> arguments) {
+
+        String toSearch = arguments.get(0);
+
+        List<SongEntity> searchedSongs = this.streamingPlatform.searchSongs(toSearch);
+
+        StringBuilder toReturn = new StringBuilder();
+
+        for (SongEntity currentSongEntity : searchedSongs) {
+
+            String currentResult = "Title: " + currentSongEntity.getSong().getTitle() + " Artist: " +
+                currentSongEntity.getSong().getArtist() + System.lineSeparator();
+            toReturn.append(currentResult);
+        }
+
+        return toReturn.toString();
     }
 
     private String processRegisterCommand(List<String> arguments) {
