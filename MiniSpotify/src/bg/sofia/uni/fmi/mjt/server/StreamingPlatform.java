@@ -1,7 +1,9 @@
 package bg.sofia.uni.fmi.mjt.server;
 
+import bg.sofia.uni.fmi.mjt.server.exceptions.NoSongPlayingException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException;
+import bg.sofia.uni.fmi.mjt.server.exceptions.SongIsAlreadyPlayingException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException;
 import bg.sofia.uni.fmi.mjt.server.login.User;
@@ -19,6 +21,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.lang.reflect.Type;
+import java.net.URISyntaxException;
 import java.nio.channels.SelectionKey;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -40,9 +43,13 @@ public class StreamingPlatform {
     private Set<SongEntity> songs;
     private User user;
     private boolean isLogged;
+    private boolean isPlaying;
     private Map<String, Set<Playlist>> playlists;
+    private Map<SelectionKey, PlaySong> alreadyRunning;
 
     public StreamingPlatform() {
+
+        this.alreadyRunning = new HashMap<>();
 
         this.readSongs();
         this.readPlaylists();
@@ -238,12 +245,17 @@ public class StreamingPlatform {
     }
 
     public void playSong(String songTitle, SelectionKey selectionKey) throws UserNotLoggedException,
-        NoSuchSongException {
+        NoSuchSongException, SongIsAlreadyPlayingException {
 
         if (!this.isLogged) {
 
             throw new UserNotLoggedException("You cannot play music unless you are logged-in.");
         }
+
+        /*if (this.isPlaying) {
+
+            throw new SongIsAlreadyPlayingException("Song is running at the moment.");
+        }*/
 
         boolean isFound = false;
         Song songToPlay = new Song();
@@ -262,8 +274,35 @@ public class StreamingPlatform {
 
         PlaySong playSongThread = new PlaySong(songToPlay.getArtist() + "_" + songToPlay.getTitle(),
             selectionKey);
+        this.alreadyRunning.put(selectionKey, playSongThread);
         playSongThread.start();
     }
+
+    public void stopSong(SelectionKey selectionKey) throws NoSongPlayingException, UserNotLoggedException {
+
+        if (!this.isLogged) {
+
+            throw new UserNotLoggedException("You cannot play music unless you are logged-in.");
+        }
+
+        if (!this.alreadyRunning.containsKey(selectionKey)) {
+
+            throw new NoSongPlayingException("There is not a song playing at the moment.");
+        }
+
+        this.alreadyRunning.get(selectionKey).stopSong();
+
+        try {
+
+            this.alreadyRunning.get(selectionKey).join();
+        } catch (InterruptedException e) {
+
+            System.out.println();
+        }
+
+        this.alreadyRunning.remove(selectionKey);
+    }
+
 
     public void setUser(User user) {
         this.user = user;

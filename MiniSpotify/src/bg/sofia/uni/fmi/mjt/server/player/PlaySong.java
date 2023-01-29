@@ -19,11 +19,13 @@ public class PlaySong extends Thread {
 
     private String songName;
     private SelectionKey selectionKey;
+    private boolean isRunning;
     private final static String DATA_PATH = "data/";
     private final static String WAV_FORMAT = ".wav";
 
     public PlaySong(String songName, SelectionKey selectionKey) {
 
+        this.isRunning = false;
         this.songName = songName;
         this.selectionKey = selectionKey;
     }
@@ -31,6 +33,7 @@ public class PlaySong extends Thread {
     @Override
     public void run() {
 
+        this.isRunning = true;
         try {
 
             AudioInputStream stream = AudioSystem.getAudioInputStream(new File(DATA_PATH + this.songName +
@@ -58,7 +61,7 @@ public class PlaySong extends Thread {
 
             int numRead = 0;
             byte[] buf = new byte[line.getBufferSize()];
-            while ((numRead = stream.read(buf, 0, buf.length)) >= 0) {
+            while ((numRead = stream.read(buf, 0, buf.length)) >= 0 && isRunning) {
                 int offset = 0;
                 while (offset < numRead) {
                     offset += line.write(buf, offset, numRead - offset);
@@ -66,12 +69,16 @@ public class PlaySong extends Thread {
             }
             line.drain();
             line.stop();
-
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 
             SpotifyLogger.log(Level.SEVERE, "Something went wrong with streaming the song.", e);
         }
 
+        this.isRunning = false;
+    }
+
+    public void stopSong() {
+        this.isRunning = false;
     }
 
 }

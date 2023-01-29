@@ -2,9 +2,11 @@ package bg.sofia.uni.fmi.mjt.server.command;
 
 import bg.sofia.uni.fmi.mjt.server.StreamingPlatform;
 import bg.sofia.uni.fmi.mjt.server.exceptions.EmailAlreadyRegisteredException;
+import bg.sofia.uni.fmi.mjt.server.exceptions.NoSongPlayingException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NotValidEmailFormatException;
+import bg.sofia.uni.fmi.mjt.server.exceptions.SongIsAlreadyPlayingException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException;
 import bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger;
@@ -69,8 +71,13 @@ public class CommandExecutor {
     private final static String PLAY_SONG_NOT_LOGGED_REPLY = "You cannot play songs unless you are logged-in.";
     private final static String PLAY_SONG_NO_SUCH_SONG_REPLY = "There is not such a song in the platform.";
     private final static String PLAY_SONG_SUCCESSFULLY_REPLY = "The song is playing.";
+    private final static String PLAY_SONG_IS_ALREADY_RUNNING_REPLY = "Song has already been started and is now " +
+        "playing. You can stop it with the relevant command or wait for it to finish.";
 
-    private final static String STOP_COMMAND = "stop";
+    private final static String STOP_COMMAND_NAME = "stop";
+    private final static String STOP_COMMAND_SUCCESSFULLY_REPLY = "The song was stopped successfully";
+    private final static String STOP_COMMAND_NOT_LOGGED_REPLY = "You cannot stop a song as you are not logged-in.";
+    private final static String STOP_COMMAND_NO_SONG_PLAYING = "There is not a song which is playing at the moment.";
 
     private final static String UNKNOWN_COMMAND_REPLY = "The inserted command is not in the right format. " +
         "Please, try again.";
@@ -95,9 +102,29 @@ public class CommandExecutor {
             case ADD_SONG_TO_NAME -> this.processAddSongToCommand(cmd.arguments());
             case SHOW_PLAYLIST_NAME -> this.processShowPlaylistCommand(cmd.arguments());
             case PLAY_SONG_NAME -> this.processPlayCommand(cmd.arguments(), selectionKey);
+            case STOP_COMMAND_NAME -> this.processStopCommand(selectionKey);
             default -> UNKNOWN_COMMAND_REPLY;
         };
 
+    }
+
+    private String processStopCommand(SelectionKey selectionKey) {
+
+        try {
+
+            this.streamingPlatform.stopSong(selectionKey);
+        } catch (UserNotLoggedException e) {
+
+            SpotifyLogger.log(Level.SEVERE, STOP_COMMAND_NOT_LOGGED_REPLY, e);
+            return STOP_COMMAND_NOT_LOGGED_REPLY;
+        } catch (NoSongPlayingException e) {
+
+            SpotifyLogger.log(Level.SEVERE, "User: " + this.streamingPlatform.getUser().getEmail() + " " +
+                STOP_COMMAND_NO_SONG_PLAYING, e);
+            return STOP_COMMAND_NO_SONG_PLAYING;
+        }
+
+        return STOP_COMMAND_SUCCESSFULLY_REPLY;
     }
 
     private String processPlayCommand(List<String> arguments, SelectionKey selectionKey) {
@@ -117,6 +144,11 @@ public class CommandExecutor {
             SpotifyLogger.log(Level.SEVERE, "User: " + this.streamingPlatform.getUser().getEmail() + " " +
                 PLAY_SONG_NO_SUCH_SONG_REPLY, e);
             return PLAY_SONG_NO_SUCH_SONG_REPLY;
+        } catch (SongIsAlreadyPlayingException e) {
+
+            SpotifyLogger.log(Level.SEVERE, "User: " + this.streamingPlatform.getUser().getEmail() + " " +
+                PLAY_SONG_IS_ALREADY_RUNNING_REPLY, e);
+            return PLAY_SONG_IS_ALREADY_RUNNING_REPLY;
         }
 
         return PLAY_SONG_SUCCESSFULLY_REPLY;
