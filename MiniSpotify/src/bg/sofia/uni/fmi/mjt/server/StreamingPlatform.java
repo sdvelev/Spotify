@@ -5,6 +5,7 @@ import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException;
 import bg.sofia.uni.fmi.mjt.server.login.User;
+import bg.sofia.uni.fmi.mjt.server.player.PlaySong;
 import bg.sofia.uni.fmi.mjt.server.storage.Playlist;
 import bg.sofia.uni.fmi.mjt.server.storage.Song;
 import bg.sofia.uni.fmi.mjt.server.storage.SongEntity;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.lang.reflect.Type;
+import java.nio.channels.SelectionKey;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -233,6 +235,34 @@ public class StreamingPlatform {
             }
         }
         return new Playlist();
+    }
+
+    public void playSong(String songTitle, SelectionKey selectionKey) throws UserNotLoggedException,
+        NoSuchSongException {
+
+        if (!this.isLogged) {
+
+            throw new UserNotLoggedException("You cannot play music unless you are logged-in.");
+        }
+
+        boolean isFound = false;
+        Song songToPlay = new Song();
+        for (SongEntity currentSongEntity : this.songs) {
+            if (currentSongEntity.getSong().getTitle().equalsIgnoreCase(songTitle)) {
+                isFound = true;
+                songToPlay = currentSongEntity.getSong();
+                break;
+            }
+        }
+
+        if (!isFound) {
+            throw new NoSuchSongException("There is not a song with such a title in the system.");
+        }
+
+
+        PlaySong playSongThread = new PlaySong(songToPlay.getArtist() + "_" + songToPlay.getTitle(),
+            selectionKey);
+        playSongThread.start();
     }
 
     public void setUser(User user) {

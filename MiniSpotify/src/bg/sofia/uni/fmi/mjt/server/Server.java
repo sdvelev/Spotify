@@ -60,7 +60,8 @@ public class Server {
                                 continue;
                             }
 
-                            String output = commandExecutor.executeCommand(CommandExtractor.newCommand(clientInput));
+                            String output = commandExecutor.executeCommand(CommandExtractor.newCommand(clientInput),
+                                key);
                             writeClientOutput(clientChannel, output);
 
                         } else if (key.isAcceptable()) {

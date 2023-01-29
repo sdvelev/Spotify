@@ -13,6 +13,7 @@ import bg.sofia.uni.fmi.mjt.server.storage.Playlist;
 import bg.sofia.uni.fmi.mjt.server.storage.Song;
 import bg.sofia.uni.fmi.mjt.server.storage.SongEntity;
 
+import java.nio.channels.SelectionKey;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.logging.Level;
@@ -64,7 +65,11 @@ public class CommandExecutor {
     private final static String SHOW_PLAYLIST_NO_SUCH_PLAYLIST_REPLY = "We could not find such a playlist " +
         "associated with that profile.";
 
-    private final static String PLAY_SONG = "play-song";
+    private final static String PLAY_SONG_NAME = "play";
+    private final static String PLAY_SONG_NOT_LOGGED_REPLY = "You cannot play songs unless you are logged-in.";
+    private final static String PLAY_SONG_NO_SUCH_SONG_REPLY = "There is not such a song in the platform.";
+    private final static String PLAY_SONG_SUCCESSFULLY_REPLY = "The song is playing.";
+
     private final static String STOP_COMMAND = "stop";
 
     private final static String UNKNOWN_COMMAND_REPLY = "The inserted command is not in the right format. " +
@@ -77,7 +82,7 @@ public class CommandExecutor {
         this.streamingPlatform = streamingPlatform;
     }
 
-    public String executeCommand(Command cmd) {
+    public String executeCommand(Command cmd, SelectionKey selectionKey) {
 
         return switch(cmd.command()) {
 
@@ -89,9 +94,32 @@ public class CommandExecutor {
             case CREATE_PLAYLIST_NAME -> this.processCreatePlaylistCommand(cmd.arguments());
             case ADD_SONG_TO_NAME -> this.processAddSongToCommand(cmd.arguments());
             case SHOW_PLAYLIST_NAME -> this.processShowPlaylistCommand(cmd.arguments());
+            case PLAY_SONG_NAME -> this.processPlayCommand(cmd.arguments(), selectionKey);
             default -> UNKNOWN_COMMAND_REPLY;
         };
 
+    }
+
+    private String processPlayCommand(List<String> arguments, SelectionKey selectionKey) {
+
+
+        String songName = arguments.get(0);
+
+        try {
+
+            this.streamingPlatform.playSong(songName, selectionKey);
+        } catch (UserNotLoggedException e) {
+
+            SpotifyLogger.log(Level.SEVERE, PLAY_SONG_NOT_LOGGED_REPLY, e);
+            return PLAY_SONG_NOT_LOGGED_REPLY;
+        } catch (NoSuchSongException e) {
+
+            SpotifyLogger.log(Level.SEVERE, "User: " + this.streamingPlatform.getUser().getEmail() + " " +
+                PLAY_SONG_NO_SUCH_SONG_REPLY, e);
+            return PLAY_SONG_NO_SUCH_SONG_REPLY;
+        }
+
+        return PLAY_SONG_SUCCESSFULLY_REPLY;
     }
 
     private String processShowPlaylistCommand(List<String> arguments) {
@@ -252,7 +280,7 @@ public class CommandExecutor {
         CommandExecutor ce = new CommandExecutor(new StreamingPlatform());
 
         Command cm = new Command("register", List.of("sampleEmail@abv.bg", "666777888"));
-        System.out.println(ce.executeCommand(cm));
+        //System.out.println(ce.executeCommand(cm), );
     }
 
 }

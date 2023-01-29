@@ -222,3 +222,137 @@ bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchPlaylistException: There is not a p
 	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
 	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:132)
 
+Jan 29, 2023 8:24:21 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: You cannot play songs unless you are logged-in.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot play music unless you are logged-in.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:245)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:110)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:97)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 29, 2023 8:24:42 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: User: sdvelev@gmail.com There is not such a song in the platform.
+bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException: There is not a song with such a title in the system.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:259)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:110)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:97)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 29, 2023 8:25:04 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: User: sdvelev@gmail.com There is not such a song in the platform.
+bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException: There is not a song with such a title in the system.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:259)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:110)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:97)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 29, 2023 8:28:08 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: User: sdvelev@gmail.com There is not such a song in the platform.
+bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException: There is not a song with such a title in the system.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:259)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:110)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:97)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 29, 2023 8:30:03 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: User: sdvelev@gmail.com There is not such a song in the platform.
+bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException: There is not a song with such a title in the system.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:259)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:110)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:97)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 29, 2023 8:30:49 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: Something went wrong with streaming the song.
+java.io.FileNotFoundException: data\Vivaldi Variation.wav (The system cannot find the file specified)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:219)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:158)
+	at java.desktop/com.sun.media.sound.SunFileReader.getAudioInputStream(SunFileReader.java:117)
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1060)
+	at bg.sofia.uni.fmi.mjt.server.player.PlaySong.run(PlaySong.java:36)
+
+Jan 29, 2023 8:33:59 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: Something went wrong with streaming the song.
+java.io.FileNotFoundException: data\Vivaldi Variation.wav (The system cannot find the file specified)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:219)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:158)
+	at java.desktop/com.sun.media.sound.SunFileReader.getAudioInputStream(SunFileReader.java:117)
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1060)
+	at bg.sofia.uni.fmi.mjt.server.player.PlaySong.run(PlaySong.java:36)
+
+Jan 29, 2023 8:37:29 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: Something went wrong with streaming the song.
+java.io.FileNotFoundException: data\Billie Eilish_No Time To Die.wav (The system cannot find the file specified)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:219)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:158)
+	at java.desktop/com.sun.media.sound.SunFileReader.getAudioInputStream(SunFileReader.java:117)
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1060)
+	at bg.sofia.uni.fmi.mjt.server.player.PlaySong.run(PlaySong.java:36)
+
+Jan 29, 2023 8:37:49 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: User: sdvelev@gmail.com There is not such a song in the platform.
+bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException: There is not a song with such a title in the system.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:259)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:110)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:97)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 29, 2023 8:43:21 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: Something went wrong with streaming the song.
+java.io.FileNotFoundException: data\Billie Eilish_No Time To Die.wav (The system cannot find the file specified)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:219)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:158)
+	at java.desktop/com.sun.media.sound.SunFileReader.getAudioInputStream(SunFileReader.java:117)
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1060)
+	at bg.sofia.uni.fmi.mjt.server.player.PlaySong.run(PlaySong.java:36)
+
+Jan 29, 2023 8:44:18 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: Something went wrong with streaming the song.
+java.io.FileNotFoundException: data\Billie Eilish_No Time To Die.wav (The system cannot find the file specified)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:219)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:158)
+	at java.desktop/com.sun.media.sound.SunFileReader.getAudioInputStream(SunFileReader.java:117)
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1060)
+	at bg.sofia.uni.fmi.mjt.server.player.PlaySong.run(PlaySong.java:36)
+
+Jan 29, 2023 8:45:03 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: Something went wrong with streaming the song.
+java.io.FileNotFoundException: data\Billie Eilish_No Time To Die.wav (The system cannot find the file specified)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:219)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:158)
+	at java.desktop/com.sun.media.sound.SunFileReader.getAudioInputStream(SunFileReader.java:117)
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1060)
+	at bg.sofia.uni.fmi.mjt.server.player.PlaySong.run(PlaySong.java:36)
+
+Jan 29, 2023 8:45:43 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: Something went wrong with streaming the song.
+java.io.FileNotFoundException: data\Billie Eilish_No Time To Die.wav (The system cannot find the file specified)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:219)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:158)
+	at java.desktop/com.sun.media.sound.SunFileReader.getAudioInputStream(SunFileReader.java:117)
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1060)
+	at bg.sofia.uni.fmi.mjt.server.player.PlaySong.run(PlaySong.java:36)
+
+Jan 29, 2023 8:48:08 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: Something went wrong with streaming the song.
+java.io.FileNotFoundException: data\Billie Eilish_No Time To Die.wav (The system cannot find the file specified)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:219)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:158)
+	at java.desktop/com.sun.media.sound.SunFileReader.getAudioInputStream(SunFileReader.java:117)
+	at java.desktop/javax.sound.sampled.AudioSystem.getAudioInputStream(AudioSystem.java:1060)
+	at bg.sofia.uni.fmi.mjt.server.player.PlaySong.run(PlaySong.java:36)
+

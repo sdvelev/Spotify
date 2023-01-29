@@ -37,9 +37,10 @@ public class CommandExtractor {
 
         for (int i = 1; i < lineArray.length; i++) {
 
-            firstArgument.append(lineArray[i]);
+            firstArgument.append(lineArray[i] + " ");
         }
 
+        firstArgument.deleteCharAt(firstArgument.length() - 1);
         arguments.add(firstArgument.toString());
 
         return new Command(commandName.toLowerCase(), arguments);

@@ -16,9 +16,14 @@ public class Player {
 
     public static void main(String[] argv) throws Exception {
         AudioInputStream stream = AudioSystem.getAudioInputStream(new File(
-            "data/Hans Zimmer_The Crown - Main title.wav"));
-//    stream = AudioSystem.getAudioInputStream(new URL(
+            "data/Florian Christl_Vivaldi Variation.wav"));
+       // stream = AudioSystem.getAudioInputStream(new URL(
         //      "http://hostname/audiofile"));
+
+       // AudioFormat audioFormat = AudioSystem
+       //     .getAudioInputStream(new File("data/Hans Zimmer_The Crown - Main title.wav")).getFormat();
+
+
 
         AudioFormat format = stream.getFormat();
         if (format.getEncoding() != AudioFormat.Encoding.PCM_SIGNED) {

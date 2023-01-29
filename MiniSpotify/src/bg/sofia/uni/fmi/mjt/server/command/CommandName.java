@@ -10,7 +10,7 @@ public enum CommandName {
     CREATE_PLAYLIST("create-playlist"),
     ADD_SONG_TO("add-song-to"),
     SHOW_PLAYLIST("show-playlist"),
-    PLAY_SONG("play-song"),
+    PLAY_SONG("play"),
     STOP_COMMAND("stop");
 
     private final String commandName;
