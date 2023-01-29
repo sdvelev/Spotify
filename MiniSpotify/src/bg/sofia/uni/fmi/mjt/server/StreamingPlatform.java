@@ -1,5 +1,7 @@
 package bg.sofia.uni.fmi.mjt.server;
 
+import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException;
+import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException;
 import bg.sofia.uni.fmi.mjt.server.login.User;
 import bg.sofia.uni.fmi.mjt.server.storage.Playlist;
 import bg.sofia.uni.fmi.mjt.server.storage.Song;
@@ -8,9 +10,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.Writer;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -22,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class StreamingPlatform {
 
@@ -50,6 +55,29 @@ public class StreamingPlatform {
             readPlaylists = new HashSet<>(playlistCollection);
 
             this.allocatePlaylists(readPlaylists);
+        } catch (IOException e) {
+
+            System.out.println();
+        }
+
+    }
+
+    public void writePlaylists() {
+
+        List<Playlist> divided = new ArrayList<>();
+
+        for (Map.Entry<String, List<Playlist>> currentEntry : this.playlists.entrySet()) {
+
+            for (Playlist currentPlaylist : currentEntry.getValue()) {
+
+                divided.add(currentPlaylist);
+            }
+        }
+
+        try (Writer writer = new FileWriter("data/playlistsList.json")) {
+
+            GSON.toJson(divided, writer);
+            writer.flush();
         } catch (IOException e) {
 
             System.out.println();
@@ -112,6 +140,27 @@ public class StreamingPlatform {
         return result;
     }
 
+    public void createPlaylist(String title) throws UserNotLoggedException {
+
+        if (!this.isLogged) {
+            throw new UserNotLoggedException("You cannot create playlist unless you have logged-in.");
+        }
+
+        Playlist toAdd = new Playlist(this.user.getEmail(), title);
+
+        if (this.playlists.containsKey(this.user.getEmail())) {
+
+            this.playlists.get(this.user.getEmail()).add(toAdd);
+        } else {
+
+            this.playlists.put(this.user.getEmail(), new LinkedList<>());
+            this.playlists.get(this.user.getEmail()).add(toAdd);
+        }
+
+        this.writePlaylists();
+
+    }
+
     public void setUser(User user) {
         this.user = user;
     }
@@ -156,6 +205,10 @@ public class StreamingPlatform {
         System.out.println(json2);*/
 
         StreamingPlatform streamingPlatform = new StreamingPlatform();
+
+        Map<String, List<Playlist>> toWrite = new HashMap<>();
+
+
 
 
 

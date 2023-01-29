@@ -1,7 +1,7 @@
 [
   {
     "emailCreator": "sampleEmail@abv.bg",
-    "title": "The Crown Music",
+    "title": "TheCrownMusic",
     "playlistSongs": [
       {
         "title": "The Crown - Main title",
@@ -18,8 +18,13 @@
     ]
   },
   {
+    "emailCreator": "sdvelev@gmail.com",
+    "title": "Others",
+    "playlistSongs": []
+  },
+  {
     "emailCreator": "sampleEmail2@abv.bg",
-    "title": "My Favourites",
+    "title": "MyFavourites",
     "playlistSongs": [
       {
         "title": "Vivaldi Variation",

@@ -4,6 +4,7 @@ import bg.sofia.uni.fmi.mjt.server.StreamingPlatform;
 import bg.sofia.uni.fmi.mjt.server.exceptions.EmailAlreadyRegisteredException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NotValidEmailFormatException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException;
+import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException;
 import bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger;
 import bg.sofia.uni.fmi.mjt.server.login.User;
 import bg.sofia.uni.fmi.mjt.server.storage.SongEntity;
@@ -40,7 +41,12 @@ public class CommandExecutor {
     private final static String TOP_COMMAND_INVALID_ARGUMENT_REPLY = "The provided input is in invalid format. " +
         "Please, enter whole non-negative number.";
 
-    private final static String CREATE_PLAYLIST = "create-playlist";
+    private final static String CREATE_PLAYLIST_NAME = "create-playlist";
+    private final static String CREATE_PLAYLIST_SUCCESSFULLY_REPLY = "The playlist was created successfully.";
+    private final static String CREATE_PLAYLIST_NOT_LOGGED_REPLY = "The playlist was not created successfully as " +
+        "you are not logged-in. Please, try first to login.";
+
+
     private final static String ADD_SONG_TO = "add-song-to";
     private final static String SHOW_PLAYLIST = "show-playlist";
     private final static String PLAY_SONG = "play-song";
@@ -65,11 +71,26 @@ public class CommandExecutor {
            // case DISCONNECT_COMMAND_NAME -> DISCONNECT_COMMAND_REPLY;
             case SEARCH_COMMAND_NAME -> this.processSearchCommand(cmd.arguments());
             case TOP_COMMAND_NAME -> this.processTopCommand(cmd.arguments());
+            case CREATE_PLAYLIST_NAME -> this.processCreatePlaylistCommand(cmd.arguments());
             default -> UNKNOWN_COMMAND_REPLY;
         };
 
     }
 
+    private String processCreatePlaylistCommand(List<String> arguments) {
+
+        String title = arguments.get(0);
+
+        try {
+
+            this.streamingPlatform.createPlaylist(title);
+        } catch (UserNotLoggedException e) {
+            SpotifyLogger.log(Level.SEVERE, CREATE_PLAYLIST_NOT_LOGGED_REPLY, e);
+            return CREATE_PLAYLIST_NOT_LOGGED_REPLY;
+        }
+
+        return CREATE_PLAYLIST_SUCCESSFULLY_REPLY;
+    }
     private String processSearchCommand(List<String> arguments) {
 
         String toSearch = arguments.get(0);
