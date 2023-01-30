@@ -18,9 +18,7 @@ import bg.sofia.uni.fmi.mjt.server.storage.Playlist;
 import bg.sofia.uni.fmi.mjt.server.storage.Song;
 import bg.sofia.uni.fmi.mjt.server.storage.SongEntity;
 
-import javax.print.attribute.standard.Severity;
 import java.nio.channels.SelectionKey;
-import java.nio.file.attribute.UserPrincipalLookupService;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.logging.Level;
@@ -85,6 +83,10 @@ public class CommandExecutor {
     private final static String STOP_COMMAND_NOT_LOGGED_REPLY = "You cannot stop a song as you are not logged-in.";
     private final static String STOP_COMMAND_NO_SONG_PLAYING = "There is not a song which is playing at the moment.";
 
+    private final static String LOGOUT_COMMAND_NAME = "logout";
+
+    private final static String DISCONNECT_COMMAND_NAME = "disconnect";
+
     private final static String UNKNOWN_COMMAND_REPLY = "The inserted command is not correct or in the right " +
         "format. Please, try to enter it again.";
 
@@ -106,8 +108,9 @@ public class CommandExecutor {
         return switch(cmd.command()) {
 
             case REGISTER_COMMAND_NAME -> this.processRegisterCommand(cmd.arguments());
-            case LOGIN_COMMAND_NAME -> this.processLoginCommand(cmd.arguments());
-           // case DISCONNECT_COMMAND_NAME -> DISCONNECT_COMMAND_REPLY;
+            case LOGIN_COMMAND_NAME -> this.processLoginCommand(cmd.arguments(), selectionKey);
+            case LOGOUT_COMMAND_NAME -> this.processLogoutCommand(selectionKey);
+            case DISCONNECT_COMMAND_NAME -> this.processDisconnectCommand(selectionKey);
             case SEARCH_COMMAND_NAME -> this.processSearchCommand(cmd.arguments());
             case TOP_COMMAND_NAME -> this.processTopCommand(cmd.arguments());
             case CREATE_PLAYLIST_NAME -> this.processCreatePlaylistCommand(cmd.arguments());
@@ -118,6 +121,34 @@ public class CommandExecutor {
             default -> UNKNOWN_COMMAND_REPLY;
         };
 
+    }
+
+    private String processDisconnectCommand(SelectionKey selectionKey) {
+
+        String result = processLogoutCommand(selectionKey);
+
+        if (result.equals(ServerReply.LOGOUT_COMMAND_SUCCESSFULLY_REPLY.getReply())) {
+
+            return ServerReply.DISCONNECT_COMMAND_SUCCESSFULLY_REPLY.getReply();
+        }
+
+        return ServerReply.DISCONNECT_COMMAND_ERROR_REPLY.getReply();
+    }
+
+    private String processLogoutCommand(SelectionKey selectionKey) {
+
+        try {
+
+            this.streamingPlatform.logout(selectionKey);
+        } catch (UserNotLoggedException e) {
+
+            return getCorrectReply(Level.INFO, ServerReply.LOGOUT_COMMAND_USER_NOT_LOGGED_REPLY.getReply(), e);
+        } catch (Exception e) {
+
+            return getCorrectReply(Level.SEVERE, ServerReply.SERVER_EXCEPTION.getReply(), e);
+        }
+
+        return ServerReply.LOGOUT_COMMAND_SUCCESSFULLY_REPLY.getReply();
     }
 
     private String processStopCommand(SelectionKey selectionKey) {
@@ -140,7 +171,6 @@ public class CommandExecutor {
     }
 
     private String processPlayCommand(List<String> arguments, SelectionKey selectionKey) {
-
 
         String songName = arguments.get(0);
 
@@ -284,11 +314,17 @@ public class CommandExecutor {
         return ServerReply.REGISTER_COMMAND_SUCCESSFULLY_REPLY.getReply();
     }
 
-    private void validateIsLogged() throws UserAlreadyLoggedException {
+    private void validateIsLogged(SelectionKey selectionKey) throws UserAlreadyLoggedException {
 
-        if (this.streamingPlatform.isLogged()) {
-            throw new UserAlreadyLoggedException(ServerReply.LOGIN_COMMAND_USER_ALREADY_LOGGED.getReply());
+        if (this.streamingPlatform.getAlreadyLogged().contains(selectionKey)) {
+            throw new UserAlreadyLoggedException(ServerReply.LOGIN_COMMAND_USER_ALREADY_LOGGED_REPLY.getReply());
         }
+    }
+
+    private String getCorrectReply(Level level, String message, Exception e) {
+
+        SpotifyLogger.log(level, REPLY_FIELD_TO_LOG + message, e);
+        return message;
     }
 
     private String getCorrectReply(Level level, String email, String message, Exception e) {
@@ -298,15 +334,15 @@ public class CommandExecutor {
         return message;
     }
 
-    private String processLoginCommand(List<String> arguments) {
+    private String processLoginCommand(List<String> arguments, SelectionKey selectionKey) {
 
         String emailToLogin = arguments.get(0);
         String passwordToLogin = arguments.get(1);
         try {
-            validateIsLogged();
+            validateIsLogged(selectionKey);
             User toLog = login(emailToLogin, passwordToLogin);
             this.streamingPlatform.setUser(toLog);
-            this.streamingPlatform.setIsLogged(true);
+            this.streamingPlatform.getAlreadyLogged().add(selectionKey);
         } catch (UserNotFoundException e) {
 
             return getCorrectReply(Level.INFO, emailToLogin,
@@ -322,7 +358,7 @@ public class CommandExecutor {
         } catch (UserAlreadyLoggedException e) {
 
             return getCorrectReply(Level.SEVERE, emailToLogin,
-                ServerReply.LOGIN_COMMAND_USER_ALREADY_LOGGED.getReply(), e);
+                ServerReply.LOGIN_COMMAND_USER_ALREADY_LOGGED_REPLY.getReply(), e);
         } catch (Exception e) {
 
             return getCorrectReply(Level.SEVERE, emailToLogin,

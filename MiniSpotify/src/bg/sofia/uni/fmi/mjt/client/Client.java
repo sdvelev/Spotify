@@ -1,5 +1,7 @@
 package bg.sofia.uni.fmi.mjt.client;
 
+import bg.sofia.uni.fmi.mjt.server.ServerReply;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -25,15 +27,11 @@ public class Client {
 
             System.out.println("Connected to the server.");
 
+            boolean toDisconnect = false;
             while (true) {
 
                 System.out.print("Enter message: ");
                 String message = scanner.nextLine();
-
-                if (DISCONNECT_COMMAND_NAME.equalsIgnoreCase(message)) {
-                    System.out.println(DISCONNECT_COMMAND_REPLY);
-                    break;
-                }
 
                 buffer.clear();
                 buffer.put(message.getBytes());
@@ -49,6 +47,10 @@ public class Client {
                 String reply = new String(byteArray, "UTF-8");
 
                 System.out.println(reply);
+
+                if (reply.equals(ServerReply.DISCONNECT_COMMAND_SUCCESSFULLY_REPLY.getReply())) {
+                    break;
+                }
             }
 
         } catch (IOException e) {

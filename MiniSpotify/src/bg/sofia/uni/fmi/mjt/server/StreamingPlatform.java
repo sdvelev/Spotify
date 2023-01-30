@@ -46,10 +46,12 @@ public class StreamingPlatform {
     private boolean isPlaying;
     private Map<String, Set<Playlist>> playlists;
     private Map<SelectionKey, PlaySong> alreadyRunning;
+    private Set<SelectionKey> alreadyLogged;
 
     public StreamingPlatform() {
 
         this.alreadyRunning = new HashMap<>();
+        this.alreadyLogged = new HashSet<>();
 
         this.readSongs();
         this.readPlaylists();
@@ -247,7 +249,7 @@ public class StreamingPlatform {
     public void playSong(String songTitle, SelectionKey selectionKey) throws UserNotLoggedException,
         NoSuchSongException, SongIsAlreadyPlayingException {
 
-        if (!this.isLogged) {
+        if (!this.alreadyLogged.contains(selectionKey)) {
 
             throw new UserNotLoggedException("You cannot play music unless you are logged-in.");
         }
@@ -278,9 +280,24 @@ public class StreamingPlatform {
         playSongThread.start();
     }
 
+    public void logout(SelectionKey selectionKey) throws UserNotLoggedException, NoSongPlayingException {
+
+        if (!this.alreadyLogged.contains(selectionKey)) {
+
+            throw new UserNotLoggedException(ServerReply.LOGOUT_COMMAND_USER_NOT_LOGGED_REPLY.getReply());
+        }
+
+        if (this.alreadyRunning.containsKey(selectionKey)) {
+
+            this.stopSong(selectionKey);
+        }
+
+        this.alreadyLogged.remove(selectionKey);
+    }
+
     public void stopSong(SelectionKey selectionKey) throws NoSongPlayingException, UserNotLoggedException {
 
-        if (!this.isLogged) {
+        if (!this.alreadyLogged.contains(selectionKey)) {
 
             throw new UserNotLoggedException("You cannot play music unless you are logged-in.");
         }
@@ -314,6 +331,10 @@ public class StreamingPlatform {
 
     public boolean isLogged() {
         return isLogged;
+    }
+
+    public Set<SelectionKey> getAlreadyLogged() {
+        return alreadyLogged;
     }
 
     public void setIsLogged(boolean isLogged) {

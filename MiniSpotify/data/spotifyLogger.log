@@ -716,3 +716,210 @@ bg.sofia.uni.fmi.mjt.server.exceptions.UserAlreadyLoggedException: You cannot lo
 	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
 	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
 
+Jan 30, 2023 7:18:37 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: With email: sdvelev@gmail.con Reply from server: You cannot log in as there is a user associated with the current session. Please, log out first.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserAlreadyLoggedException: You cannot log in as there is a user associated with the current session. Please, log out first.
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.validateIsLogged(CommandExecutor.java:307)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:329)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:109)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 7:20:35 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: With email: sdvelev@gmail.con Reply from server: You cannot log in as there is a user associated with the current session. Please, log out first.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserAlreadyLoggedException: You cannot log in as there is a user associated with the current session. Please, log out first.
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.validateIsLogged(CommandExecutor.java:307)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:329)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:109)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 7:20:44 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: You cannot play songs unless you are logged-in.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot play music unless you are logged-in.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:254)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:166)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:117)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 7:21:09 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: You cannot play songs unless you are logged-in.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot play music unless you are logged-in.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:254)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:166)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:117)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 7:42:16 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: With email: sdvelev@gmail.con Reply from server: You cannot log in as there is a user associated with the current session. Please, log out first.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserAlreadyLoggedException: You cannot log in as there is a user associated with the current session. Please, log out first.
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.validateIsLogged(CommandExecutor.java:306)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:328)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:109)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 7:44:07 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: User: sdvelev@gmail.com There is not such a song in the platform.
+bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException: There is not a song with such a title in the system.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:273)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:165)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:117)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 7:44:41 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: You cannot play songs unless you are logged-in.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot play music unless you are logged-in.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:254)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:165)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:117)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 7:45:29 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: You cannot play songs unless you are logged-in.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot play music unless you are logged-in.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:254)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:165)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:117)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 8:48:44 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: You cannot play songs unless you are logged-in.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot play music unless you are logged-in.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:254)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:165)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:117)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 8:49:14 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: User: sdvelev@gmail.com There is not a song which is playing at the moment.
+bg.sofia.uni.fmi.mjt.server.exceptions.NoSongPlayingException: There is not a song playing at the moment.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.stopSong(StreamingPlatform.java:307)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processStopCommand(CommandExecutor.java:144)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:118)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 8:49:28 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: You cannot stop a song as you are not logged-in.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot play music unless you are logged-in.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.stopSong(StreamingPlatform.java:302)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processStopCommand(CommandExecutor.java:144)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:118)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 8:49:30 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: You cannot play songs unless you are logged-in.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot play music unless you are logged-in.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:254)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:165)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:117)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 8:49:33 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: You cannot play songs unless you are logged-in.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot play music unless you are logged-in.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:254)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:165)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:117)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 8:49:35 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: You cannot play songs unless you are logged-in.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot play music unless you are logged-in.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:254)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:165)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:117)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 8:50:03 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: You cannot play songs unless you are logged-in.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot play music unless you are logged-in.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:254)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:165)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:117)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 8:53:20 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: The login process is unsuccessful as there's not such a profile registered.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException: The login process is unsuccessful as there's not such a profile registered.
+	at bg.sofia.uni.fmi.mjt.server.login.Authentication.login(Authentication.java:46)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:329)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:109)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 8:54:15 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: User: sdvelev@gmail.com There is not such a song in the platform.
+bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException: There is not a song with such a title in the system.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:273)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:165)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:117)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 8:54:22 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: User: sdvelev@gmail.com There is not such a song in the platform.
+bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException: There is not a song with such a title in the system.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:273)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:165)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:117)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 8:54:39 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: User: sdvelev@gmail.com There is not such a song in the platform.
+bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException: There is not a song with such a title in the system.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:273)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:165)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:117)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 8:58:00 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: You cannot play songs unless you are logged-in.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot play music unless you are logged-in.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:254)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:165)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:117)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 9:15:04 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: You cannot play songs unless you are logged-in.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot play music unless you are logged-in.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:254)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:181)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:119)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 9:16:25 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: You cannot play songs unless you are logged-in.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot play music unless you are logged-in.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:254)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:181)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:119)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 9:17:56 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: User: sdvelev@gmail.com There is not such a song in the platform.
+bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException: There is not a song with such a title in the system.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:273)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:179)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:119)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+

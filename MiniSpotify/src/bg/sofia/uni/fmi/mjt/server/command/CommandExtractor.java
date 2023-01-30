@@ -22,9 +22,11 @@ public class CommandExtractor {
             secondArgument.append(lineArray[i] + " ");
         }
 
-        secondArgument.deleteCharAt(secondArgument.length() - 1);
+        if (!secondArgument.isEmpty()) {
 
-        arguments.add(secondArgument.toString());
+            secondArgument.deleteCharAt(secondArgument.length() - 1);
+            arguments.add(secondArgument.toString());
+        }
 
         return new Command(commandName.toLowerCase(), arguments);
     }
@@ -91,6 +93,7 @@ public class CommandExtractor {
 
             return createCommandWithOneArgument(arguments, lineArray);
         } else if (lineArray[0].equalsIgnoreCase(CommandName.DISCONNECT_COMMAND.getCommandName()) ||
+            lineArray[0].equalsIgnoreCase(CommandName.LOGOUT_COMMAND.getCommandName()) ||
             lineArray[0].equalsIgnoreCase(CommandName.STOP_COMMAND.getCommandName())) {
 
             return createCommandWitNoArguments(arguments, lineArray);

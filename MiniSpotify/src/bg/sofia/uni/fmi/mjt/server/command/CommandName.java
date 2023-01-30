@@ -4,6 +4,7 @@ public enum CommandName {
 
     REGISTER_COMMAND("register"),
     LOGIN_COMMAND("login"),
+    LOGOUT_COMMAND("logout"),
     DISCONNECT_COMMAND("disconnect"),
     SEARCH_COMMAND("search"),
     TOP_COMMAND("top"),
@@ -12,6 +13,7 @@ public enum CommandName {
     SHOW_PLAYLIST("show-playlist"),
     PLAY_SONG("play"),
     STOP_COMMAND("stop");
+
 
     private final String commandName;
 
