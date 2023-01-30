@@ -47,7 +47,6 @@ public class CommandExtractor {
         }
 
         arguments.add(firstArgument.toString());
-
         return new Command(commandName.toLowerCase(), arguments);
     }
 

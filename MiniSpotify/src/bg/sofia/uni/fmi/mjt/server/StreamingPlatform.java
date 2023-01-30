@@ -143,7 +143,7 @@ public class StreamingPlatform {
 
     public List<SongEntity> searchSongs(String word) {
 
-        List<SongEntity> result = new LinkedList<>();
+        List<SongEntity> result = new ArrayList<>();
         for (SongEntity currentSongEntity : this.songs) {
 
             boolean contains = true;
@@ -160,6 +160,7 @@ public class StreamingPlatform {
                 result.add(currentSongEntity);
             }
         }
+
         return result;
     }
 

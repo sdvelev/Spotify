@@ -25,6 +25,8 @@ public enum ServerReply {
     LOGOUT_COMMAND_SUCCESSFULLY_REPLY("The log out process is successful. Now you are logged out."),
     DISCONNECT_COMMAND_SUCCESSFULLY_REPLY("You've successfully disconnected from the server."),
     DISCONNECT_COMMAND_ERROR_REPLY("There was a problem in disconnecting from the server. Please, try again later."),
+    SEARCH_COMMAND_SUCCESSFULLY_REPLY("We could find the following results:"),
+    SEARCH_COMMAND_NO_SONGS_REPLY("We couldn't find any songs related to your search."),
     LOGIN_COMMAND("login"),
     DISCONNECT_COMMAND("disconnect"),
     SEARCH_COMMAND("search"),

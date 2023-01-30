@@ -992,3 +992,13 @@ bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot log ou
 	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
 	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
 
+Jan 30, 2023 10:54:26 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: Reply from server: You cannot log out as there's not a logged in user associated with the current session. Please, log in first.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot log out as there's not a logged in user associated with the current session. Please, log in first.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.logout(StreamingPlatform.java:287)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processLogoutCommand(CommandExecutor.java:142)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processDisconnectCommand(CommandExecutor.java:128)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:113)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+

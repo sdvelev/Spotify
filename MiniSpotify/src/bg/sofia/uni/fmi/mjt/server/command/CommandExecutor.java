@@ -265,18 +265,25 @@ public class CommandExecutor {
 
         return CREATE_PLAYLIST_SUCCESSFULLY_REPLY;
     }
+
+    private final static String TITLE_LABEL = "Title: ";
+    private final static String ARTIST_LABEL = " Artist: ";
     private String processSearchCommand(List<String> arguments) {
 
-        String toSearch = arguments.get(0);
+        String wordToSearch = arguments.get(0);
 
-        List<SongEntity> searchedSongs = this.streamingPlatform.searchSongs(toSearch);
+        List<SongEntity> searchedSongs = this.streamingPlatform.searchSongs(wordToSearch);
+
+        if (searchedSongs.isEmpty()) {
+            return ServerReply.SEARCH_COMMAND_NO_SONGS_REPLY.getReply();
+        }
 
         StringBuilder toReturn = new StringBuilder();
-
+        toReturn.append(ServerReply.SEARCH_COMMAND_SUCCESSFULLY_REPLY.getReply() + System.lineSeparator());
         for (SongEntity currentSongEntity : searchedSongs) {
 
-            String currentResult = "Title: " + currentSongEntity.getSong().getTitle() + " Artist: " +
-                currentSongEntity.getSong().getArtist() + System.lineSeparator();
+            String currentResult = TITLE_LABEL + currentSongEntity.getSong().getTitle() +
+                ARTIST_LABEL + currentSongEntity.getSong().getArtist() + System.lineSeparator();
             toReturn.append(currentResult);
         }
 
