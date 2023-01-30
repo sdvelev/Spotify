@@ -671,3 +671,48 @@ bg.sofia.uni.fmi.mjt.server.exceptions.NotValidEmailFormatException: The registr
 	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
 	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
 
+Jan 30, 2023 5:42:25 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: email: sdvelev@gmail.con password: 12345 The login process is not successful as there is not such a profile.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException: User with such an email and password does not exist
+	at bg.sofia.uni.fmi.mjt.server.login.Authentication.login(Authentication.java:47)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:287)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:103)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 6:42:27 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: The login process is unsuccessful as there's not such a profile registered.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException: The login process is unsuccessful as there's not such a profile registered.
+	at bg.sofia.uni.fmi.mjt.server.login.Authentication.login(Authentication.java:46)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:307)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:109)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 6:42:59 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: With email: sdvelev@gmail.com Reply from server: You cannot login as there is a user associated with the current session. Please, log out first.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserAlreadyLoggedException: You cannot login as there is a user associated with the current session. Please, log out first.
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.validateIsLogged(CommandExecutor.java:290)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:306)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:109)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 6:44:35 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: User: sdvelev@gmail.com There is not a song which is playing at the moment.
+bg.sofia.uni.fmi.mjt.server.exceptions.NoSongPlayingException: There is not a song playing at the moment.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.stopSong(StreamingPlatform.java:290)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processStopCommand(CommandExecutor.java:127)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:117)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 6:44:41 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: With email: sdvelev@gmail.com Reply from server: You cannot login as there is a user associated with the current session. Please, log out first.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserAlreadyLoggedException: You cannot login as there is a user associated with the current session. Please, log out first.
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.validateIsLogged(CommandExecutor.java:290)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:306)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:109)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+

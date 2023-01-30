@@ -312,6 +312,10 @@ public class StreamingPlatform {
         return user;
     }
 
+    public boolean isLogged() {
+        return isLogged;
+    }
+
     public void setIsLogged(boolean isLogged) {
         this.isLogged = isLogged;
     }

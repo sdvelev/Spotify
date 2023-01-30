@@ -10,8 +10,16 @@ public enum ServerReply {
         "as the email is already registered."),
     REGISTER_COMMAND_INVALID_EMAIL_REPLY("The registration process is " +
         "unsuccessful as the provided email is not valid. Please, try to enter it again."),
-    IO_DATABASE_PROBLEM("Database is temporarily unavailable. Please, try again later."),
+    IO_DATABASE_PROBLEM_REPLY("Database is temporarily unavailable. Please, try again later."),
     SERVER_EXCEPTION("Something went wrong. Please, try again."),
+    LOGIN_COMMAND_SUCCESSFULLY_REPLY("The login process is successful. " +
+        "Now you are logged in."),
+    LOGIN_COMMAND_USER_NOT_EXIST_REPLY("The login process is unsuccessful as " +
+        "there's not such a profile registered."),
+    LOGIN_COMMAND_ALGORITHM_REPLY("The login process is unsuccessful as there is a " +
+        "problem in the hashing algorithm."),
+    LOGIN_COMMAND_USER_ALREADY_LOGGED("You cannot login as there is a user associated with the current session. " +
+        "Please, log out first."),
     LOGIN_COMMAND("login"),
     DISCONNECT_COMMAND("disconnect"),
     SEARCH_COMMAND("search"),

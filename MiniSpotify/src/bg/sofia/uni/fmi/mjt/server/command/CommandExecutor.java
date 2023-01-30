@@ -9,6 +9,7 @@ import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NotValidEmailFormatException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.SongIsAlreadyPlayingException;
+import bg.sofia.uni.fmi.mjt.server.exceptions.UserAlreadyLoggedException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException;
 import bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger;
@@ -17,7 +18,9 @@ import bg.sofia.uni.fmi.mjt.server.storage.Playlist;
 import bg.sofia.uni.fmi.mjt.server.storage.Song;
 import bg.sofia.uni.fmi.mjt.server.storage.SongEntity;
 
+import javax.print.attribute.standard.Severity;
 import java.nio.channels.SelectionKey;
+import java.nio.file.attribute.UserPrincipalLookupService;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.logging.Level;
@@ -86,8 +89,11 @@ public class CommandExecutor {
         "format. Please, try to enter it again.";
 
 
-    private final static String EMAIL_MESSAGE_TO_LOG = "Someone tried to register with: ";
+    private final static String EMAIL_MESSAGE_TO_LOG = "With email: ";
+    private final static String PASSWORD_MESSAGE_TO_LOG = "With password: ";
     private final static String REPLY_FIELD_TO_LOG = "Reply from server: ";
+
+    private final static String POSITIVE_NUMBER_REGEX = "^[0-9]+$";
 
     private StreamingPlatform streamingPlatform;
 
@@ -254,52 +260,77 @@ public class CommandExecutor {
         try {
             register(emailToRegister, passwordToRegister);
         } catch (NoSuchAlgorithmException e) {
-            SpotifyLogger.log(Level.SEVERE, EMAIL_MESSAGE_TO_LOG + emailToRegister + " " +
-                REPLY_FIELD_TO_LOG + ServerReply.REGISTER_COMMAND_ALGORITHM_REPLY.getReply(), e);
-            return ServerReply.REGISTER_COMMAND_ALGORITHM_REPLY.getReply();
+
+            return getCorrectReply(Level.SEVERE, emailToRegister,
+                ServerReply.REGISTER_COMMAND_ALGORITHM_REPLY.getReply(), e);
         } catch (NotValidEmailFormatException e) {
-            SpotifyLogger.log(Level.INFO, EMAIL_MESSAGE_TO_LOG + emailToRegister + " " +
-                REPLY_FIELD_TO_LOG + ServerReply.REGISTER_COMMAND_INVALID_EMAIL_REPLY.getReply(), e);
-            return ServerReply.REGISTER_COMMAND_INVALID_EMAIL_REPLY.getReply();
+
+            return getCorrectReply(Level.INFO, emailToRegister,
+                ServerReply.REGISTER_COMMAND_INVALID_EMAIL_REPLY.getReply(), e);
         } catch (EmailAlreadyRegisteredException e) {
-            SpotifyLogger.log(Level.INFO, EMAIL_MESSAGE_TO_LOG + emailToRegister + " " +
-                REPLY_FIELD_TO_LOG + ServerReply.REGISTER_COMMAND_ALREADY_EXIST_REPLY.getReply(), e);
-            return ServerReply.REGISTER_COMMAND_ALREADY_EXIST_REPLY.getReply();
+
+            return getCorrectReply(Level.INFO, emailToRegister,
+                ServerReply.REGISTER_COMMAND_ALREADY_EXIST_REPLY.getReply(), e);
         } catch (IODatabaseException e) {
-            SpotifyLogger.log(Level.SEVERE, EMAIL_MESSAGE_TO_LOG + emailToRegister + " " +
-                REPLY_FIELD_TO_LOG + ServerReply.IO_DATABASE_PROBLEM.getReply(), e);
-            return ServerReply.IO_DATABASE_PROBLEM.getReply();
+
+            return getCorrectReply(Level.SEVERE, emailToRegister,
+                ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
         } catch (Exception e) {
-            SpotifyLogger.log(Level.SEVERE, EMAIL_MESSAGE_TO_LOG + emailToRegister + " " +
-                REPLY_FIELD_TO_LOG + ServerReply.SERVER_EXCEPTION.getReply(), e);
-            return ServerReply.SERVER_EXCEPTION.getReply();
+
+            return getCorrectReply(Level.SEVERE, emailToRegister,
+                ServerReply.SERVER_EXCEPTION.getReply(), e);
         }
 
         return ServerReply.REGISTER_COMMAND_SUCCESSFULLY_REPLY.getReply();
+    }
+
+    private void validateIsLogged() throws UserAlreadyLoggedException {
+
+        if (this.streamingPlatform.isLogged()) {
+            throw new UserAlreadyLoggedException(ServerReply.LOGIN_COMMAND_USER_ALREADY_LOGGED.getReply());
+        }
+    }
+
+    private String getCorrectReply(Level level, String email, String message, Exception e) {
+
+        SpotifyLogger.log(level, EMAIL_MESSAGE_TO_LOG + email + " " + REPLY_FIELD_TO_LOG +
+            message, e);
+        return message;
     }
 
     private String processLoginCommand(List<String> arguments) {
 
         String emailToLogin = arguments.get(0);
         String passwordToLogin = arguments.get(1);
-
         try {
+            validateIsLogged();
             User toLog = login(emailToLogin, passwordToLogin);
             this.streamingPlatform.setUser(toLog);
             this.streamingPlatform.setIsLogged(true);
         } catch (UserNotFoundException e) {
-            SpotifyLogger.log(Level.SEVERE, "email: " + emailToLogin + " password: " + passwordToLogin + " " +
-                LOGIN_COMMAND_USER_NOT_EXIST_REPLY, e);
-            return LOGIN_COMMAND_USER_NOT_EXIST_REPLY;
+
+            return getCorrectReply(Level.INFO, emailToLogin,
+                ServerReply.LOGIN_COMMAND_USER_NOT_EXIST_REPLY.getReply(), e);
         } catch (NoSuchAlgorithmException e) {
-            SpotifyLogger.log(Level.SEVERE, LOGIN_COMMAND_ALGORITHM_REPLY, e);
-            return LOGIN_COMMAND_ALGORITHM_REPLY;
+
+            return getCorrectReply(Level.SEVERE, emailToLogin,
+                ServerReply.LOGIN_COMMAND_ALGORITHM_REPLY.getReply(), e);
+        } catch (IODatabaseException e) {
+
+            return getCorrectReply(Level.SEVERE, emailToLogin,
+                ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
+        } catch (UserAlreadyLoggedException e) {
+
+            return getCorrectReply(Level.SEVERE, emailToLogin,
+                ServerReply.LOGIN_COMMAND_USER_ALREADY_LOGGED.getReply(), e);
+        } catch (Exception e) {
+
+            return getCorrectReply(Level.SEVERE, emailToLogin,
+                ServerReply.SERVER_EXCEPTION.getReply(), e);
         }
 
-        return LOGIN_COMMAND_SUCCESSFULLY_REPLY;
+        return ServerReply.LOGIN_COMMAND_SUCCESSFULLY_REPLY.getReply();
     }
-
-    private final static String POSITIVE_NUMBER_REGEX = "^[0-9]+$";
 
     private String processTopCommand(List<String> arguments) {
 
