@@ -1,7 +1,9 @@
 package bg.sofia.uni.fmi.mjt.server.command;
 
+import bg.sofia.uni.fmi.mjt.server.ServerReply;
 import bg.sofia.uni.fmi.mjt.server.StreamingPlatform;
 import bg.sofia.uni.fmi.mjt.server.exceptions.EmailAlreadyRegisteredException;
+import bg.sofia.uni.fmi.mjt.server.exceptions.IODatabaseException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSongPlayingException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException;
@@ -26,13 +28,14 @@ import static bg.sofia.uni.fmi.mjt.server.login.Authentication.register;
 public class CommandExecutor {
 
     private final static String REGISTER_COMMAND_NAME = "register";
-    private final static String REGISTER_COMMAND_SUCCESSFULLY_REPLY = "The registration process is successful.";
-    private final static String REGISTER_COMMAND_ALREADY_EXIST_REPLY = "The registration process is not successful " +
-        "as there is already a registration with such email.";
-    private final static String REGISTER_COMMAND_ALGORITHM_REPLY = "The registration process is not successful " +
-        "as there is a problem in the hashing algorithm.";
-    private final static String REGISTER_COMMAND_INVALID_EMAIL_REPLY = "The registration process is not " +
-        "successful as the provided email is not valid.";
+    private final static String REGISTER_COMMAND_SUCCESSFULLY_REPLY = "The registration process is successful. Now " +
+        "you can log in.";
+    private final static String REGISTER_COMMAND_ALREADY_EXIST_REPLY = "The registration process is unsuccessful " +
+        "as the email is already registered.";
+    private final static String REGISTER_COMMAND_ALGORITHM_REPLY = "The registration process is unsuccessful " +
+        "as there's a problem in the hashing algorithm. Please, try again later.";
+    private final static String REGISTER_COMMAND_INVALID_EMAIL_REPLY = "The registration process is " +
+        "unsuccessful as the provided email is not valid. Please, try to enter it again.";
 
     private final static String LOGIN_COMMAND_NAME = "login";
     private final static String LOGIN_COMMAND_SUCCESSFULLY_REPLY = "The login process is successful. " +
@@ -79,9 +82,12 @@ public class CommandExecutor {
     private final static String STOP_COMMAND_NOT_LOGGED_REPLY = "You cannot stop a song as you are not logged-in.";
     private final static String STOP_COMMAND_NO_SONG_PLAYING = "There is not a song which is playing at the moment.";
 
-    private final static String UNKNOWN_COMMAND_REPLY = "The inserted command is not in the right format. " +
-        "Please, try again.";
+    private final static String UNKNOWN_COMMAND_REPLY = "The inserted command is not correct or in the right " +
+        "format. Please, try to enter it again.";
 
+
+    private final static String EMAIL_MESSAGE_TO_LOG = "Someone tried to register with: ";
+    private final static String REPLY_FIELD_TO_LOG = "Reply from server: ";
 
     private StreamingPlatform streamingPlatform;
 
@@ -245,21 +251,31 @@ public class CommandExecutor {
 
         String emailToRegister = arguments.get(0);
         String passwordToRegister = arguments.get(1);
-
         try {
             register(emailToRegister, passwordToRegister);
         } catch (NoSuchAlgorithmException e) {
-            SpotifyLogger.log(Level.SEVERE, REGISTER_COMMAND_ALGORITHM_REPLY, e);
-            return REGISTER_COMMAND_ALGORITHM_REPLY;
+            SpotifyLogger.log(Level.SEVERE, EMAIL_MESSAGE_TO_LOG + emailToRegister + " " +
+                REPLY_FIELD_TO_LOG + ServerReply.REGISTER_COMMAND_ALGORITHM_REPLY.getReply(), e);
+            return ServerReply.REGISTER_COMMAND_ALGORITHM_REPLY.getReply();
         } catch (NotValidEmailFormatException e) {
-            SpotifyLogger.log(Level.SEVERE, REGISTER_COMMAND_INVALID_EMAIL_REPLY, e);
-            return REGISTER_COMMAND_INVALID_EMAIL_REPLY;
+            SpotifyLogger.log(Level.INFO, EMAIL_MESSAGE_TO_LOG + emailToRegister + " " +
+                REPLY_FIELD_TO_LOG + ServerReply.REGISTER_COMMAND_INVALID_EMAIL_REPLY.getReply(), e);
+            return ServerReply.REGISTER_COMMAND_INVALID_EMAIL_REPLY.getReply();
         } catch (EmailAlreadyRegisteredException e) {
-            SpotifyLogger.log(Level.SEVERE, REGISTER_COMMAND_ALREADY_EXIST_REPLY, e);
-            return REGISTER_COMMAND_ALREADY_EXIST_REPLY;
+            SpotifyLogger.log(Level.INFO, EMAIL_MESSAGE_TO_LOG + emailToRegister + " " +
+                REPLY_FIELD_TO_LOG + ServerReply.REGISTER_COMMAND_ALREADY_EXIST_REPLY.getReply(), e);
+            return ServerReply.REGISTER_COMMAND_ALREADY_EXIST_REPLY.getReply();
+        } catch (IODatabaseException e) {
+            SpotifyLogger.log(Level.SEVERE, EMAIL_MESSAGE_TO_LOG + emailToRegister + " " +
+                REPLY_FIELD_TO_LOG + ServerReply.IO_DATABASE_PROBLEM.getReply(), e);
+            return ServerReply.IO_DATABASE_PROBLEM.getReply();
+        } catch (Exception e) {
+            SpotifyLogger.log(Level.SEVERE, EMAIL_MESSAGE_TO_LOG + emailToRegister + " " +
+                REPLY_FIELD_TO_LOG + ServerReply.SERVER_EXCEPTION.getReply(), e);
+            return ServerReply.SERVER_EXCEPTION.getReply();
         }
 
-        return REGISTER_COMMAND_SUCCESSFULLY_REPLY;
+        return ServerReply.REGISTER_COMMAND_SUCCESSFULLY_REPLY.getReply();
     }
 
     private String processLoginCommand(List<String> arguments) {

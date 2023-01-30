@@ -1,23 +1,28 @@
 package bg.sofia.uni.fmi.mjt.server.login;
 
+import bg.sofia.uni.fmi.mjt.server.ServerReply;
 import bg.sofia.uni.fmi.mjt.server.exceptions.EmailAlreadyRegisteredException;
+import bg.sofia.uni.fmi.mjt.server.exceptions.IODatabaseException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NotValidEmailFormatException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.regex.Pattern;
 
 import static bg.sofia.uni.fmi.mjt.server.login.SHAAlgorithm.getHash;
 
 public class Authentication {
 
-    private final static String VALID_EMAIL_REGEX = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$";
+    private final static String VALID_EMAIL_REGEX = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
+
+    private final static String REGISTERED_USERS_LIST_PATH = "data" + File.separator + "RegisteredUsersList.txt";
+
 
     public static synchronized User login(String email, String password) throws UserNotFoundException,
         NoSuchAlgorithmException {
@@ -25,7 +30,7 @@ public class Authentication {
         String entryToSearch = email + " " + getHash(password);
 
         try (BufferedReader bufferedReader = new BufferedReader(new
-            FileReader("data/registeredUsersList.txt"))) {
+            FileReader("data/RegisteredUsersList.txt"))) {
 
             if (bufferedReader.lines()
                 .filter(currentEntry -> currentEntry.equals(entryToSearch))
@@ -43,57 +48,48 @@ public class Authentication {
     }
     private final static String INTERVAL_REGEX = " ";
 
-    private static synchronized boolean doesExist(String email) {
+    private static boolean doExist(String email) throws IODatabaseException {
 
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("data/registeredUsersList.txt"))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(REGISTERED_USERS_LIST_PATH))) {
 
             if (bufferedReader.lines()
                 .filter(currentEntry -> currentEntry.split(INTERVAL_REGEX)[0].equals(email))
                 .toList().size() == 1) {
-
                 return true;
             }
-
         } catch (IOException e) {
 
-            System.out.println("");
+            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM.getReply());
         }
 
         return false;
     }
 
-    public static synchronized boolean register(String email, String password) throws
-        NoSuchAlgorithmException, NotValidEmailFormatException, EmailAlreadyRegisteredException {
+    public static void register(String email, String password) throws
+        NoSuchAlgorithmException, NotValidEmailFormatException, EmailAlreadyRegisteredException, IODatabaseException {
 
-        if (doesExist(email)) {
-
-            throw new EmailAlreadyRegisteredException("There is already a profile with that email. " +
-                "Please, try to login.");
+        if (doExist(email)) {
+            throw new EmailAlreadyRegisteredException(ServerReply.REGISTER_COMMAND_ALREADY_EXIST_REPLY.getReply());
         }
 
         if (!email.matches(VALID_EMAIL_REGEX))     {
-            throw new NotValidEmailFormatException("The provided email is not valid");
+            throw new NotValidEmailFormatException(ServerReply.REGISTER_COMMAND_INVALID_EMAIL_REPLY.getReply());
         }
 
-        String toWrite = email + " " + getHash(password) + System.lineSeparator();
-
+        String toWriteEntry = email + " " + getHash(password) + System.lineSeparator();
         try (BufferedWriter bufferedWriter = new BufferedWriter(new
-            FileWriter("data/registeredUsersList.txt", true))) {
+            FileWriter(REGISTERED_USERS_LIST_PATH, true))) {
 
-            bufferedWriter.write(toWrite);
+            bufferedWriter.write(toWriteEntry);
             bufferedWriter.flush();
         } catch (IOException e) {
-
-            System.out.println("There is a problem writing to database. Please, try again later");
-            return false;
+            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM.getReply(), e);
         }
-
-        return true;
     }
 
     public static void main(String[] args)
         throws NotValidEmailFormatException, NoSuchAlgorithmException, UserNotFoundException,
-        EmailAlreadyRegisteredException {
+        EmailAlreadyRegisteredException, IODatabaseException {
 
         String email = "sampleEmail2@abv.bg";
         String password = "123456";
