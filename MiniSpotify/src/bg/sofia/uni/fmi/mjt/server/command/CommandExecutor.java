@@ -127,7 +127,7 @@ public class CommandExecutor {
 
         String result = processLogoutCommand(selectionKey);
 
-        if (result.equals(ServerReply.LOGOUT_COMMAND_SUCCESSFULLY_REPLY.getReply())) {
+        if (!result.equals(ServerReply.SERVER_EXCEPTION.getReply())) {
 
             return ServerReply.DISCONNECT_COMMAND_SUCCESSFULLY_REPLY.getReply();
         }

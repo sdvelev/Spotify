@@ -923,3 +923,72 @@ bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException: There is not a song 
 	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
 	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
 
+Jan 30, 2023 10:49:13 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: Reply from server: You cannot log out as there's not a logged in user associated with the current session. Please, log in first.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot log out as there's not a logged in user associated with the current session. Please, log in first.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.logout(StreamingPlatform.java:287)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processLogoutCommand(CommandExecutor.java:142)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processDisconnectCommand(CommandExecutor.java:128)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:113)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 10:49:22 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: Reply from server: You cannot log out as there's not a logged in user associated with the current session. Please, log in first.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot log out as there's not a logged in user associated with the current session. Please, log in first.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.logout(StreamingPlatform.java:287)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processLogoutCommand(CommandExecutor.java:142)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processDisconnectCommand(CommandExecutor.java:128)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:113)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 10:49:41 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: Reply from server: You cannot log out as there's not a logged in user associated with the current session. Please, log in first.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot log out as there's not a logged in user associated with the current session. Please, log in first.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.logout(StreamingPlatform.java:287)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processLogoutCommand(CommandExecutor.java:142)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processDisconnectCommand(CommandExecutor.java:128)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:113)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 10:49:51 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: Reply from server: You cannot log out as there's not a logged in user associated with the current session. Please, log in first.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot log out as there's not a logged in user associated with the current session. Please, log in first.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.logout(StreamingPlatform.java:287)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processLogoutCommand(CommandExecutor.java:142)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processDisconnectCommand(CommandExecutor.java:128)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:113)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 10:49:55 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: Reply from server: You cannot log out as there's not a logged in user associated with the current session. Please, log in first.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot log out as there's not a logged in user associated with the current session. Please, log in first.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.logout(StreamingPlatform.java:287)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processLogoutCommand(CommandExecutor.java:142)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:112)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 10:50:02 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: Reply from server: You cannot log out as there's not a logged in user associated with the current session. Please, log in first.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot log out as there's not a logged in user associated with the current session. Please, log in first.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.logout(StreamingPlatform.java:287)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processLogoutCommand(CommandExecutor.java:142)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processDisconnectCommand(CommandExecutor.java:128)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:113)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 30, 2023 10:52:03 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: Reply from server: You cannot log out as there's not a logged in user associated with the current session. Please, log in first.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot log out as there's not a logged in user associated with the current session. Please, log in first.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.logout(StreamingPlatform.java:287)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processLogoutCommand(CommandExecutor.java:142)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processDisconnectCommand(CommandExecutor.java:128)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:113)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
