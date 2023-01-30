@@ -19,7 +19,7 @@ public class CommandExtractor {
 
         for (int i = 2; i < lineArray.length; i++) {
 
-            secondArgument.append(lineArray[i] + " ");
+            secondArgument.append(lineArray[i] + INTERVAL_REGEX);
         }
 
         if (!secondArgument.isEmpty()) {
@@ -36,17 +36,29 @@ public class CommandExtractor {
         String commandName = lineArray[0];
 
         StringBuilder firstArgument = new StringBuilder();
-
         for (int i = 1; i < lineArray.length; i++) {
 
-            firstArgument.append(lineArray[i] + " ");
+            firstArgument.append(lineArray[i] + INTERVAL_REGEX);
         }
 
-        if (lineArray.length != 1) {
+        if (!firstArgument.isEmpty()) {
+
             firstArgument.deleteCharAt(firstArgument.length() - 1);
+            arguments.add(firstArgument.toString());
         }
 
-        arguments.add(firstArgument.toString());
+        return new Command(commandName.toLowerCase(), arguments);
+    }
+
+    private static Command createCommandWithExactlyOneArgument(List<String> arguments, String[] lineArray) {
+
+        if (lineArray.length != 2) {
+            return new Command(UNKNOWN_COMMAND_STRING, new ArrayList<>());
+        }
+
+        String commandName = lineArray[0];
+        arguments.add(lineArray[1]);
+
         return new Command(commandName.toLowerCase(), arguments);
     }
 
@@ -81,16 +93,18 @@ public class CommandExtractor {
             lineArray[0].equalsIgnoreCase(CommandName.LOGIN_COMMAND.getCommandName())) {
 
             return createCommandRegistrationLogin(arguments, lineArray);
-        } else if (lineArray[0].equalsIgnoreCase(CommandName.ADD_SONG_TO.getCommandName()) ||
-            lineArray[0].equalsIgnoreCase(CommandName.SEARCH_COMMAND.getCommandName())) {
+        } else if (lineArray[0].equalsIgnoreCase(CommandName.ADD_SONG_TO.getCommandName())) {
 
             return createCommandWithTwoArguments(arguments, lineArray);
-        } else if (lineArray[0].equalsIgnoreCase(CommandName.TOP_COMMAND.getCommandName()) ||
-            lineArray[0].equalsIgnoreCase(CommandName.CREATE_PLAYLIST.getCommandName()) ||
-            lineArray[0].equalsIgnoreCase(CommandName.SHOW_PLAYLIST.getCommandName()) ||
-            lineArray[0].equalsIgnoreCase(CommandName.PLAY_SONG.getCommandName())) {
+        } else if (lineArray[0].equalsIgnoreCase(CommandName.SEARCH_COMMAND.getCommandName()) ||
+                   lineArray[0].equalsIgnoreCase(CommandName.PLAY_SONG.getCommandName())) {
 
             return createCommandWithOneArgument(arguments, lineArray);
+        } else if (lineArray[0].equalsIgnoreCase(CommandName.TOP_COMMAND.getCommandName()) ||
+            lineArray[0].equalsIgnoreCase(CommandName.CREATE_PLAYLIST.getCommandName()) ||
+            lineArray[0].equalsIgnoreCase(CommandName.SHOW_PLAYLIST.getCommandName())) {
+
+            return createCommandWithExactlyOneArgument(arguments, lineArray);
         } else if (lineArray[0].equalsIgnoreCase(CommandName.DISCONNECT_COMMAND.getCommandName()) ||
             lineArray[0].equalsIgnoreCase(CommandName.LOGOUT_COMMAND.getCommandName()) ||
             lineArray[0].equalsIgnoreCase(CommandName.STOP_COMMAND.getCommandName())) {

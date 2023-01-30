@@ -266,7 +266,7 @@ public class CommandExecutor {
         return CREATE_PLAYLIST_SUCCESSFULLY_REPLY;
     }
 
-    private final static String TITLE_LABEL = "Title: ";
+    private final static String TITLE_LABEL = " Title: ";
     private final static String ARTIST_LABEL = " Artist: ";
     private String processSearchCommand(List<String> arguments) {
 
@@ -328,6 +328,12 @@ public class CommandExecutor {
         }
     }
 
+    private String getCorrectReply(Level level, String message) {
+
+        SpotifyLogger.log(level, REPLY_FIELD_TO_LOG + message);
+        return message;
+    }
+
     private String getCorrectReply(Level level, String message, Exception e) {
 
         SpotifyLogger.log(level, REPLY_FIELD_TO_LOG + message, e);
@@ -375,26 +381,28 @@ public class CommandExecutor {
         return ServerReply.LOGIN_COMMAND_SUCCESSFULLY_REPLY.getReply();
     }
 
+    private final static String TIMES_SIGN = "# ";
+
     private String processTopCommand(List<String> arguments) {
 
         if (arguments.get(0).equals("0") || !arguments.get(0).matches(POSITIVE_NUMBER_REGEX)) {
 
-            SpotifyLogger.log(Level.SEVERE, TOP_COMMAND_INVALID_ARGUMENT_REPLY);
-            return TOP_COMMAND_INVALID_ARGUMENT_REPLY;
+            return getCorrectReply(Level.INFO, ServerReply.TOP_COMMAND_INVALID_ARGUMENT_REPLY.getReply());
         }
 
         List<SongEntity> result = this.streamingPlatform.getTopNMostListenedSongs(
             Integer.parseInt(arguments.get(0)));
 
         StringBuilder toReturn = new StringBuilder();
-
+        toReturn.append(ServerReply.TOP_COMMAND_SUCCESSFULLY_REPLY.getReply() + System.lineSeparator());
         for (SongEntity currentSongEntity : result) {
 
-            String toAppend = "# " + currentSongEntity.getListeningTimes() + ". Title: " +
-                currentSongEntity.getSong().getTitle() + ". Artist: " + currentSongEntity.getSong().getArtist()
+            String toAppend = TIMES_SIGN + currentSongEntity.getListeningTimes() + TITLE_LABEL +
+                currentSongEntity.getSong().getTitle() + ARTIST_LABEL + currentSongEntity.getSong().getArtist()
                 + System.lineSeparator();
             toReturn.append(toAppend);
         }
+        toReturn.deleteCharAt(toReturn.length() - 1);
         return toReturn.toString();
     }
 

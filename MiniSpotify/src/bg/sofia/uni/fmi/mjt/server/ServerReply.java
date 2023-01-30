@@ -27,6 +27,9 @@ public enum ServerReply {
     DISCONNECT_COMMAND_ERROR_REPLY("There was a problem in disconnecting from the server. Please, try again later."),
     SEARCH_COMMAND_SUCCESSFULLY_REPLY("We could find the following results:"),
     SEARCH_COMMAND_NO_SONGS_REPLY("We couldn't find any songs related to your search."),
+    TOP_COMMAND_SUCCESSFULLY_REPLY("We could find the following results:"),
+    TOP_COMMAND_INVALID_ARGUMENT_REPLY("We couldn't process the command as the provided argument is invalid. " +
+        "Please, try with whole positive number."),
     LOGIN_COMMAND("login"),
     DISCONNECT_COMMAND("disconnect"),
     SEARCH_COMMAND("search"),
