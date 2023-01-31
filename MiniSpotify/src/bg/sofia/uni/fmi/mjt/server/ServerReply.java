@@ -30,6 +30,11 @@ public enum ServerReply {
     TOP_COMMAND_SUCCESSFULLY_REPLY("We could find the following results:"),
     TOP_COMMAND_INVALID_ARGUMENT_REPLY("We couldn't process the command as the provided argument is invalid. " +
         "Please, try with whole positive number."),
+    CREATE_PLAYLIST_SUCCESSFULLY_REPLY("The playlist was created successfully."),
+    CREATE_PLAYLIST_NOT_LOGGED_REPLY("The playlist was not created successfully as you are not logged-in. " +
+        "Please, try to login first."),
+    CREATE_PLAYLIST_ALREADY_EXIST_REPLY("The playlist was not created as there's already a playlist with the same " +
+        "name associated with this profile. Please, try again with different title."),
     LOGIN_COMMAND("login"),
     DISCONNECT_COMMAND("disconnect"),
     SEARCH_COMMAND("search"),

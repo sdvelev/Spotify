@@ -30,6 +30,11 @@
     ]
   },
   {
+    "emailCreator": "sdvelev@gmail.com",
+    "title": "Others2",
+    "playlistSongs": []
+  },
+  {
     "emailCreator": "sampleEmail2@abv.bg",
     "title": "MyFavourites",
     "playlistSongs": [
@@ -46,5 +51,20 @@
         "genre": "pop"
       }
     ]
+  },
+  {
+    "emailCreator": "sdvelev@gmail.con",
+    "title": "Playlist2",
+    "playlistSongs": []
+  },
+  {
+    "emailCreator": "sdvelev@gmail.con",
+    "title": "Playlist3",
+    "playlistSongs": []
+  },
+  {
+    "emailCreator": "sdvelev@gmail.con",
+    "title": "Playlist4",
+    "playlistSongs": []
   }
 ]

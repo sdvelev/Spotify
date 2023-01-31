@@ -1,8 +1,10 @@
 package bg.sofia.uni.fmi.mjt.server;
 
+import bg.sofia.uni.fmi.mjt.server.exceptions.IODatabaseException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSongPlayingException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException;
+import bg.sofia.uni.fmi.mjt.server.exceptions.PlaylistAlreadyExistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.SongIsAlreadyPlayingException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException;
@@ -38,6 +40,7 @@ import java.util.stream.Stream;
 public class StreamingPlatform {
 
     private static final String INTERVAL_REGEX = " ";
+    private final static String PLAYLISTS_LIST_PATH = "data" + File.separator + "PlaylistsList.json";
 
     private static final Gson GSON = new Gson();
     private Set<SongEntity> songs;
@@ -50,6 +53,7 @@ public class StreamingPlatform {
 
     public StreamingPlatform() {
 
+        this.playlists = new HashMap<>();
         this.alreadyRunning = new HashMap<>();
         this.alreadyLogged = new HashSet<>();
 
@@ -59,7 +63,7 @@ public class StreamingPlatform {
 
     private void readPlaylists() {
 
-        try (Reader reader = Files.newBufferedReader(Paths.get("data/playListsList.json"))) {
+        try (Reader reader = Files.newBufferedReader(Paths.get(PLAYLISTS_LIST_PATH))) {
 
             Set<Playlist> readPlaylists = new HashSet<>();
 
@@ -75,25 +79,21 @@ public class StreamingPlatform {
 
     }
 
-    public void writePlaylists() {
+    public void writePlaylists() throws IODatabaseException {
 
-        List<Playlist> divided = new ArrayList<>();
-
+        List<Playlist> allPlaylists = new ArrayList<>();
         for (Map.Entry<String, Set<Playlist>> currentEntry : this.playlists.entrySet()) {
 
-            for (Playlist currentPlaylist : currentEntry.getValue()) {
-
-                divided.add(currentPlaylist);
-            }
+            allPlaylists.addAll(currentEntry.getValue());
         }
 
-        try (Writer writer = new FileWriter("data/playlistsList.json")) {
+        try (Writer writer = new FileWriter(PLAYLISTS_LIST_PATH)) {
 
-            GSON.toJson(divided, writer);
+            GSON.toJson(allPlaylists, writer);
             writer.flush();
         } catch (IOException e) {
 
-            System.out.println();
+            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
         }
 
     }
@@ -164,15 +164,21 @@ public class StreamingPlatform {
         return result;
     }
 
-    public void createPlaylist(String title) throws UserNotLoggedException {
+    public void createPlaylist(String playlistTitle, SelectionKey selectionKey) throws UserNotLoggedException,
+        IODatabaseException, PlaylistAlreadyExistException {
 
-        if (!this.isLogged) {
-            throw new UserNotLoggedException("You cannot create playlist unless you have logged-in.");
+        if (!this.alreadyLogged.contains(selectionKey)) {
+
+            throw new UserNotLoggedException(ServerReply.CREATE_PLAYLIST_NOT_LOGGED_REPLY.getReply());
         }
 
-        Playlist toAdd = new Playlist(this.user.getEmail(), title);
-
+        Playlist toAdd = new Playlist(this.user.getEmail(), playlistTitle);
         if (this.playlists.containsKey(this.user.getEmail())) {
+
+            if (this.playlists.get(this.user.getEmail()).contains(toAdd)) {
+
+                throw new PlaylistAlreadyExistException(ServerReply.CREATE_PLAYLIST_ALREADY_EXIST_REPLY.getReply());
+            }
 
             this.playlists.get(this.user.getEmail()).add(toAdd);
         } else {
@@ -185,7 +191,7 @@ public class StreamingPlatform {
     }
 
     public void addSongToPlaylist(String playlistTitle, String songTitle) throws UserNotLoggedException,
-        NoSuchSongException, NoSuchPlaylistException {
+        NoSuchSongException, NoSuchPlaylistException, IODatabaseException {
 
         if (!this.isLogged) {
             throw new UserNotLoggedException("You cannot create playlist unless you have logged-in.");

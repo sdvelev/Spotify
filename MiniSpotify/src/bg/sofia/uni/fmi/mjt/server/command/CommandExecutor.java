@@ -8,6 +8,7 @@ import bg.sofia.uni.fmi.mjt.server.exceptions.NoSongPlayingException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NotValidEmailFormatException;
+import bg.sofia.uni.fmi.mjt.server.exceptions.PlaylistAlreadyExistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.SongIsAlreadyPlayingException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserAlreadyLoggedException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException;
@@ -113,7 +114,7 @@ public class CommandExecutor {
             case DISCONNECT_COMMAND_NAME -> this.processDisconnectCommand(selectionKey);
             case SEARCH_COMMAND_NAME -> this.processSearchCommand(cmd.arguments());
             case TOP_COMMAND_NAME -> this.processTopCommand(cmd.arguments());
-            case CREATE_PLAYLIST_NAME -> this.processCreatePlaylistCommand(cmd.arguments());
+            case CREATE_PLAYLIST_NAME -> this.processCreatePlaylistCommand(cmd.arguments(), selectionKey);
             case ADD_SONG_TO_NAME -> this.processAddSongToCommand(cmd.arguments());
             case SHOW_PLAYLIST_NAME -> this.processShowPlaylistCommand(cmd.arguments());
             case PLAY_SONG_NAME -> this.processPlayCommand(cmd.arguments(), selectionKey);
@@ -242,7 +243,7 @@ public class CommandExecutor {
             SpotifyLogger.log(Level.SEVERE, "User: " + this.streamingPlatform.getUser().getEmail() + " " +
                 ADD_SONG_TO_NO_SUCH_SONG_REPLY, e);
             return ADD_SONG_TO_NO_SUCH_SONG_REPLY;
-        } catch (NoSuchPlaylistException e) {
+        } catch (NoSuchPlaylistException | IODatabaseException e) {
             SpotifyLogger.log(Level.SEVERE, "User: " + this.streamingPlatform.getUser().getEmail() + " " +
                 ADD_SONG_TO_NO_SUCH_PLAYLIST_REPLY, e);
             return ADD_SONG_TO_NO_SUCH_PLAYLIST_REPLY;
@@ -251,19 +252,27 @@ public class CommandExecutor {
         return ADD_SONG_TO_SUCCESSFULLY_REPLY;
     }
 
-    private String processCreatePlaylistCommand(List<String> arguments) {
+    private String processCreatePlaylistCommand(List<String> arguments, SelectionKey selectionKey) {
 
-        String title = arguments.get(0);
-
+        String playlistTitle = arguments.get(0);
         try {
 
-            this.streamingPlatform.createPlaylist(title);
+            this.streamingPlatform.createPlaylist(playlistTitle, selectionKey);
         } catch (UserNotLoggedException e) {
-            SpotifyLogger.log(Level.SEVERE, CREATE_PLAYLIST_NOT_LOGGED_REPLY, e);
-            return CREATE_PLAYLIST_NOT_LOGGED_REPLY;
+
+            return getCorrectReply(Level.INFO, ServerReply.CREATE_PLAYLIST_NOT_LOGGED_REPLY.getReply(), e);
+        } catch (IODatabaseException e) {
+
+            return getCorrectReply(Level.SEVERE, ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
+        } catch (PlaylistAlreadyExistException e) {
+
+            return getCorrectReply(Level.INFO, ServerReply.CREATE_PLAYLIST_ALREADY_EXIST_REPLY.getReply(), e);
+        } catch (Exception e) {
+
+            return getCorrectReply(Level.SEVERE, ServerReply.SERVER_EXCEPTION.getReply(), e);
         }
 
-        return CREATE_PLAYLIST_SUCCESSFULLY_REPLY;
+        return ServerReply.CREATE_PLAYLIST_SUCCESSFULLY_REPLY.getReply();
     }
 
     private final static String TITLE_LABEL = " Title: ";
