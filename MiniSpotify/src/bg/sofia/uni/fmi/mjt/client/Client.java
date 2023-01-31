@@ -9,7 +9,7 @@ import java.nio.channels.SocketChannel;
 import java.util.Scanner;
 
 public class Client {
-    private static final int SERVER_PORT = 4444;
+    private static final int SERVER_PORT = 9999;
     private static final String SERVER_HOST = "localhost";
     private static final int BUFFER_SIZE = 512;
     private static ByteBuffer buffer = ByteBuffer.allocateDirect(BUFFER_SIZE);

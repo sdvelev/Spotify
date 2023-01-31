@@ -1,16 +1,23 @@
 package bg.sofia.uni.fmi.mjt.server.storage;
 
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class SongEntity {
 
     private Song song;
-    private int listeningTimes;
+    private AtomicInteger listeningTimes;
+
+    public SongEntity() {
+
+        this.song = new Song();
+        this.listeningTimes = new AtomicInteger();
+    }
 
     public SongEntity(Song song, int listeningTimes) {
 
         this.song = song;
-        this.listeningTimes = listeningTimes;
+        this.listeningTimes = new AtomicInteger(listeningTimes);
     }
 
     public Song getSong() {
@@ -18,7 +25,12 @@ public class SongEntity {
     }
 
     public int getListeningTimes() {
-        return listeningTimes;
+        return listeningTimes.intValue();
+    }
+
+    public void increaseListeningTimes() {
+
+        this.listeningTimes.getAndIncrement();
     }
 
     @Override

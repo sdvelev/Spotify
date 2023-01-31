@@ -2,6 +2,7 @@ package bg.sofia.uni.fmi.mjt.server;
 
 import bg.sofia.uni.fmi.mjt.server.command.CommandExecutor;
 import bg.sofia.uni.fmi.mjt.server.command.CommandExtractor;
+import bg.sofia.uni.fmi.mjt.server.exceptions.IODatabaseException;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -16,7 +17,7 @@ import java.util.Iterator;
 
 public class Server {
 
-    private static final int SERVER_PORT = 4444;
+    private static final int SERVER_PORT = 9999;
     private static final int BUFFER_SIZE = 1024;
     private static final String HOST = "localhost";
     private final CommandExecutor commandExecutor;
@@ -126,7 +127,7 @@ public class Server {
         accept.register(selector, SelectionKey.OP_READ);
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, IODatabaseException {
 
         Server s = new Server(SERVER_PORT, new CommandExecutor(new StreamingPlatform()));
 

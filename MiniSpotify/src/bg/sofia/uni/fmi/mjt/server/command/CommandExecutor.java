@@ -192,6 +192,10 @@ public class CommandExecutor {
 
             return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
                 ServerReply.PLAY_SONG_IS_ALREADY_RUNNING_REPLY.getReply(), e);
+        } catch (IODatabaseException e) {
+
+            return getCorrectReply(Level.SEVERE, this.streamingPlatform.getUser().getEmail(),
+                ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
         } catch (Exception e) {
 
             return getCorrectReply(Level.SEVERE, this.streamingPlatform.getUser().getEmail(),
@@ -441,7 +445,7 @@ public class CommandExecutor {
         return toReturn.toString();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IODatabaseException {
         CommandExecutor ce = new CommandExecutor(new StreamingPlatform());
 
         Command cm = new Command("register", List.of("sampleEmail@abv.bg", "666777888"));

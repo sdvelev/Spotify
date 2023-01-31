@@ -38,6 +38,7 @@ public class StreamingPlatform {
 
     private static final String INTERVAL_REGEX = " ";
     private final static String PLAYLISTS_LIST_PATH = "data" + File.separator + "PlaylistsList.json";
+    private final static String SONGS_LIST_PATH = "data" + File.separator + "SongsList.json";
 
     private static final Gson GSON = new Gson();
     private Set<SongEntity> songs;
@@ -48,7 +49,7 @@ public class StreamingPlatform {
     private Map<SelectionKey, PlaySong> alreadyRunning;
     private Set<SelectionKey> alreadyLogged;
 
-    public StreamingPlatform() {
+    public StreamingPlatform() throws IODatabaseException {
 
         this.playlists = new HashMap<>();
         this.alreadyRunning = new ConcurrentHashMap<>();
@@ -58,7 +59,7 @@ public class StreamingPlatform {
         this.readPlaylists();
     }
 
-    private void readPlaylists() {
+    private void readPlaylists() throws IODatabaseException {
 
         try (Reader reader = Files.newBufferedReader(Paths.get(PLAYLISTS_LIST_PATH))) {
 
@@ -72,7 +73,20 @@ public class StreamingPlatform {
             this.allocatePlaylists(readPlaylists);
         } catch (IOException e) {
 
-            System.out.println();
+            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
+        }
+
+    }
+
+    public void writeSongs() throws IODatabaseException {
+
+        try (Writer writer = new FileWriter(SONGS_LIST_PATH)) {
+
+            GSON.toJson(this.songs, writer);
+            writer.flush();
+        } catch (IOException e) {
+
+            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
         }
 
     }
@@ -111,9 +125,9 @@ public class StreamingPlatform {
         this.playlists = resultWithSet;
     }
 
-    private void readSongs() {
+    private void readSongs() throws IODatabaseException {
 
-        try (Reader reader = Files.newBufferedReader(Paths.get("data/songsList.json"))) {
+        try (Reader reader = Files.newBufferedReader(Paths.get(SONGS_LIST_PATH))) {
 
             Type type = new TypeToken<List<SongEntity>>() {
             }.getType();
@@ -121,7 +135,7 @@ public class StreamingPlatform {
             this.songs = new HashSet<>(songCollection);
         } catch (IOException e) {
 
-            System.out.println();
+            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
         }
 
     }
@@ -274,7 +288,7 @@ public class StreamingPlatform {
     private final static String UNDERSCORE = "_";
 
     public void playSong(String songTitle, SelectionKey selectionKey) throws UserNotLoggedException,
-        NoSuchSongException, SongIsAlreadyPlayingException {
+        NoSuchSongException, SongIsAlreadyPlayingException, IODatabaseException {
 
         if (!this.alreadyLogged.contains(selectionKey)) {
 
@@ -295,6 +309,18 @@ public class StreamingPlatform {
             selectionKey, this);
         this.alreadyRunning.put(selectionKey, playSongThread);
         playSongThread.start();
+        this.increaseSongPlays(songToPlay);
+        this.writeSongs();
+    }
+
+    private void increaseSongPlays(Song songToPlay) {
+
+        for (SongEntity currentSongEntity : this.songs) {
+            if (currentSongEntity.getSong().equals(songToPlay)) {
+
+                currentSongEntity.increaseListeningTimes();
+            }
+        }
     }
 
     public void logout(SelectionKey selectionKey) throws UserNotLoggedException, NoSongPlayingException,
@@ -363,7 +389,7 @@ public class StreamingPlatform {
         this.alreadyRunning = alreadyRunning;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, IODatabaseException {
 
        /* Set<SongEntity> hashSet = new HashSet<>();
 
