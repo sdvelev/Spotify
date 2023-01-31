@@ -5,6 +5,7 @@ import bg.sofia.uni.fmi.mjt.server.exceptions.NoSongPlayingException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.PlaylistAlreadyExistException;
+import bg.sofia.uni.fmi.mjt.server.exceptions.SongAlreadyInPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.SongIsAlreadyPlayingException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException;
@@ -190,57 +191,76 @@ public class StreamingPlatform {
         this.writePlaylists();
     }
 
-    public void addSongToPlaylist(String playlistTitle, String songTitle) throws UserNotLoggedException,
-        NoSuchSongException, NoSuchPlaylistException, IODatabaseException {
+    Song isFound(String songTitle) {
 
-        if (!this.isLogged) {
-            throw new UserNotLoggedException("You cannot create playlist unless you have logged-in.");
+        for (SongEntity currentSongEntity : this.songs) {
+            if (currentSongEntity.getSong().getTitle().equalsIgnoreCase(songTitle)) {
+                return currentSongEntity.getSong();
+            }
+        }
+        return null;
+    }
+
+    public void addSongToPlaylist(String playlistTitle, String songTitle, SelectionKey selectionKey)
+        throws UserNotLoggedException, NoSuchSongException, NoSuchPlaylistException, IODatabaseException,
+        SongAlreadyInPlaylistException {
+
+        if (!this.alreadyLogged.contains(selectionKey)) {
+            throw new UserNotLoggedException(ServerReply.ADD_SONG_TO_NOT_LOGGED_REPLY.getReply());
         }
 
-        boolean isFound = false;
-        Song songToAdd = new Song();
-        for (SongEntity currentSongEntity : this.songs) {
+        Song songToAdd = isFound(songTitle);
+        /*for (SongEntity currentSongEntity : this.songs) {
             if (currentSongEntity.getSong().getTitle().equalsIgnoreCase(songTitle)) {
                 isFound = true;
                 songToAdd = currentSongEntity.getSong();
                 break;
             }
-        }
+        }*/
 
-        if (!isFound) {
-            throw new NoSuchSongException("There is not a song with such a title in the system.");
+        if (songToAdd == null) {
+            throw new NoSuchSongException(ServerReply.ADD_SONG_TO_NO_SUCH_SONG_REPLY.getReply());
         }
 
         String emailCreator = this.user.getEmail();
-
         if (!this.playlists.get(emailCreator).contains(new Playlist(emailCreator, playlistTitle))) {
-
-            throw new NoSuchPlaylistException("There is not a playlist with such a title associated with that user.");
+            throw new NoSuchPlaylistException(ServerReply.ADD_SONG_TO_NO_SUCH_PLAYLIST_REPLY.getReply());
         }
 
+        addSongInPlaylist(emailCreator, playlistTitle, songToAdd);
+    }
+
+    private void addSongInPlaylist(String emailCreator, String playlistTitle, Song songToAdd)
+        throws IODatabaseException, SongAlreadyInPlaylistException {
 
         Set<Playlist> allPlaylists =  this.playlists.get(emailCreator);
-
         for (Playlist currentPlaylist : allPlaylists) {
 
             if (currentPlaylist.getTitle().equals(playlistTitle)) {
+
+                if (currentPlaylist.containsSong(songToAdd)) {
+
+                    throw new SongAlreadyInPlaylistException(ServerReply
+                        .ADD_SONG_TO_SONG_ALREADY_EXIST_REPLY.getReply());
+                }
+
                 currentPlaylist.addSong(songToAdd);
             }
         }
+
         this.writePlaylists();
     }
+    public Playlist showPlaylist(String playlistTitle, SelectionKey selectionKey)
+        throws UserNotLoggedException, NoSuchPlaylistException {
 
-    public Playlist showPlaylist(String playlistTitle) throws UserNotLoggedException, NoSuchPlaylistException {
-
-        if (!this.isLogged) {
-            throw new UserNotLoggedException("You cannot create playlist unless you have logged-in.");
+        if (!this.alreadyLogged.contains(selectionKey)) {
+            throw new UserNotLoggedException(ServerReply.SHOW_PLAYLIST_NOT_LOGGED_REPLY.getReply());
         }
 
         String emailCreator = this.user.getEmail();
-
         if (!this.playlists.get(emailCreator).contains(new Playlist(emailCreator, playlistTitle))) {
 
-            throw new NoSuchPlaylistException("There is not a playlist with such a title associated with that user.");
+            throw new NoSuchPlaylistException(ServerReply.SHOW_PLAYLIST_NO_SUCH_PLAYLIST_REPLY.getReply());
         }
 
         Set<Playlist> allPlaylists =  this.playlists.get(emailCreator);

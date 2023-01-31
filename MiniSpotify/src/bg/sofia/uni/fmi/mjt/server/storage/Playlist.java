@@ -24,6 +24,12 @@ public class Playlist {
         this.playlistSongs.add(toAdd);
     }
 
+    public boolean containsSong(Song toCheck) {
+
+        return this.playlistSongs.contains(toCheck);
+    }
+
+
     public String getEmailCreator() {
 
         return this.emailCreator;

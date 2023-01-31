@@ -9,6 +9,7 @@ import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NotValidEmailFormatException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.PlaylistAlreadyExistException;
+import bg.sofia.uni.fmi.mjt.server.exceptions.SongAlreadyInPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.SongIsAlreadyPlayingException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserAlreadyLoggedException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException;
@@ -115,8 +116,8 @@ public class CommandExecutor {
             case SEARCH_COMMAND_NAME -> this.processSearchCommand(cmd.arguments());
             case TOP_COMMAND_NAME -> this.processTopCommand(cmd.arguments());
             case CREATE_PLAYLIST_NAME -> this.processCreatePlaylistCommand(cmd.arguments(), selectionKey);
-            case ADD_SONG_TO_NAME -> this.processAddSongToCommand(cmd.arguments());
-            case SHOW_PLAYLIST_NAME -> this.processShowPlaylistCommand(cmd.arguments());
+            case ADD_SONG_TO_NAME -> this.processAddSongToCommand(cmd.arguments(), selectionKey);
+            case SHOW_PLAYLIST_NAME -> this.processShowPlaylistCommand(cmd.arguments(), selectionKey);
             case PLAY_SONG_NAME -> this.processPlayCommand(cmd.arguments(), selectionKey);
             case STOP_COMMAND_NAME -> this.processStopCommand(selectionKey);
             default -> UNKNOWN_COMMAND_REPLY;
@@ -197,59 +198,74 @@ public class CommandExecutor {
         return PLAY_SONG_SUCCESSFULLY_REPLY;
     }
 
-    private String processShowPlaylistCommand(List<String> arguments) {
+    private String generateOutputShowPlaylistCommand(String playlistTitle, Playlist toReturn) {
+
+        StringBuilder resultString = new StringBuilder();
+        resultString.append(ServerReply.SHOW_PLAYLIST_SUCCESSFULLY_REPLY.getReply() +
+            playlistTitle.toUpperCase() + System.lineSeparator());
+        int counter = 1;
+        for (Song currentSong : toReturn.getPlaylistSongs()) {
+
+            String toAppend = counter + TITLE_LABEL + currentSong.getTitle() + ARTIST_LABEL +
+                currentSong.getArtist() + System.lineSeparator();
+            resultString.append(toAppend);
+        }
+
+        resultString.deleteCharAt(resultString.length() - 1);
+        return resultString.toString();
+    }
+
+    private String processShowPlaylistCommand(List<String> arguments, SelectionKey selectionKey) {
 
         String playlistTitle = arguments.get(0);
-
         try {
 
-            Playlist toReturn = this.streamingPlatform.showPlaylist(playlistTitle);
-            if (toReturn == null) {
-                return "Something went wrong.";
-            }
-
-            StringBuilder resultString = new StringBuilder();
-            int counter = 1;
-            for (Song currentSong : toReturn.getPlaylistSongs()) {
-
-                String toAppend = counter + ". Title: " + currentSong.getTitle() + " Artist: " +
-                    currentSong.getArtist() + System.lineSeparator();
-                resultString.append(toAppend);
-            }
-            return resultString.toString();
-
+            Playlist toReturn = this.streamingPlatform.showPlaylist(playlistTitle, selectionKey);
+            return generateOutputShowPlaylistCommand(playlistTitle, toReturn);
         } catch (UserNotLoggedException e) {
-            SpotifyLogger.log(Level.SEVERE, SHOW_PLAYLIST_NOT_LOGGED_REPLY, e);
-            return SHOW_PLAYLIST_NOT_LOGGED_REPLY;
+
+            return getCorrectReply(Level.INFO, ServerReply.SHOW_PLAYLIST_NOT_LOGGED_REPLY.getReply(), e);
         } catch (NoSuchPlaylistException e) {
-            SpotifyLogger.log(Level.SEVERE, "User: " + this.streamingPlatform.getUser().getEmail() + " " +
-                SHOW_PLAYLIST_NO_SUCH_PLAYLIST_REPLY, e);
-            return SHOW_PLAYLIST_NO_SUCH_PLAYLIST_REPLY;
+
+            return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
+                ServerReply.SHOW_PLAYLIST_NO_SUCH_PLAYLIST_REPLY.getReply(), e);
         }
     }
 
-    private String processAddSongToCommand(List<String> arguments) {
+    private String processAddSongToCommand(List<String> arguments, SelectionKey selectionKey) {
 
         String playlistTitle = arguments.get(0);
         String songTitle = arguments.get(1);
 
         try {
 
-            this.streamingPlatform.addSongToPlaylist(playlistTitle, songTitle);
+            this.streamingPlatform.addSongToPlaylist(playlistTitle, songTitle, selectionKey);
         } catch (UserNotLoggedException e) {
-            SpotifyLogger.log(Level.SEVERE, ADD_SONG_TO_NOT_LOGGED_REPLY, e);
-            return ADD_SONG_TO_NOT_LOGGED_REPLY;
+
+            return getCorrectReply(Level.INFO, ServerReply.ADD_SONG_TO_NOT_LOGGED_REPLY.getReply(), e);
         } catch (NoSuchSongException e) {
-            SpotifyLogger.log(Level.SEVERE, "User: " + this.streamingPlatform.getUser().getEmail() + " " +
-                ADD_SONG_TO_NO_SUCH_SONG_REPLY, e);
-            return ADD_SONG_TO_NO_SUCH_SONG_REPLY;
-        } catch (NoSuchPlaylistException | IODatabaseException e) {
-            SpotifyLogger.log(Level.SEVERE, "User: " + this.streamingPlatform.getUser().getEmail() + " " +
-                ADD_SONG_TO_NO_SUCH_PLAYLIST_REPLY, e);
-            return ADD_SONG_TO_NO_SUCH_PLAYLIST_REPLY;
+
+            return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
+                ServerReply.ADD_SONG_TO_NO_SUCH_SONG_REPLY.getReply(), e);
+        } catch (NoSuchPlaylistException e) {
+
+            return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
+                ServerReply.ADD_SONG_TO_NO_SUCH_PLAYLIST_REPLY.getReply(), e);
+        } catch (SongAlreadyInPlaylistException e) {
+
+            return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
+                ServerReply.ADD_SONG_TO_SONG_ALREADY_EXIST_REPLY.getReply(), e);
+        } catch (IODatabaseException e) {
+
+            return getCorrectReply(Level.SEVERE, this.streamingPlatform.getUser().getEmail(),
+                ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
+        } catch (Exception e) {
+
+            return getCorrectReply(Level.SEVERE, this.streamingPlatform.getUser().getEmail(),
+                ServerReply.SERVER_EXCEPTION.getReply(), e);
         }
 
-        return ADD_SONG_TO_SUCCESSFULLY_REPLY;
+        return ServerReply.ADD_SONG_TO_SUCCESSFULLY_REPLY.getReply();
     }
 
     private String processCreatePlaylistCommand(List<String> arguments, SelectionKey selectionKey) {
@@ -263,13 +279,16 @@ public class CommandExecutor {
             return getCorrectReply(Level.INFO, ServerReply.CREATE_PLAYLIST_NOT_LOGGED_REPLY.getReply(), e);
         } catch (IODatabaseException e) {
 
-            return getCorrectReply(Level.SEVERE, ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
+            return getCorrectReply(Level.SEVERE, this.streamingPlatform.getUser().getEmail(),
+                ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
         } catch (PlaylistAlreadyExistException e) {
 
-            return getCorrectReply(Level.INFO, ServerReply.CREATE_PLAYLIST_ALREADY_EXIST_REPLY.getReply(), e);
+            return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
+                ServerReply.CREATE_PLAYLIST_ALREADY_EXIST_REPLY.getReply(), e);
         } catch (Exception e) {
 
-            return getCorrectReply(Level.SEVERE, ServerReply.SERVER_EXCEPTION.getReply(), e);
+            return getCorrectReply(Level.SEVERE, this.streamingPlatform.getUser().getEmail(),
+                ServerReply.SERVER_EXCEPTION.getReply(), e);
         }
 
         return ServerReply.CREATE_PLAYLIST_SUCCESSFULLY_REPLY.getReply();
@@ -284,7 +303,7 @@ public class CommandExecutor {
         List<SongEntity> searchedSongs = this.streamingPlatform.searchSongs(wordToSearch);
 
         if (searchedSongs.isEmpty()) {
-            return ServerReply.SEARCH_COMMAND_NO_SONGS_REPLY.getReply();
+            return getCorrectReply(Level.INFO, ServerReply.SEARCH_COMMAND_NO_SONGS_REPLY.getReply());
         }
 
         StringBuilder toReturn = new StringBuilder();

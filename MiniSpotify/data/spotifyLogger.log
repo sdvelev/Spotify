@@ -1124,3 +1124,111 @@ bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot create
 	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
 	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
 
+Jan 31, 2023 2:30:04 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: Reply from server: The playlist was not created successfully as you are not logged-in. Please, try to login first.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: The playlist was not created successfully as you are not logged-in. Please, try to login first.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.createPlaylist(StreamingPlatform.java:172)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processCreatePlaylistCommand(CommandExecutor.java:260)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:117)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 31, 2023 2:30:42 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: Reply from server: The playlist was not created as there's already a playlist with the same name associated with this profile. Please, try again with different title.
+bg.sofia.uni.fmi.mjt.server.exceptions.PlaylistAlreadyExistException: The playlist was not created as there's already a playlist with the same name associated with this profile. Please, try again with different title.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.createPlaylist(StreamingPlatform.java:180)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processCreatePlaylistCommand(CommandExecutor.java:260)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:117)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 31, 2023 2:41:49 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: The song was not added to the playlist as you are not logged-in. Please, try first to login.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot create playlist unless you have logged-in.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.addSongToPlaylist(StreamingPlatform.java:197)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processAddSongToCommand(CommandExecutor.java:238)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:118)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 31, 2023 2:42:07 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: User: sdvelev@gmail.con There is not such a song in the platform.
+bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException: There is not a song with such a title in the system.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:280)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:180)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:120)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 31, 2023 3:24:07 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: The playlist was not created as there's already a playlist with the same name associated with this profile. Please, try again with different title.
+bg.sofia.uni.fmi.mjt.server.exceptions.PlaylistAlreadyExistException: The playlist was not created as there's already a playlist with the same name associated with this profile. Please, try again with different title.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.createPlaylist(StreamingPlatform.java:180)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processCreatePlaylistCommand(CommandExecutor.java:264)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:117)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 31, 2023 3:26:15 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: The playlist was not created as there's already a playlist with the same name associated with this profile. Please, try again with different title.
+bg.sofia.uni.fmi.mjt.server.exceptions.PlaylistAlreadyExistException: The playlist was not created as there's already a playlist with the same name associated with this profile. Please, try again with different title.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.createPlaylist(StreamingPlatform.java:180)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processCreatePlaylistCommand(CommandExecutor.java:264)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:117)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 31, 2023 4:06:34 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: You cannot play songs unless you are logged-in.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot play music unless you are logged-in.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:281)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:181)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:121)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 31, 2023 4:06:59 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: You cannot play songs unless you are logged-in.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot play music unless you are logged-in.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:281)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:181)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:121)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 31, 2023 4:07:03 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: You cannot play songs unless you are logged-in.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot play music unless you are logged-in.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:281)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:181)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:121)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 31, 2023 4:07:18 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: User: sdvelev@gmail.com There is not such a song in the platform.
+bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException: There is not a song with such a title in the system.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:300)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:181)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:121)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 31, 2023 4:33:57 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: Reply from server: You cannot view playlist as you aren't logged in. Please, try to log in first.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot view playlist as you aren't logged in. Please, try to log in first.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.showPlaylist(StreamingPlatform.java:257)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processShowPlaylistCommand(CommandExecutor.java:222)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:120)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
+Jan 31, 2023 4:34:20 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: There isn't such a playlist associated with this account.
+bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchPlaylistException: There isn't such a playlist associated with this account.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.showPlaylist(StreamingPlatform.java:263)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processShowPlaylistCommand(CommandExecutor.java:222)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:120)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
+
