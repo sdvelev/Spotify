@@ -1,5 +1,6 @@
 package bg.sofia.uni.fmi.mjt.server.command;
 
+import bg.sofia.uni.fmi.mjt.server.Server;
 import bg.sofia.uni.fmi.mjt.server.ServerReply;
 import bg.sofia.uni.fmi.mjt.server.StreamingPlatform;
 import bg.sofia.uni.fmi.mjt.server.exceptions.EmailAlreadyRegisteredException;
@@ -175,27 +176,23 @@ public class CommandExecutor {
     private String processPlayCommand(List<String> arguments, SelectionKey selectionKey) {
 
         String songName = arguments.get(0);
-
         try {
 
             this.streamingPlatform.playSong(songName, selectionKey);
         } catch (UserNotLoggedException e) {
 
-            SpotifyLogger.log(Level.SEVERE, PLAY_SONG_NOT_LOGGED_REPLY, e);
-            return PLAY_SONG_NOT_LOGGED_REPLY;
+            return getCorrectReply(Level.INFO, ServerReply.PLAY_SONG_NOT_LOGGED_REPLY.getReply(), e);
         } catch (NoSuchSongException e) {
 
-            SpotifyLogger.log(Level.SEVERE, "User: " + this.streamingPlatform.getUser().getEmail() + " " +
-                PLAY_SONG_NO_SUCH_SONG_REPLY, e);
-            return PLAY_SONG_NO_SUCH_SONG_REPLY;
+            return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
+                ServerReply.PLAY_SONG_NO_SUCH_SONG_REPLY.getReply(), e);
         } catch (SongIsAlreadyPlayingException e) {
 
-            SpotifyLogger.log(Level.SEVERE, "User: " + this.streamingPlatform.getUser().getEmail() + " " +
-                PLAY_SONG_IS_ALREADY_RUNNING_REPLY, e);
-            return PLAY_SONG_IS_ALREADY_RUNNING_REPLY;
+            return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
+                ServerReply.PLAY_SONG_IS_ALREADY_RUNNING_REPLY.getReply(), e);
         }
 
-        return PLAY_SONG_SUCCESSFULLY_REPLY;
+        return ServerReply.PLAY_SONG_SUCCESSFULLY_REPLY.getReply();
     }
 
     private String generateOutputShowPlaylistCommand(String playlistTitle, Playlist toReturn) {

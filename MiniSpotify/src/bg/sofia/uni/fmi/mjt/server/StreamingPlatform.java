@@ -273,35 +273,27 @@ public class StreamingPlatform {
         return new Playlist();
     }
 
+    private final static String UNDERSCORE = "_";
+
     public void playSong(String songTitle, SelectionKey selectionKey) throws UserNotLoggedException,
         NoSuchSongException, SongIsAlreadyPlayingException {
 
         if (!this.alreadyLogged.contains(selectionKey)) {
 
-            throw new UserNotLoggedException("You cannot play music unless you are logged-in.");
+            throw new UserNotLoggedException(ServerReply.PLAY_SONG_NOT_LOGGED_REPLY.getReply());
         }
 
-        /*if (this.isPlaying) {
+        if (this.alreadyRunning.containsKey(selectionKey)) {
 
-            throw new SongIsAlreadyPlayingException("Song is running at the moment.");
-        }*/
-
-        boolean isFound = false;
-        Song songToPlay = new Song();
-        for (SongEntity currentSongEntity : this.songs) {
-            if (currentSongEntity.getSong().getTitle().equalsIgnoreCase(songTitle)) {
-                isFound = true;
-                songToPlay = currentSongEntity.getSong();
-                break;
-            }
+            throw new SongIsAlreadyPlayingException(ServerReply.PLAY_SONG_IS_ALREADY_RUNNING_REPLY.getReply());
         }
 
-        if (!isFound) {
-            throw new NoSuchSongException("There is not a song with such a title in the system.");
+        Song songToPlay = isFound(songTitle);
+        if (songToPlay == null) {
+            throw new NoSuchSongException(ServerReply.PLAY_SONG_NO_SUCH_SONG_REPLY.getReply());
         }
 
-
-        PlaySong playSongThread = new PlaySong(songToPlay.getArtist() + "_" + songToPlay.getTitle(),
+        PlaySong playSongThread = new PlaySong(songToPlay.getArtist() + UNDERSCORE + songToPlay.getTitle(),
             selectionKey);
         this.alreadyRunning.put(selectionKey, playSongThread);
         playSongThread.start();

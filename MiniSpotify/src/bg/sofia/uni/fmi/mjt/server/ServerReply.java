@@ -47,6 +47,11 @@ public enum ServerReply {
     SHOW_PLAYLIST_NOT_LOGGED_REPLY("You cannot view playlist as you aren't logged in. " +
         "Please, try to log in first."),
     SHOW_PLAYLIST_NO_SUCH_PLAYLIST_REPLY("There isn't such a playlist associated with this account."),
+    PLAY_SONG_NOT_LOGGED_REPLY("You cannot play songs unless you are logged in."),
+    PLAY_SONG_NO_SUCH_SONG_REPLY("There isn't such a song in the platform."),
+    PLAY_SONG_SUCCESSFULLY_REPLY("The song is starting."),
+    PLAY_SONG_IS_ALREADY_RUNNING_REPLY("Song has already been started and is now " +
+        "playing. You can stop it with the relevant command or wait for it to finish."),
     LOGIN_COMMAND("login"),
     DISCONNECT_COMMAND("disconnect"),
     SEARCH_COMMAND("search"),
