@@ -52,6 +52,10 @@ public enum ServerReply {
     PLAY_SONG_SUCCESSFULLY_REPLY("The song is starting."),
     PLAY_SONG_IS_ALREADY_RUNNING_REPLY("Song has already been started and is now " +
         "playing. You can stop it with the relevant command or wait for it to finish."),
+    STOP_COMMAND_SUCCESSFULLY_REPLY("The song was stopped successfully"),
+    STOP_COMMAND_NOT_LOGGED_REPLY("You cannot stop a song as you are not logged in."),
+    STOP_COMMAND_NO_SONG_PLAYING("There isn't a song which is playing at the moment."),
+    STOP_COMMAND_ERROR_REPLY("Something went wrong with streaming the song."),
     LOGIN_COMMAND("login"),
     DISCONNECT_COMMAND("disconnect"),
     SEARCH_COMMAND("search"),

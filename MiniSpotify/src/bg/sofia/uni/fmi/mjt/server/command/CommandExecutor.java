@@ -161,16 +161,18 @@ public class CommandExecutor {
             this.streamingPlatform.stopSong(selectionKey);
         } catch (UserNotLoggedException e) {
 
-            SpotifyLogger.log(Level.SEVERE, STOP_COMMAND_NOT_LOGGED_REPLY, e);
-            return STOP_COMMAND_NOT_LOGGED_REPLY;
+            return getCorrectReply(Level.INFO, ServerReply.STOP_COMMAND_NOT_LOGGED_REPLY.getReply(), e);
         } catch (NoSongPlayingException e) {
 
-            SpotifyLogger.log(Level.SEVERE, "User: " + this.streamingPlatform.getUser().getEmail() + " " +
-                STOP_COMMAND_NO_SONG_PLAYING, e);
-            return STOP_COMMAND_NO_SONG_PLAYING;
+            return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
+                ServerReply.STOP_COMMAND_NO_SONG_PLAYING.getReply(), e);
+        } catch (Exception e) {
+
+            return getCorrectReply(Level.SEVERE, this.streamingPlatform.getUser().getEmail(),
+                ServerReply.STOP_COMMAND_ERROR_REPLY.getReply(), e);
         }
 
-        return STOP_COMMAND_SUCCESSFULLY_REPLY;
+        return ServerReply.STOP_COMMAND_SUCCESSFULLY_REPLY.getReply();
     }
 
     private String processPlayCommand(List<String> arguments, SelectionKey selectionKey) {
@@ -190,6 +192,10 @@ public class CommandExecutor {
 
             return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
                 ServerReply.PLAY_SONG_IS_ALREADY_RUNNING_REPLY.getReply(), e);
+        } catch (Exception e) {
+
+            return getCorrectReply(Level.SEVERE, this.streamingPlatform.getUser().getEmail(),
+                ServerReply.SERVER_EXCEPTION.getReply(), e);
         }
 
         return ServerReply.PLAY_SONG_SUCCESSFULLY_REPLY.getReply();
@@ -226,6 +232,10 @@ public class CommandExecutor {
 
             return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
                 ServerReply.SHOW_PLAYLIST_NO_SUCH_PLAYLIST_REPLY.getReply(), e);
+        } catch (Exception e) {
+
+            return getCorrectReply(Level.SEVERE, this.streamingPlatform.getUser().getEmail(),
+                ServerReply.SERVER_EXCEPTION.getReply(), e);
         }
     }
 

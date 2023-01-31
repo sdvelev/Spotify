@@ -7,7 +7,6 @@ import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.PlaylistAlreadyExistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.SongAlreadyInPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.SongIsAlreadyPlayingException;
-import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException;
 import bg.sofia.uni.fmi.mjt.server.login.User;
 import bg.sofia.uni.fmi.mjt.server.player.PlaySong;
@@ -17,26 +16,23 @@ import bg.sofia.uni.fmi.mjt.server.storage.SongEntity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.lang.reflect.Type;
-import java.net.URISyntaxException;
 import java.nio.channels.SelectionKey;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class StreamingPlatform {
 
@@ -55,7 +51,7 @@ public class StreamingPlatform {
     public StreamingPlatform() {
 
         this.playlists = new HashMap<>();
-        this.alreadyRunning = new HashMap<>();
+        this.alreadyRunning = new ConcurrentHashMap<>();
         this.alreadyLogged = new HashSet<>();
 
         this.readSongs();
@@ -68,7 +64,8 @@ public class StreamingPlatform {
 
             Set<Playlist> readPlaylists = new HashSet<>();
 
-            Type type = new TypeToken<Set<Playlist>>(){}.getType();
+            Type type = new TypeToken<Set<Playlist>>() {
+            }.getType();
             Set<Playlist> playlistCollection = GSON.fromJson(reader, type);
             readPlaylists = new HashSet<>(playlistCollection);
 
@@ -118,7 +115,8 @@ public class StreamingPlatform {
 
         try (Reader reader = Files.newBufferedReader(Paths.get("data/songsList.json"))) {
 
-            Type type = new TypeToken<List<SongEntity>>(){}.getType();
+            Type type = new TypeToken<List<SongEntity>>() {
+            }.getType();
             List<SongEntity> songCollection = GSON.fromJson(reader, type);
             this.songs = new HashSet<>(songCollection);
         } catch (IOException e) {
@@ -294,12 +292,13 @@ public class StreamingPlatform {
         }
 
         PlaySong playSongThread = new PlaySong(songToPlay.getArtist() + UNDERSCORE + songToPlay.getTitle(),
-            selectionKey);
+            selectionKey, this);
         this.alreadyRunning.put(selectionKey, playSongThread);
         playSongThread.start();
     }
 
-    public void logout(SelectionKey selectionKey) throws UserNotLoggedException, NoSongPlayingException {
+    public void logout(SelectionKey selectionKey) throws UserNotLoggedException, NoSongPlayingException,
+        InterruptedException {
 
         if (!this.alreadyLogged.contains(selectionKey)) {
 
@@ -314,29 +313,24 @@ public class StreamingPlatform {
         this.alreadyLogged.remove(selectionKey);
     }
 
-    public void stopSong(SelectionKey selectionKey) throws NoSongPlayingException, UserNotLoggedException {
+    public void stopSong(SelectionKey selectionKey) throws NoSongPlayingException, UserNotLoggedException,
+        InterruptedException {
 
         if (!this.alreadyLogged.contains(selectionKey)) {
 
-            throw new UserNotLoggedException("You cannot play music unless you are logged-in.");
+            throw new UserNotLoggedException(ServerReply.STOP_COMMAND_NOT_LOGGED_REPLY.getReply());
         }
 
         if (!this.alreadyRunning.containsKey(selectionKey)) {
 
-            throw new NoSongPlayingException("There is not a song playing at the moment.");
+            throw new NoSongPlayingException(ServerReply.STOP_COMMAND_NO_SONG_PLAYING.getReply());
         }
 
-        this.alreadyRunning.get(selectionKey).stopSong();
+        this.alreadyRunning.get(selectionKey).terminateSong();
 
-        try {
+        this.alreadyRunning.get(selectionKey).join();
 
-            this.alreadyRunning.get(selectionKey).join();
-        } catch (InterruptedException e) {
-
-            System.out.println();
-        }
-
-        this.alreadyRunning.remove(selectionKey);
+        //this.alreadyRunning.remove(selectionKey);
     }
 
 
@@ -358,6 +352,15 @@ public class StreamingPlatform {
 
     public void setIsLogged(boolean isLogged) {
         this.isLogged = isLogged;
+    }
+
+    public Map<SelectionKey, PlaySong> getAlreadyRunning() {
+        return alreadyRunning;
+    }
+
+    public void setAlreadyRunning(
+        Map<SelectionKey, PlaySong> alreadyRunning) {
+        this.alreadyRunning = alreadyRunning;
     }
 
     public static void main(String[] args) throws IOException {

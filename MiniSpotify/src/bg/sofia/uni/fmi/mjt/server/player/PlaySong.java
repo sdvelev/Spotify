@@ -1,5 +1,7 @@
 package bg.sofia.uni.fmi.mjt.server.player;
 
+import bg.sofia.uni.fmi.mjt.server.ServerReply;
+import bg.sofia.uni.fmi.mjt.server.StreamingPlatform;
 import bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger;
 
 import javax.sound.sampled.AudioFormat;
@@ -11,7 +13,6 @@ import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.nio.channels.SelectionKey;
 import java.util.logging.Level;
 
@@ -20,14 +21,17 @@ public class PlaySong extends Thread {
     private String songName;
     private SelectionKey selectionKey;
     private boolean isRunning;
+    private StreamingPlatform streamingPlatform;
     private final static String DATA_PATH = "data/";
     private final static String WAV_FORMAT = ".wav";
 
-    public PlaySong(String songName, SelectionKey selectionKey) {
+
+    public PlaySong(String songName, SelectionKey selectionKey, StreamingPlatform streamingPlatform) {
 
         this.isRunning = false;
         this.songName = songName;
         this.selectionKey = selectionKey;
+        this.streamingPlatform = streamingPlatform;
     }
 
     @Override
@@ -71,13 +75,19 @@ public class PlaySong extends Thread {
             line.stop();
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 
-            SpotifyLogger.log(Level.SEVERE, "Something went wrong with streaming the song.", e);
+            SpotifyLogger.log(Level.SEVERE, ServerReply.STOP_COMMAND_ERROR_REPLY.getReply(), e);
         }
 
         this.isRunning = false;
+        removeFrom();
     }
 
-    public void stopSong() {
+    private void removeFrom() {
+
+        this.streamingPlatform.getAlreadyRunning().remove(selectionKey);
+    }
+
+    public void terminateSong() {
         this.isRunning = false;
     }
 
