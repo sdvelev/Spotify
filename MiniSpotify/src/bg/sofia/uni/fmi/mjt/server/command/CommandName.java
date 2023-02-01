@@ -9,6 +9,7 @@ public enum CommandName {
     SEARCH_COMMAND("search"),
     TOP_COMMAND("top"),
     CREATE_PLAYLIST("create-playlist"),
+    DELETE_PLAYLIST("delete-playlist"),
     ADD_SONG_TO("add-song-to"),
     SHOW_PLAYLIST("show-playlist"),
     PLAY_SONG("play"),

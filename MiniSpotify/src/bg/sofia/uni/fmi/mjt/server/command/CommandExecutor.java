@@ -10,6 +10,7 @@ import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NotValidEmailFormatException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.PlaylistAlreadyExistException;
+import bg.sofia.uni.fmi.mjt.server.exceptions.PlaylistNotEmptyException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.SongAlreadyInPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.SongIsAlreadyPlayingException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserAlreadyLoggedException;
@@ -90,6 +91,8 @@ public class CommandExecutor {
 
     private final static String DISCONNECT_COMMAND_NAME = "disconnect";
 
+    private final static String DELETE_PLAYLIST_COMMAND_NAME = "delete-playlist";
+
     private final static String UNKNOWN_COMMAND_REPLY = "The inserted command is not correct or in the right " +
         "format. Please, try to enter it again.";
 
@@ -117,6 +120,7 @@ public class CommandExecutor {
             case SEARCH_COMMAND_NAME -> this.processSearchCommand(cmd.arguments());
             case TOP_COMMAND_NAME -> this.processTopCommand(cmd.arguments());
             case CREATE_PLAYLIST_NAME -> this.processCreatePlaylistCommand(cmd.arguments(), selectionKey);
+            case DELETE_PLAYLIST_COMMAND_NAME -> this.processDeletePlaylistCommand(cmd.arguments(), selectionKey);
             case ADD_SONG_TO_NAME -> this.processAddSongToCommand(cmd.arguments(), selectionKey);
             case SHOW_PLAYLIST_NAME -> this.processShowPlaylistCommand(cmd.arguments(), selectionKey);
             case PLAY_SONG_NAME -> this.processPlayCommand(cmd.arguments(), selectionKey);
@@ -303,6 +307,36 @@ public class CommandExecutor {
         }
 
         return ServerReply.CREATE_PLAYLIST_SUCCESSFULLY_REPLY.getReply();
+    }
+
+    private String processDeletePlaylistCommand(List<String> arguments, SelectionKey selectionKey) {
+
+        String playlistTitle = arguments.get(0);
+        try {
+
+            this.streamingPlatform.deletePlaylist(playlistTitle, selectionKey);
+        } catch (UserNotLoggedException e) {
+
+            return getCorrectReply(Level.INFO, ServerReply.DELETE_PLAYLIST_NOT_LOGGED_REPLY.getReply(), e);
+        } catch (IODatabaseException e) {
+
+            return getCorrectReply(Level.SEVERE, this.streamingPlatform.getUser().getEmail(),
+                ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
+        } catch (NoSuchPlaylistException e) {
+
+            return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
+                ServerReply.DELETE_PLAYLIST_NO_SUCH_PLAYLIST_REPLY.getReply(), e);
+        } catch (PlaylistNotEmptyException e) {
+
+            return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
+                ServerReply.DELETE_PLAYLIST_NOT_EMPTY_PLAYLIST_REPLY.getReply(), e);
+        } catch (Exception e) {
+
+            return getCorrectReply(Level.SEVERE, this.streamingPlatform.getUser().getEmail(),
+                ServerReply.SERVER_EXCEPTION.getReply(), e);
+        }
+
+        return ServerReply.DELETE_PLAYLIST_SUCCESSFULLY_REPLY.getReply();
     }
 
     private final static String TITLE_LABEL = " Title: ";

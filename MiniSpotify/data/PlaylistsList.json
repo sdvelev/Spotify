@@ -83,12 +83,14 @@
   },
   {
     "emailCreator": "sdvelev@gmail.con",
-    "title": "Playlist3",
-    "playlistSongs": []
-  },
-  {
-    "emailCreator": "sdvelev@gmail.con",
     "title": "Playlist4",
-    "playlistSongs": []
+    "playlistSongs": [
+      {
+        "title": "No Time To Die",
+        "artist": "Billie Eilish",
+        "duration": 239,
+        "genre": "pop"
+      }
+    ]
   }
 ]

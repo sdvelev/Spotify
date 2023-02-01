@@ -31,10 +31,17 @@ public enum ServerReply {
     TOP_COMMAND_INVALID_ARGUMENT_REPLY("We couldn't process the command as the provided argument is invalid. " +
         "Please, try with whole positive number."),
     CREATE_PLAYLIST_SUCCESSFULLY_REPLY("The playlist was created successfully."),
-    CREATE_PLAYLIST_NOT_LOGGED_REPLY("The playlist was not created successfully as you are not logged in. " +
+    CREATE_PLAYLIST_NOT_LOGGED_REPLY("The playlist was not created successfully as you aren't logged in. " +
         "Please, try to log in first."),
     CREATE_PLAYLIST_ALREADY_EXIST_REPLY("The playlist was not created as there's already a playlist with the same " +
         "name associated with this profile. Please, try again with different title."),
+    DELETE_PLAYLIST_SUCCESSFULLY_REPLY("The playlist was deleted successfully."),
+    DELETE_PLAYLIST_NOT_LOGGED_REPLY("The playlist was not deleted successfully as you aren't logged in. " +
+        "Please, try to log in first."),
+    DELETE_PLAYLIST_NO_SUCH_PLAYLIST_REPLY("Playlist with such a title couldn't be deleted as it was not found. " +
+        "Please, try again with different title."),
+    DELETE_PLAYLIST_NOT_EMPTY_PLAYLIST_REPLY("The playlist was not deleted successfully as it contains songs. " +
+        "Please, remove them from playlist first so as to delete it."),
     ADD_SONG_TO_NOT_LOGGED_REPLY("You cannot add song to playlists as you aren't logged in. " +
         "Please, try to log in first."),
     ADD_SONG_TO_NO_SUCH_SONG_REPLY("Song with such a title was not found in our platform. " +

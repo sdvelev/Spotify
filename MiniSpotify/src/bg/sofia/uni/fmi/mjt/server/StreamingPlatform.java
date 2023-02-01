@@ -5,6 +5,7 @@ import bg.sofia.uni.fmi.mjt.server.exceptions.NoSongPlayingException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.PlaylistAlreadyExistException;
+import bg.sofia.uni.fmi.mjt.server.exceptions.PlaylistNotEmptyException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.SongAlreadyInPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.SongIsAlreadyPlayingException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException;
@@ -201,6 +202,42 @@ public class StreamingPlatform {
         }
 
         this.writePlaylists();
+    }
+
+    public void deletePlaylist(String playlistTitle, SelectionKey selectionKey) throws UserNotLoggedException,
+        IODatabaseException, PlaylistNotEmptyException, NoSuchPlaylistException {
+
+        if (!this.alreadyLogged.contains(selectionKey)) {
+
+            throw new UserNotLoggedException(ServerReply.DELETE_PLAYLIST_NOT_LOGGED_REPLY.getReply());
+        }
+
+        String emailCreator = this.user.getEmail();
+        if (!this.playlists.get(emailCreator).contains(new Playlist(emailCreator, playlistTitle))) {
+            throw new NoSuchPlaylistException(ServerReply.DELETE_PLAYLIST_NO_SUCH_PLAYLIST_REPLY.getReply());
+        }
+
+        this.removeFromPlaylists(emailCreator, playlistTitle);
+        this.writePlaylists();
+    }
+
+    private void removeFromPlaylists(String emailCreator, String playlistTitle) throws PlaylistNotEmptyException {
+
+        Set<Playlist> allPlaylists =  this.playlists.get(emailCreator);
+        for (Playlist currentPlaylist : allPlaylists) {
+
+            if (currentPlaylist.getTitle().equals(playlistTitle)) {
+
+                if (!currentPlaylist.getPlaylistSongs().isEmpty()) {
+
+                    throw new PlaylistNotEmptyException(ServerReply
+                        .DELETE_PLAYLIST_NOT_EMPTY_PLAYLIST_REPLY.getReply());
+                }
+
+                this.playlists.get(emailCreator).remove(currentPlaylist);
+                break;
+            }
+        }
     }
 
     Song isFound(String songTitle) {

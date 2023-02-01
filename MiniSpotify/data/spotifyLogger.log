@@ -1503,3 +1503,31 @@ bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot log ou
 	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:63)
 	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:133)
 
+Feb 01, 2023 3:55:05 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.con Reply from server: Song has already been started and is now playing. You can stop it with the relevant command or wait for it to finish.
+bg.sofia.uni.fmi.mjt.server.exceptions.SongIsAlreadyPlayingException: Song has already been started and is now playing. You can stop it with the relevant command or wait for it to finish.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:337)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:187)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:126)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:64)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:134)
+
+Feb 01, 2023 3:55:50 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.con Reply from server: Playlist with such a title couldn't be deleted as it was not found. Please, try again with different title.
+bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchPlaylistException: Playlist with such a title couldn't be deleted as it was not found. Please, try again with different title.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.deletePlaylist(StreamingPlatform.java:217)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processDeletePlaylistCommand(CommandExecutor.java:317)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:123)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:64)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:134)
+
+Feb 01, 2023 3:57:00 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.con Reply from server: The playlist was not deleted successfully as it contains songs. Please, remove them from playlist first so as to delete it.
+bg.sofia.uni.fmi.mjt.server.exceptions.PlaylistNotEmptyException: The playlist was not deleted successfully as it contains songs. Please, remove them from playlist first so as to delete it.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.removeFromPlaylists(StreamingPlatform.java:234)
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.deletePlaylist(StreamingPlatform.java:220)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processDeletePlaylistCommand(CommandExecutor.java:317)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:123)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:64)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:134)
+

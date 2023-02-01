@@ -29,7 +29,6 @@ public class Playlist {
         return this.playlistSongs.contains(toCheck);
     }
 
-
     public String getEmailCreator() {
 
         return this.emailCreator;

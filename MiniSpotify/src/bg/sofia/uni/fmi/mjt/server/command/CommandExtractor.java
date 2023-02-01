@@ -119,6 +119,7 @@ public class CommandExtractor {
             return createCommandWithOneArgument(arguments, lineArray);
         } else if (lineArray[0].equalsIgnoreCase(CommandName.TOP_COMMAND.getCommandName()) ||
             lineArray[0].equalsIgnoreCase(CommandName.CREATE_PLAYLIST.getCommandName()) ||
+            lineArray[0].equalsIgnoreCase(CommandName.DELETE_PLAYLIST.getCommandName()) ||
             lineArray[0].equalsIgnoreCase(CommandName.SHOW_PLAYLIST.getCommandName())) {
 
             return createCommandWithExactlyOneArgument(arguments, lineArray);
