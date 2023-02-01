@@ -32,81 +32,30 @@ import static bg.sofia.uni.fmi.mjt.server.login.Authentication.register;
 public class CommandExecutor {
 
     private final static String REGISTER_COMMAND_NAME = "register";
-    private final static String REGISTER_COMMAND_SUCCESSFULLY_REPLY = "The registration process is successful. Now " +
-        "you can log in.";
-    private final static String REGISTER_COMMAND_ALREADY_EXIST_REPLY = "The registration process is unsuccessful " +
-        "as the email is already registered.";
-    private final static String REGISTER_COMMAND_ALGORITHM_REPLY = "The registration process is unsuccessful " +
-        "as there's a problem in the hashing algorithm. Please, try again later.";
-    private final static String REGISTER_COMMAND_INVALID_EMAIL_REPLY = "The registration process is " +
-        "unsuccessful as the provided email is not valid. Please, try to enter it again.";
-
     private final static String LOGIN_COMMAND_NAME = "login";
-    private final static String LOGIN_COMMAND_SUCCESSFULLY_REPLY = "The login process is successful. " +
-        "Now you are logged-in.";
-    private final static String LOGIN_COMMAND_USER_NOT_EXIST_REPLY = "The login process is not successful as " +
-        "there is not such a profile.";
-    private final static String LOGIN_COMMAND_ALGORITHM_REPLY = "The login process is not successful as there is a " +
-        "problem in the hashing algorithm.";
-
     private final static String SEARCH_COMMAND_NAME = "search";
-
     private final static String TOP_COMMAND_NAME = "top";
-    private final static String TOP_COMMAND_INVALID_ARGUMENT_REPLY = "The provided input is in invalid format. " +
-        "Please, enter whole non-negative number.";
-
     private final static String CREATE_PLAYLIST_COMMAND_NAME = "create-playlist";
-    private final static String CREATE_PLAYLIST_SUCCESSFULLY_REPLY = "The playlist was created successfully.";
-    private final static String CREATE_PLAYLIST_NOT_LOGGED_REPLY = "The playlist was not created successfully as " +
-        "you are not logged-in. Please, try first to login.";
-
-
     private final static String ADD_SONG_TO_COMMAND_NAME = "add-song-to";
-    private final static String ADD_SONG_TO_SUCCESSFULLY_REPLY = "You have successfully added the song to the playlist";
-    private final static String ADD_SONG_TO_NO_SUCH_SONG_REPLY = "We could not find such a song in our platform.";
-    private final static String ADD_SONG_TO_NO_SUCH_PLAYLIST_REPLY = "We could not find such a playlist " +
-        "associated with that profile";
-    private final static String ADD_SONG_TO_NOT_LOGGED_REPLY = "The song was not added to the playlist as " +
-        "you are not logged-in. Please, try first to login.";
-
     private final static String SHOW_PLAYLIST_COMMAND_NAME = "show-playlist";
-    private final static String SHOW_PLAYLIST_NOT_LOGGED_REPLY = "You are not logged-in. Please, try to log-in first.";
-    private final static String SHOW_PLAYLIST_NO_SUCH_PLAYLIST_REPLY = "We could not find such a playlist " +
-        "associated with that profile.";
-
     private final static String PLAY_SONG_COMMAND_NAME = "play";
-    private final static String PLAY_SONG_NOT_LOGGED_REPLY = "You cannot play songs unless you are logged-in.";
-    private final static String PLAY_SONG_NO_SUCH_SONG_REPLY = "There is not such a song in the platform.";
-    private final static String PLAY_SONG_SUCCESSFULLY_REPLY = "The song is playing.";
-    private final static String PLAY_SONG_IS_ALREADY_RUNNING_REPLY = "Song has already been started and is now " +
-        "playing. You can stop it with the relevant command or wait for it to finish.";
-
     private final static String STOP_COMMAND_NAME = "stop";
-    private final static String STOP_COMMAND_SUCCESSFULLY_REPLY = "The song was stopped successfully";
-    private final static String STOP_COMMAND_NOT_LOGGED_REPLY = "You cannot stop a song as you are not logged-in.";
-    private final static String STOP_COMMAND_NO_SONG_PLAYING = "There is not a song which is playing at the moment.";
-
     private final static String LOGOUT_COMMAND_NAME = "logout";
-
     private final static String DISCONNECT_COMMAND_NAME = "disconnect";
-
     private final static String DELETE_PLAYLIST_COMMAND_NAME = "delete-playlist";
-
     private final static String REMOVE_SONG_FROM_COMMAND_NAME = "remove-song-from";
     private final static String SHOW_PLAYLISTS_COMMAND_NAME = "show-playlists";
-    private final static String UNKNOWN_COMMAND_REPLY = "The inserted command is not correct or in the right " +
-        "format. Please, try to enter it again.";
-
+    private final static String PLAY_PLAYLIST_COMMAND_NAME = "play-playlist";
+    private final static String HELP_COMMAND_NAME = "help";
 
     private final static String EMAIL_MESSAGE_TO_LOG = "With email: ";
-    private final static String PASSWORD_MESSAGE_TO_LOG = "With password: ";
     private final static String REPLY_FIELD_TO_LOG = "Reply from server: ";
-
     private final static String POSITIVE_NUMBER_REGEX = "^[0-9]+$";
 
     private StreamingPlatform streamingPlatform;
 
     public CommandExecutor(StreamingPlatform streamingPlatform) {
+
         this.streamingPlatform = streamingPlatform;
     }
 
@@ -127,22 +76,34 @@ public class CommandExecutor {
             case SHOW_PLAYLIST_COMMAND_NAME -> this.processShowPlaylistCommand(cmd.arguments(), selectionKey);
             case SHOW_PLAYLISTS_COMMAND_NAME -> this.processShowPlaylistsCommand(selectionKey);
             case PLAY_SONG_COMMAND_NAME -> this.processPlayCommand(cmd.arguments(), selectionKey);
+            case PLAY_PLAYLIST_COMMAND_NAME -> this.processPlayPlaylistCommand(cmd.arguments(), selectionKey);
             case STOP_COMMAND_NAME -> this.processStopCommand(selectionKey);
-            default -> UNKNOWN_COMMAND_REPLY;
+            case HELP_COMMAND_NAME -> this.processHelpCommand();
+            default -> ServerReply.UNKNOWN_COMMAND_REPLY.getReply();
         };
 
     }
 
+    private String processHelpCommand() {
+
+        return ServerReply.HELP_COMMAND_REPLY.getReply();
+    }
+
     private String processDisconnectCommand(SelectionKey selectionKey) {
 
-        String result = processLogoutCommand(selectionKey);
+        if (this.streamingPlatform.getAlreadyLogged().contains(selectionKey)) {
 
-        if (!result.equals(ServerReply.SERVER_EXCEPTION.getReply())) {
+            String result = processLogoutCommand(selectionKey);
 
-            return ServerReply.DISCONNECT_COMMAND_SUCCESSFULLY_REPLY.getReply();
+            if (!result.equals(ServerReply.SERVER_EXCEPTION.getReply())) {
+
+                return ServerReply.DISCONNECT_COMMAND_SUCCESSFULLY_REPLY.getReply();
+            }
+
+            return ServerReply.DISCONNECT_COMMAND_ERROR_REPLY.getReply();
         }
 
-        return ServerReply.DISCONNECT_COMMAND_ERROR_REPLY.getReply();
+        return ServerReply.DISCONNECT_COMMAND_SUCCESSFULLY_REPLY.getReply();
     }
 
     private String processLogoutCommand(SelectionKey selectionKey) {
@@ -212,6 +173,29 @@ public class CommandExecutor {
         return ServerReply.PLAY_SONG_SUCCESSFULLY_REPLY.getReply();
     }
 
+    private String processPlayPlaylistCommand(List<String> arguments, SelectionKey selectionKey) {
+
+        String playlistName = arguments.get(0);
+
+        try {
+
+            this.streamingPlatform.playPlaylist(playlistName, selectionKey);
+        } catch (UserNotLoggedException e) {
+
+            return getCorrectReply(Level.INFO, ServerReply.PLAY_PLAYLIST_NOT_LOGGED_REPLY.getReply(), e);
+        } catch (SongIsAlreadyPlayingException e) {
+
+            return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
+                ServerReply.PLAY_PLAYLIST_ALREADY_PLAYING.getReply(), e);
+        } catch (Exception e) {
+
+            return getCorrectReply(Level.SEVERE, this.streamingPlatform.getUser().getEmail(),
+                ServerReply.SERVER_EXCEPTION.getReply(), e);
+        }
+
+        return ServerReply.PLAY_PLAYLIST_SUCCESSFULLY_REPLY.getReply();
+    }
+
     private String generateOutputShowPlaylistCommand(String playlistTitle, Playlist toReturn) {
 
         if (toReturn.getPlaylistSongs().isEmpty()) {
@@ -228,6 +212,7 @@ public class CommandExecutor {
             String toAppend = counter + TITLE_LABEL + currentSong.getTitle() + ARTIST_LABEL +
                 currentSong.getArtist() + System.lineSeparator();
             resultString.append(toAppend);
+            ++counter;
         }
 
         resultString.deleteCharAt(resultString.length() - 1);
@@ -268,6 +253,7 @@ public class CommandExecutor {
 
             String toAppend = counter + TITLE_LABEL + currentPlaylistTitle + System.lineSeparator();
             resultString.append(toAppend);
+            ++counter;
         }
 
         resultString.deleteCharAt(resultString.length() - 1);

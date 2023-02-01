@@ -3,6 +3,7 @@ package bg.sofia.uni.fmi.mjt.server;
 import bg.sofia.uni.fmi.mjt.server.command.CommandExecutor;
 import bg.sofia.uni.fmi.mjt.server.command.CommandExtractor;
 import bg.sofia.uni.fmi.mjt.server.exceptions.IODatabaseException;
+import bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -14,22 +15,31 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
 
 public class Server {
 
-    private static final int SERVER_PORT = 9999;
-    private static final int BUFFER_SIZE = 1024;
+    private static final int SERVER_PORT = 8888;
+    private static final int BUFFER_SIZE = 2048;
     private static final String HOST = "localhost";
+
+    private final static String ERROR_CLIENT_REQUEST = "Error occurred while processing your request. " +
+        "Please, try again later or contact administrator";
+
+    private final static String UNABLE_TO_START_SERVER = "A problem arise in starting the server";
     private final CommandExecutor commandExecutor;
     private final int port;
     private boolean isServerWorking;
 
     private ByteBuffer buffer;
     private Selector selector;
+    private AtomicInteger numberOfConnection;
 
     public Server(int port, CommandExecutor commandExecutor) {
         this.port = port;
         this.commandExecutor = commandExecutor;
+        this.numberOfConnection = new AtomicInteger(0);
     }
 
     public void start() {
@@ -37,7 +47,7 @@ public class Server {
 
             selector = Selector.open();
             configureServerSocketChannel(serverSocketChannel, selector);
-            this.buffer = ByteBuffer.allocate(BUFFER_SIZE);
+            this.buffer = ByteBuffer.allocateDirect(BUFFER_SIZE);
             isServerWorking = true;
 
             while (isServerWorking) {
@@ -72,15 +82,20 @@ public class Server {
                         keyIterator.remove();
                     }
                 } catch (IOException e) {
-                    System.out.println("Error occurred while processing client request: " + e.getMessage());
+
+                    SpotifyLogger.log(Level.SEVERE, ERROR_CLIENT_REQUEST, e);
+                    System.out.println(ERROR_CLIENT_REQUEST);
                 }
             }
         } catch (IOException e) {
-            throw new UncheckedIOException("failed to start server", e);
+
+            SpotifyLogger.log(Level.SEVERE, UNABLE_TO_START_SERVER, e);
+            System.out.println(ERROR_CLIENT_REQUEST);
         }
     }
 
     public void stop() {
+
         this.isServerWorking = false;
         if (selector.isOpen()) {
             selector.wakeup();
@@ -93,12 +108,15 @@ public class Server {
         channel.register(selector, SelectionKey.OP_ACCEPT);
     }
 
+    private final static String CLIENT_LABEL = "Client ";
+    private final static String CLOSE_CONNECTION_LABEL = " has closed the connection.";
+
     private String getClientInput(SocketChannel clientChannel) throws IOException {
         buffer.clear();
 
         int readBytes = clientChannel.read(buffer);
         if (readBytes < 0) {
-            System.out.println("Client has closed the connection");
+            System.out.println(CLIENT_LABEL + this.numberOfConnection.incrementAndGet() + CLOSE_CONNECTION_LABEL);
             clientChannel.close();
             return null;
         }

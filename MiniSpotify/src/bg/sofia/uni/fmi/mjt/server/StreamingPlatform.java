@@ -373,7 +373,7 @@ public class StreamingPlatform {
         String emailCreator = this.user.getEmail();
 
         return this.playlists.get(emailCreator).stream()
-            .map(playlist -> playlist.getTitle())
+            .map(Playlist::getTitle)
             .toList();
 
     }
@@ -393,16 +393,8 @@ public class StreamingPlatform {
             throw new SongIsAlreadyPlayingException(ServerReply.PLAY_SONG_IS_ALREADY_RUNNING_REPLY.getReply());
         }
 
-        for (Playlist currentPlaylist : this.playlists.get(this.user.getEmail())) {
-
-            if (currentPlaylist.getTitle().equals(playListTitle)) {
-
-                Set<Song> songsToPlay = currentPlaylist.getPlaylistSongs();
-                PlayPlaylist playPlaylistThread = new PlayPlaylist(songsToPlay, selectionKey, this);
-                playPlaylistThread.start();
-            }
-            break;
-        }
+        PlayPlaylist playPlaylistThread = new PlayPlaylist(playListTitle, selectionKey, this);
+        playPlaylistThread.start();
     }
 
     public void playSong(String songTitle, SelectionKey selectionKey) throws UserNotLoggedException,

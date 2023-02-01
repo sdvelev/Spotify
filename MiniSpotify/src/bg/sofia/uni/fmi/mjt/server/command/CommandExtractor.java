@@ -121,18 +121,19 @@ public class CommandExtractor {
         } else if (lineArray[0].equalsIgnoreCase(CommandName.TOP_COMMAND.getCommandName()) ||
             lineArray[0].equalsIgnoreCase(CommandName.CREATE_PLAYLIST.getCommandName()) ||
             lineArray[0].equalsIgnoreCase(CommandName.DELETE_PLAYLIST.getCommandName()) ||
-            lineArray[0].equalsIgnoreCase(CommandName.SHOW_PLAYLIST.getCommandName())) {
+            lineArray[0].equalsIgnoreCase(CommandName.SHOW_PLAYLIST.getCommandName()) ||
+            lineArray[0].equalsIgnoreCase(CommandName.PLAY_PLAYLIST.getCommandName())) {
 
             return createCommandWithExactlyOneArgument(arguments, lineArray);
         } else if (lineArray[0].equalsIgnoreCase(CommandName.DISCONNECT_COMMAND.getCommandName()) ||
             lineArray[0].equalsIgnoreCase(CommandName.LOGOUT_COMMAND.getCommandName()) ||
             lineArray[0].equalsIgnoreCase(CommandName.STOP_COMMAND.getCommandName()) ||
-            lineArray[0].equalsIgnoreCase(CommandName.SHOW_PLAYLISTS.getCommandName())) {
+            lineArray[0].equalsIgnoreCase(CommandName.SHOW_PLAYLISTS.getCommandName()) ||
+            lineArray[0].equalsIgnoreCase(CommandName.HELP_COMMAND.getCommandName())) {
 
             return createCommandWitNoArguments(arguments, lineArray);
         }
 
         return new Command(UNKNOWN_COMMAND_STRING, new ArrayList<>());
     }
-
 }

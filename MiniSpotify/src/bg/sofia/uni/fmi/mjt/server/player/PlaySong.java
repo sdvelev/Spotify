@@ -51,8 +51,8 @@ public class PlaySong extends Thread {
             AudioFormat format = stream.getFormat();
             if (format.getEncoding() != AudioFormat.Encoding.PCM_SIGNED) {
                 format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, format
-                    .getSampleRate(), format.getSampleSizeInBits() * 2, format
-                    .getChannels(), format.getFrameSize() * 2, format.getFrameRate(),
+                    .getSampleRate(), format.getSampleSizeInBits() /** 2*/, format
+                    .getChannels(), format.getFrameSize() /** 2*/, format.getFrameRate(),
                     true); // big endian
                 stream = AudioSystem.getAudioInputStream(format, stream);
             }

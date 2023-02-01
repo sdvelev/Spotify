@@ -15,8 +15,9 @@ public enum CommandName {
     SHOW_PLAYLIST("show-playlist"),
     SHOW_PLAYLISTS("show-playlists"),
     PLAY_SONG("play"),
-    STOP_COMMAND("stop");
-
+    PLAY_PLAYLIST("play-playlist"),
+    STOP_COMMAND("stop"),
+    HELP_COMMAND("help");
 
     private final String commandName;
 

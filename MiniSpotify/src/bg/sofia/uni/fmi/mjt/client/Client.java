@@ -1,37 +1,43 @@
 package bg.sofia.uni.fmi.mjt.client;
 
 import bg.sofia.uni.fmi.mjt.server.ServerReply;
+import bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
+import java.util.logging.Level;
 
 public class Client {
-    private static final int SERVER_PORT = 9999;
-    private static final String SERVER_HOST = "localhost";
-    private static final int BUFFER_SIZE = 512;
+    private final static int SERVER_PORT = 8888;
+    private final static String SERVER_HOST = "localhost";
+    private final static int BUFFER_SIZE = 2048;
     private static ByteBuffer buffer = ByteBuffer.allocateDirect(BUFFER_SIZE);
 
-    private final static String DISCONNECT_COMMAND_NAME = "disconnect";
-    private final static String DISCONNECT_COMMAND_REPLY = "You have successfully disconnected.";
-
+    private final static String TO_SERVER_CONNECTED = "Connected to the server";
+    private final static String CLIENT_PROMPT = "Enter command: ";
+    private final static String NETWORK_COMMUNICATION_PROBLEM_MESSAGE =
+        "Unable to connect to the server. Try again later or contact administrator";
 
     public static void main(String[] args) {
 
-        try (SocketChannel socketChannel = SocketChannel.open();
-             Scanner scanner = new Scanner(System.in)) {
+        try (SocketChannel socketChannel = SocketChannel.open(); Scanner scanner = new Scanner(System.in)) {
 
             socketChannel.connect(new InetSocketAddress(SERVER_HOST, SERVER_PORT));
 
-            System.out.println("Connected to the server.");
+            System.out.println(TO_SERVER_CONNECTED);
 
-            boolean toDisconnect = false;
             while (true) {
 
-                System.out.print("Enter message: ");
+                System.out.print(CLIENT_PROMPT);
                 String message = scanner.nextLine();
+
+                if (message.isEmpty() || message.isBlank()) {
+                    continue;
+                }
 
                 buffer.clear();
                 buffer.put(message.getBytes());
@@ -44,7 +50,7 @@ public class Client {
 
                 byte[] byteArray = new byte[buffer.remaining()];
                 buffer.get(byteArray);
-                String reply = new String(byteArray, "UTF-8");
+                String reply = new String(byteArray, StandardCharsets.UTF_8);
 
                 System.out.println(reply);
 
@@ -55,7 +61,8 @@ public class Client {
 
         } catch (IOException e) {
 
-            throw new RuntimeException("There is a problem with the network communication", e);
+            SpotifyLogger.log(Level.SEVERE, NETWORK_COMMUNICATION_PROBLEM_MESSAGE, e);
+            System.out.println(NETWORK_COMMUNICATION_PROBLEM_MESSAGE);
         }
     }
 }

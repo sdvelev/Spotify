@@ -75,6 +75,34 @@ public enum ServerReply {
     STOP_COMMAND_NOT_LOGGED_REPLY("You cannot stop a song as you are not logged in."),
     STOP_COMMAND_NO_SONG_PLAYING("There isn't a song which is playing at the moment."),
     STOP_COMMAND_ERROR_REPLY("Something went wrong with streaming the song."),
+    PLAY_PLAYLIST_NOT_LOGGED_REPLY("You cannot play playlist unless you log in first."),
+    PLAY_PLAYLIST_SUCCESSFULLY_REPLY("The playlist is starting."),
+    PLAY_PLAYLIST_ALREADY_PLAYING("Song is already playing at the moment. Please, stop it and try again."),
+    HELP_COMMAND_REPLY("Commands (in lexicographic order):" + System.lineSeparator() +
+        "add-song-to <name_of_the_playlist> <title_of_the_song> : Add <song> to <playlist>" + System.lineSeparator() +
+        "create-playlist <name_of_the_playlist> : Create <playlist>. The title of the playlist must be one-word " +
+        "and is case-sensitive" + System.lineSeparator() +
+        "delete-playlist <name_of_the_playlist> : Delete <playlist>. The titles of the playlists are case-sensitive" +
+        System.lineSeparator() +
+        "disconnect : Disconnect from Spotify" + System.lineSeparator() +
+        "help : List the current info" + System.lineSeparator() +
+        "login <email> <password> : Log in Spotify" + System.lineSeparator() +
+        "logout : Log out of Spotify" + System.lineSeparator() +
+        "play <title_of_the_song> : Start playing the <song>" + System.lineSeparator() +
+        "play-playlist <name_of_the_playlist> : Start playing all the songs of the <playlist> one after another. " +
+        "The title of the playlists are case-sensitive. If you want to stop or skip a song, you can stop it with " +
+        "the relevant command" + System.lineSeparator() +
+        "register <email> <password> : Registration in Spotify" + System.lineSeparator() +
+        "remove-song-from <name_of_the_playlist> <title_of_the_song> : Remove <song> from <playlist>. The titles of " +
+        "the playlist are case-sensitive." + System.lineSeparator() +
+        "search <words> : Retrieve all songs whose title or artist contain all the words" + System.lineSeparator() +
+        "show-playlist <name_of_the_playlist> : List the content of the <playlist>. The titles of the  playlists are " +
+        "case-sensitive." + System.lineSeparator() +
+        "show-playlists : List the titles of all created playlists" + System.lineSeparator() +
+        "stop : Stop playing the current song" + System.lineSeparator() +
+        "top <number> : Retrieve list of the top <number> most listened songs"),
+    UNKNOWN_COMMAND_REPLY("The inserted command is not correct or in the right " +
+        "format. Please, try to enter it again or refer to the <help> command for more info."),
     LOGIN_COMMAND("login"),
     DISCONNECT_COMMAND("disconnect"),
     SEARCH_COMMAND("search"),
