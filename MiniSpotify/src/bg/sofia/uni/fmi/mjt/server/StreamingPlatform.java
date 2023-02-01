@@ -10,6 +10,7 @@ import bg.sofia.uni.fmi.mjt.server.exceptions.SongAlreadyInPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.SongIsAlreadyPlayingException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException;
 import bg.sofia.uni.fmi.mjt.server.login.User;
+import bg.sofia.uni.fmi.mjt.server.player.PlayPlaylist;
 import bg.sofia.uni.fmi.mjt.server.player.PlaySong;
 import bg.sofia.uni.fmi.mjt.server.storage.Playlist;
 import bg.sofia.uni.fmi.mjt.server.storage.Song;
@@ -379,6 +380,31 @@ public class StreamingPlatform {
 
     private final static String UNDERSCORE = "_";
 
+    public void playPlaylist(String playListTitle, SelectionKey selectionKey) throws UserNotLoggedException,
+        SongIsAlreadyPlayingException {
+
+        if (!this.alreadyLogged.contains(selectionKey)) {
+
+            throw new UserNotLoggedException(ServerReply.PLAY_SONG_NOT_LOGGED_REPLY.getReply());
+        }
+
+        if (this.alreadyRunning.containsKey(selectionKey)) {
+
+            throw new SongIsAlreadyPlayingException(ServerReply.PLAY_SONG_IS_ALREADY_RUNNING_REPLY.getReply());
+        }
+
+        for (Playlist currentPlaylist : this.playlists.get(this.user.getEmail())) {
+
+            if (currentPlaylist.getTitle().equals(playListTitle)) {
+
+                Set<Song> songsToPlay = currentPlaylist.getPlaylistSongs();
+                PlayPlaylist playPlaylistThread = new PlayPlaylist(songsToPlay, selectionKey, this);
+                playPlaylistThread.start();
+            }
+            break;
+        }
+    }
+
     public void playSong(String songTitle, SelectionKey selectionKey) throws UserNotLoggedException,
         NoSuchSongException, SongIsAlreadyPlayingException, IODatabaseException {
 
@@ -466,6 +492,10 @@ public class StreamingPlatform {
 
     public Set<SelectionKey> getAlreadyLogged() {
         return alreadyLogged;
+    }
+
+    public Map<String, Set<Playlist>> getPlaylists() {
+        return playlists;
     }
 
     public void setIsLogged(boolean isLogged) {
