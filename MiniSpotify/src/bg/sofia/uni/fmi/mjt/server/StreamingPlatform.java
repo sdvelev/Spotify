@@ -217,11 +217,12 @@ public class StreamingPlatform {
             throw new NoSuchPlaylistException(ServerReply.DELETE_PLAYLIST_NO_SUCH_PLAYLIST_REPLY.getReply());
         }
 
-        this.removeFromPlaylists(emailCreator, playlistTitle);
+        this.removePlaylistFromPlaylists(emailCreator, playlistTitle);
         this.writePlaylists();
     }
 
-    private void removeFromPlaylists(String emailCreator, String playlistTitle) throws PlaylistNotEmptyException {
+    private void removePlaylistFromPlaylists(String emailCreator, String playlistTitle)
+        throws PlaylistNotEmptyException {
 
         Set<Playlist> allPlaylists =  this.playlists.get(emailCreator);
         for (Playlist currentPlaylist : allPlaylists) {
@@ -277,6 +278,45 @@ public class StreamingPlatform {
         }
 
         addSongInPlaylist(emailCreator, playlistTitle, songToAdd);
+    }
+
+    public void removeSongFromPlaylist(String playlistTitle, String songTitle, SelectionKey selectionKey)
+        throws UserNotLoggedException, NoSuchSongException, NoSuchPlaylistException, IODatabaseException {
+
+        if (!this.alreadyLogged.contains(selectionKey)) {
+            throw new UserNotLoggedException(ServerReply.REMOVE_SONG_FROM_NOT_LOGGED_REPLY.getReply());
+        }
+
+        String emailCreator = this.user.getEmail();
+        if (!this.playlists.get(emailCreator).contains(new Playlist(emailCreator, playlistTitle))) {
+            throw new NoSuchPlaylistException(ServerReply.REMOVE_SONG_FROM_NO_SUCH_PLAYLIST_REPLY.getReply());
+        }
+
+        removeSongFromPlaylists(emailCreator, playlistTitle, songTitle);
+    }
+
+    private void removeSongFromPlaylists(String emailCreator, String playlistTitle, String songTitle)
+        throws IODatabaseException, NoSuchSongException {
+
+        Song songToRemove = isFound(songTitle);
+        if (songToRemove == null) {
+            throw new NoSuchSongException(ServerReply.REMOVE_SONG_FROM_NO_SUCH_SONG_REPLY.getReply());
+        }
+        for (Playlist currentPlaylist : this.playlists.get(emailCreator)) {
+
+            if (currentPlaylist.equals(new Playlist(emailCreator, playlistTitle))) {
+
+                if (!currentPlaylist.containsSong(songToRemove)) {
+
+                    throw new NoSuchSongException(ServerReply.REMOVE_SONG_FROM_NO_SUCH_SONG_REPLY.getReply());
+                }
+
+                currentPlaylist.removeSong(songToRemove);
+                break;
+            }
+        }
+
+        this.writePlaylists();
     }
 
     private void addSongInPlaylist(String emailCreator, String playlistTitle, Song songToAdd)

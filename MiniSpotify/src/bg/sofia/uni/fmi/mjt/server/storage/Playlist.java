@@ -24,6 +24,11 @@ public class Playlist {
         this.playlistSongs.add(toAdd);
     }
 
+    public void removeSong(Song toRemove) {
+
+        this.playlistSongs.remove(toRemove);
+    }
+
     public boolean containsSong(Song toCheck) {
 
         return this.playlistSongs.contains(toCheck);

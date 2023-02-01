@@ -110,7 +110,8 @@ public class CommandExtractor {
             lineArray[0].equalsIgnoreCase(CommandName.LOGIN_COMMAND.getCommandName())) {
 
             return createCommandRegistrationLogin(arguments, lineArray);
-        } else if (lineArray[0].equalsIgnoreCase(CommandName.ADD_SONG_TO.getCommandName())) {
+        } else if (lineArray[0].equalsIgnoreCase(CommandName.ADD_SONG_TO.getCommandName()) ||
+                   lineArray[0].equalsIgnoreCase(CommandName.REMOVE_SONG_FROM.getCommandName())) {
 
             return createCommandWithTwoArguments(arguments, lineArray);
         } else if (lineArray[0].equalsIgnoreCase(CommandName.SEARCH_COMMAND.getCommandName()) ||

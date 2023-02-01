@@ -11,6 +11,7 @@ public enum CommandName {
     CREATE_PLAYLIST("create-playlist"),
     DELETE_PLAYLIST("delete-playlist"),
     ADD_SONG_TO("add-song-to"),
+    REMOVE_SONG_FROM("remove-song-from"),
     SHOW_PLAYLIST("show-playlist"),
     PLAY_SONG("play"),
     STOP_COMMAND("stop");

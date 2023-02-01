@@ -93,6 +93,7 @@ public class CommandExecutor {
 
     private final static String DELETE_PLAYLIST_COMMAND_NAME = "delete-playlist";
 
+    private final static String REMOVE_SONG_FROM_COMMAND_NAME = "remove-song-from";
     private final static String UNKNOWN_COMMAND_REPLY = "The inserted command is not correct or in the right " +
         "format. Please, try to enter it again.";
 
@@ -122,6 +123,7 @@ public class CommandExecutor {
             case CREATE_PLAYLIST_NAME -> this.processCreatePlaylistCommand(cmd.arguments(), selectionKey);
             case DELETE_PLAYLIST_COMMAND_NAME -> this.processDeletePlaylistCommand(cmd.arguments(), selectionKey);
             case ADD_SONG_TO_NAME -> this.processAddSongToCommand(cmd.arguments(), selectionKey);
+            case REMOVE_SONG_FROM_COMMAND_NAME -> this.processRemoveSongFromCommand(cmd.arguments(), selectionKey);
             case SHOW_PLAYLIST_NAME -> this.processShowPlaylistCommand(cmd.arguments(), selectionKey);
             case PLAY_SONG_NAME -> this.processPlayCommand(cmd.arguments(), selectionKey);
             case STOP_COMMAND_NAME -> this.processStopCommand(selectionKey);
@@ -281,6 +283,38 @@ public class CommandExecutor {
         }
 
         return ServerReply.ADD_SONG_TO_SUCCESSFULLY_REPLY.getReply();
+    }
+
+    private String processRemoveSongFromCommand(List<String> arguments, SelectionKey selectionKey) {
+
+        String playlistTitle = arguments.get(0);
+        String songTitle = arguments.get(1);
+
+        try {
+
+            this.streamingPlatform.removeSongFromPlaylist(playlistTitle, songTitle, selectionKey);
+        } catch (UserNotLoggedException e) {
+
+            return getCorrectReply(Level.INFO, ServerReply.REMOVE_SONG_FROM_NOT_LOGGED_REPLY.getReply(), e);
+        } catch (NoSuchSongException e) {
+
+            return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
+                ServerReply.REMOVE_SONG_FROM_NO_SUCH_SONG_REPLY.getReply(), e);
+        } catch (NoSuchPlaylistException e) {
+
+            return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
+                ServerReply.REMOVE_SONG_FROM_NO_SUCH_PLAYLIST_REPLY.getReply(), e);
+        } catch (IODatabaseException e) {
+
+            return getCorrectReply(Level.SEVERE, this.streamingPlatform.getUser().getEmail(),
+                ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
+        } catch (Exception e) {
+
+            return getCorrectReply(Level.SEVERE, this.streamingPlatform.getUser().getEmail(),
+                ServerReply.SERVER_EXCEPTION.getReply(), e);
+        }
+
+        return ServerReply.REMOVE_SONG_FROM_SUCCESSFULLY_REPLY.getReply();
     }
 
     private String processCreatePlaylistCommand(List<String> arguments, SelectionKey selectionKey) {

@@ -50,6 +50,12 @@ public enum ServerReply {
         "Please, try again with different title."),
     ADD_SONG_TO_SONG_ALREADY_EXIST_REPLY("The song is already present in that playlist."),
     ADD_SONG_TO_SUCCESSFULLY_REPLY("The song was added successfully to the desired playlist."),
+    REMOVE_SONG_FROM_SUCCESSFULLY_REPLY("The song was removed from the playlist successfully"),
+    REMOVE_SONG_FROM_NOT_LOGGED_REPLY("You cannot remove song from playlist as you aren't logged in."),
+    REMOVE_SONG_FROM_NO_SUCH_PLAYLIST_REPLY("Playlist with such a name was not found in your profile. " +
+        "Please, try again with different title."),
+    REMOVE_SONG_FROM_NO_SUCH_SONG_REPLY("Song with such a title was not found in the provided playlist. " +
+        "Please, try again with different title."),
     SHOW_PLAYLIST_SUCCESSFULLY_REPLY("Content of playlist "),
     SHOW_PLAYLIST_NOT_LOGGED_REPLY("You cannot view playlist as you aren't logged in. " +
         "Please, try to log in first."),
