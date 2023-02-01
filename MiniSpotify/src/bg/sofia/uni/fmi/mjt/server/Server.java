@@ -28,6 +28,9 @@ public class Server {
         "Please, try again later or contact administrator";
 
     private final static String UNABLE_TO_START_SERVER = "A problem arise in starting the server";
+
+    private final static String CLIENT_LABEL = "Client ";
+    private final static String CLOSE_CONNECTION_LABEL = " has closed the connection.";
     private final CommandExecutor commandExecutor;
     private final int port;
     private boolean isServerWorking;
@@ -107,9 +110,6 @@ public class Server {
         channel.configureBlocking(false);
         channel.register(selector, SelectionKey.OP_ACCEPT);
     }
-
-    private final static String CLIENT_LABEL = "Client ";
-    private final static String CLOSE_CONNECTION_LABEL = " has closed the connection.";
 
     private String getClientInput(SocketChannel clientChannel) throws IOException {
         buffer.clear();

@@ -9,13 +9,12 @@ public class SHAAlgorithm {
 
     private final static int RADIX = 16;
     private final static int MAX_LENGTH = 32;
+    private final static String ALGORITHM_NAME = "SHA-256";
 
     private static byte[] getSHA(String toEncrypt) throws NoSuchAlgorithmException {
 
-        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-
+        MessageDigest messageDigest = MessageDigest.getInstance(ALGORITHM_NAME);
         return messageDigest.digest(toEncrypt.getBytes(StandardCharsets.UTF_8));
-
     }
 
     private static String toHexadecimal(byte[] hash) {

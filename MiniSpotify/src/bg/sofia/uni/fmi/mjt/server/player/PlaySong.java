@@ -88,6 +88,7 @@ public class PlaySong extends Thread {
     }
 
     public void terminateSong() {
+
         this.isRunning = false;
     }
 

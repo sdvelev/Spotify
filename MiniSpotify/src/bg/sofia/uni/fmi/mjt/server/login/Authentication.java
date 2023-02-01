@@ -19,9 +19,7 @@ import static bg.sofia.uni.fmi.mjt.server.login.SHAAlgorithm.getHash;
 public class Authentication {
 
     private final static String VALID_EMAIL_REGEX = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
-
     private final static String REGISTERED_USERS_LIST_PATH = "data" + File.separator + "RegisteredUsersList.txt";
-
     private final static String INTERVAL_REGEX = " ";
 
 
@@ -36,10 +34,11 @@ public class Authentication {
                 .filter(currentEntry -> currentEntry.equals(entryToSearch))
                 .toList().size() == 1) {
 
-                return new User(email, password, true);
+                return new User(email, password);
             }
 
         } catch (IOException e) {
+
             throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
         }
 
@@ -81,6 +80,7 @@ public class Authentication {
             bufferedWriter.write(toWriteEntry);
             bufferedWriter.flush();
         } catch (IOException e) {
+
             throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
         }
     }

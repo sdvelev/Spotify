@@ -103,15 +103,7 @@ public enum ServerReply {
         "top <number> : Retrieve list of the top <number> most listened songs"),
     UNKNOWN_COMMAND_REPLY("The inserted command is not correct or in the right " +
         "format. Please, try to enter it again or refer to the <help> command for more info."),
-    LOGIN_COMMAND("login"),
-    DISCONNECT_COMMAND("disconnect"),
-    SEARCH_COMMAND("search"),
-    TOP_COMMAND("top"),
-    CREATE_PLAYLIST("create-playlist"),
-    ADD_SONG_TO("add-song-to"),
-    SHOW_PLAYLIST("show-playlist"),
-    PLAY_SONG("play"),
-    STOP_COMMAND("stop");
+    LOGIN_COMMAND("login");
 
     private final String reply;
 

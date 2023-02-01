@@ -31,8 +31,6 @@ public class PlayPlaylist extends Thread {
         this.streamingPlatform = streamingPlatform;
     }
 
-
-
     @Override
     public void run()  {
 

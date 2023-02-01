@@ -50,6 +50,10 @@ public class CommandExecutor {
 
     private final static String EMAIL_MESSAGE_TO_LOG = "With email: ";
     private final static String REPLY_FIELD_TO_LOG = "Reply from server: ";
+    private final static String TITLE_LABEL = " Title: ";
+    private final static String ARTIST_LABEL = " Artist: ";
+    private final static String ZERO_CHARACTER = "0";
+    private final static String TIMES_SIGN = "# ";
     private final static String POSITIVE_NUMBER_REGEX = "^[0-9]+$";
 
     private StreamingPlatform streamingPlatform;
@@ -94,7 +98,6 @@ public class CommandExecutor {
         if (this.streamingPlatform.getAlreadyLogged().contains(selectionKey)) {
 
             String result = processLogoutCommand(selectionKey);
-
             if (!result.equals(ServerReply.SERVER_EXCEPTION.getReply())) {
 
                 return ServerReply.DISCONNECT_COMMAND_SUCCESSFULLY_REPLY.getReply();
@@ -400,8 +403,6 @@ public class CommandExecutor {
         return ServerReply.DELETE_PLAYLIST_SUCCESSFULLY_REPLY.getReply();
     }
 
-    private final static String TITLE_LABEL = " Title: ";
-    private final static String ARTIST_LABEL = " Artist: ";
     private String processSearchCommand(List<String> arguments) {
 
         String wordToSearch = arguments.get(0);
@@ -409,6 +410,7 @@ public class CommandExecutor {
         List<SongEntity> searchedSongs = this.streamingPlatform.searchSongs(wordToSearch);
 
         if (searchedSongs.isEmpty()) {
+
             return ServerReply.SEARCH_COMMAND_NO_SONGS_REPLY.getReply();
         }
 
@@ -515,11 +517,9 @@ public class CommandExecutor {
         return ServerReply.LOGIN_COMMAND_SUCCESSFULLY_REPLY.getReply();
     }
 
-    private final static String TIMES_SIGN = "# ";
-
     private String processTopCommand(List<String> arguments) {
 
-        if (arguments.get(0).equals("0") || !arguments.get(0).matches(POSITIVE_NUMBER_REGEX)) {
+        if (arguments.get(0).equals(ZERO_CHARACTER) || !arguments.get(0).matches(POSITIVE_NUMBER_REGEX)) {
 
             return getCorrectReply(Level.INFO, ServerReply.TOP_COMMAND_INVALID_ARGUMENT_REPLY.getReply());
         }
