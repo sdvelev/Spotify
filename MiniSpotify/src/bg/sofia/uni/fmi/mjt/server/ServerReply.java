@@ -51,7 +51,8 @@ public enum ServerReply {
     ADD_SONG_TO_SONG_ALREADY_EXIST_REPLY("The song is already present in that playlist."),
     ADD_SONG_TO_SUCCESSFULLY_REPLY("The song was added successfully to the desired playlist."),
     REMOVE_SONG_FROM_SUCCESSFULLY_REPLY("The song was removed from the playlist successfully"),
-    REMOVE_SONG_FROM_NOT_LOGGED_REPLY("You cannot remove song from playlist as you aren't logged in."),
+    REMOVE_SONG_FROM_NOT_LOGGED_REPLY("You cannot remove song from playlist as you aren't logged in. " +
+        "Please, try to log in first."),
     REMOVE_SONG_FROM_NO_SUCH_PLAYLIST_REPLY("Playlist with such a name was not found in your profile. " +
         "Please, try again with different title."),
     REMOVE_SONG_FROM_NO_SUCH_SONG_REPLY("Song with such a title was not found in the provided playlist. " +
@@ -60,6 +61,11 @@ public enum ServerReply {
     SHOW_PLAYLIST_NOT_LOGGED_REPLY("You cannot view playlist as you aren't logged in. " +
         "Please, try to log in first."),
     SHOW_PLAYLIST_NO_SUCH_PLAYLIST_REPLY("There isn't such a playlist associated with this account."),
+    SHOW_PLAYLIST_NO_SONGS_REPLY("The playlist is empty."),
+    SHOW_PLAYLISTS_SUCCESSFULLY_REPLY("The playlists associated with this profile are:"),
+    SHOW_PLAYLISTS_NOT_LOGGED_REPLY("You cannot view playlists as you aren't logged in. " +
+        "Please, try to log in first."),
+    SHOW_PLAYLISTS_NO_PLAYLISTS_REPLY("We couldn't find any playlists associated with your profile."),
     PLAY_SONG_NOT_LOGGED_REPLY("You cannot play songs unless you are logged in."),
     PLAY_SONG_NO_SUCH_SONG_REPLY("There isn't such a song in the platform."),
     PLAY_SONG_SUCCESSFULLY_REPLY("The song is starting."),

@@ -126,7 +126,8 @@ public class CommandExtractor {
             return createCommandWithExactlyOneArgument(arguments, lineArray);
         } else if (lineArray[0].equalsIgnoreCase(CommandName.DISCONNECT_COMMAND.getCommandName()) ||
             lineArray[0].equalsIgnoreCase(CommandName.LOGOUT_COMMAND.getCommandName()) ||
-            lineArray[0].equalsIgnoreCase(CommandName.STOP_COMMAND.getCommandName())) {
+            lineArray[0].equalsIgnoreCase(CommandName.STOP_COMMAND.getCommandName()) ||
+            lineArray[0].equalsIgnoreCase(CommandName.SHOW_PLAYLISTS.getCommandName())) {
 
             return createCommandWitNoArguments(arguments, lineArray);
         }

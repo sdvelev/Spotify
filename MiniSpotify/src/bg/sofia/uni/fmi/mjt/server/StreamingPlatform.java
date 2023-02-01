@@ -362,6 +362,21 @@ public class StreamingPlatform {
         return new Playlist();
     }
 
+    public List<String> showPlaylists(SelectionKey selectionKey)
+        throws UserNotLoggedException {
+
+        if (!this.alreadyLogged.contains(selectionKey)) {
+            throw new UserNotLoggedException(ServerReply.SHOW_PLAYLIST_NOT_LOGGED_REPLY.getReply());
+        }
+
+        String emailCreator = this.user.getEmail();
+
+        return this.playlists.get(emailCreator).stream()
+            .map(playlist -> playlist.getTitle())
+            .toList();
+
+    }
+
     private final static String UNDERSCORE = "_";
 
     public void playSong(String songTitle, SelectionKey selectionKey) throws UserNotLoggedException,

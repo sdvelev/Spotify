@@ -13,6 +13,7 @@ public enum CommandName {
     ADD_SONG_TO("add-song-to"),
     REMOVE_SONG_FROM("remove-song-from"),
     SHOW_PLAYLIST("show-playlist"),
+    SHOW_PLAYLISTS("show-playlists"),
     PLAY_SONG("play"),
     STOP_COMMAND("stop");
 
