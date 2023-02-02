@@ -52,6 +52,8 @@ public class CommandExecutor {
     private final static String REPLY_FIELD_TO_LOG = "Reply from server: ";
     private final static String TITLE_LABEL = " Title: ";
     private final static String ARTIST_LABEL = " Artist: ";
+    private final static String DURATION_LABEL = " Duration (in seconds): ";
+    private final static String GENRE_LABEL = " Genre: ";
     private final static String ZERO_CHARACTER = "0";
     private final static String TIMES_SIGN = "# ";
     private final static String POSITIVE_NUMBER_REGEX = "^[0-9]+$";
@@ -419,10 +421,13 @@ public class CommandExecutor {
         for (SongEntity currentSongEntity : searchedSongs) {
 
             String currentResult = TITLE_LABEL + currentSongEntity.getSong().getTitle() +
-                ARTIST_LABEL + currentSongEntity.getSong().getArtist() + System.lineSeparator();
+                ARTIST_LABEL + currentSongEntity.getSong().getArtist() +
+                GENRE_LABEL + currentSongEntity.getSong().getGenre() + DURATION_LABEL +
+                currentSongEntity.getSong().getDuration() + System.lineSeparator();
             toReturn.append(currentResult);
         }
 
+        toReturn.deleteCharAt(toReturn.length() - 1);
         return toReturn.toString();
     }
 
@@ -532,8 +537,9 @@ public class CommandExecutor {
         for (SongEntity currentSongEntity : result) {
 
             String toAppend = TIMES_SIGN + currentSongEntity.getListeningTimes() + TITLE_LABEL +
-                currentSongEntity.getSong().getTitle() + ARTIST_LABEL + currentSongEntity.getSong().getArtist()
-                + System.lineSeparator();
+                currentSongEntity.getSong().getTitle() + ARTIST_LABEL + currentSongEntity.getSong().getArtist() +
+                GENRE_LABEL + currentSongEntity.getSong().getGenre() + DURATION_LABEL +
+                currentSongEntity.getSong().getDuration() + System.lineSeparator();
             toReturn.append(toAppend);
         }
         toReturn.deleteCharAt(toReturn.length() - 1);

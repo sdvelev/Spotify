@@ -13,6 +13,7 @@ import bg.sofia.uni.fmi.mjt.server.storage.Song;
 
 import java.nio.channels.SelectionKey;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -34,7 +35,7 @@ public class PlayPlaylist extends Thread {
     @Override
     public void run()  {
 
-        Set<Song> songsToPlay = new HashSet<>();
+        Set<Song> songsToPlay = new LinkedHashSet<>();
         for (Playlist currentPlaylist : streamingPlatform.getPlaylists().get(
             streamingPlatform.getUser().getEmail())) {
 

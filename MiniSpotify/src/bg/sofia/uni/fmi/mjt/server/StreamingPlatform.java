@@ -16,6 +16,7 @@ import bg.sofia.uni.fmi.mjt.server.storage.Playlist;
 import bg.sofia.uni.fmi.mjt.server.storage.Song;
 import bg.sofia.uni.fmi.mjt.server.storage.SongEntity;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
@@ -30,6 +31,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -43,7 +46,7 @@ public class StreamingPlatform {
     private final static String PLAYLISTS_LIST_PATH = "data" + File.separator + "PlaylistsList.json";
     private final static String SONGS_LIST_PATH = "data" + File.separator + "SongsList.json";
 
-    private static final Gson GSON = new Gson();
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     private Set<SongEntity> songs;
     private User user;
@@ -52,9 +55,14 @@ public class StreamingPlatform {
     private Map<SelectionKey, PlaySong> alreadyRunning;
     private Set<SelectionKey> alreadyLogged;
 
+    private Reader playlistsReader;
+    private Writer playlistsWriter;
+    private Reader songsReader;
+    private Writer songsWriter;
+
     public StreamingPlatform() throws IODatabaseException {
 
-        this.playlists = new HashMap<>();
+        this.playlists = new LinkedHashMap<>();
         this.alreadyRunning = new ConcurrentHashMap<>();
         this.alreadyLogged = new HashSet<>();
 
@@ -62,8 +70,33 @@ public class StreamingPlatform {
         this.readPlaylists();
     }
 
+    public StreamingPlatform(Reader playlistsReader, Writer playlistsWriter, Reader songsReader, Writer songsWriter,
+                             Set<SelectionKey> alreadyLogged, Map<SelectionKey, PlaySong> alreadyRunning)
+        throws IODatabaseException {
+
+        this.playlists = new LinkedHashMap<>();
+        this.alreadyRunning = new ConcurrentHashMap<>();
+
+        this.playlistsReader = playlistsReader;
+        this.playlistsWriter = playlistsWriter;
+        this.songsReader = songsReader;
+        this.songsWriter = songsWriter;
+
+        this.alreadyLogged = alreadyLogged;
+        this.alreadyRunning = alreadyRunning;
+
+        this.readSongs();
+        this.readPlaylists();
+    }
+
+
+    private final static String NEGATIVE_N_ARGUMENT = "The provided argument cannot be negative.";
 
     public List<SongEntity> getTopNMostListenedSongs(int n) {
+
+        if (n < 0) {
+            throw new IllegalArgumentException(NEGATIVE_N_ARGUMENT);
+        }
 
         if (n == 0) {
 
@@ -119,7 +152,7 @@ public class StreamingPlatform {
             this.playlists.get(this.user.getEmail()).add(toAdd);
         } else {
 
-            this.playlists.put(this.user.getEmail(), new HashSet<>());
+            this.playlists.put(this.user.getEmail(), new LinkedHashSet<>());
             this.playlists.get(this.user.getEmail()).add(toAdd);
         }
 
@@ -314,11 +347,6 @@ public class StreamingPlatform {
         return user;
     }
 
-    public boolean isLogged() {
-
-        return isLogged;
-    }
-
     public Set<SelectionKey> getAlreadyLogged() {
 
         return alreadyLogged;
@@ -329,44 +357,86 @@ public class StreamingPlatform {
         return playlists;
     }
 
-    public void setIsLogged(boolean isLogged) {
-
-        this.isLogged = isLogged;
-    }
-
     public Map<SelectionKey, PlaySong> getAlreadyRunning() {
 
         return alreadyRunning;
     }
 
-    public void setAlreadyRunning(Map<SelectionKey, PlaySong> alreadyRunning) {
+   /* public void setAlreadyRunning(Map<SelectionKey, PlaySong> alreadyRunning) {
         this.alreadyRunning = alreadyRunning;
+    }*/
+
+    public Reader getPlaylistsReader() {
+        return playlistsReader;
+    }
+
+    public Writer getPlaylistsWriter() {
+        return playlistsWriter;
+    }
+
+    public Reader getSongsReader() {
+        return songsReader;
+    }
+
+    public Writer getSongsWriter() {
+        return songsWriter;
+    }
+
+    public void setPlaylistsWriter(Writer playlistsWriter) {
+        this.playlistsWriter = playlistsWriter;
+    }
+
+    public Set<SongEntity> getSongs() {
+        return songs;
     }
 
     private void writeSongs() throws IODatabaseException {
 
-        try (Writer writer = new FileWriter(SONGS_LIST_PATH)) {
+        if (this.songsWriter == null) {
+            try (Writer writer = new FileWriter(SONGS_LIST_PATH)) {
 
-            GSON.toJson(this.songs, writer);
-            writer.flush();
-        } catch (IOException e) {
+                GSON.toJson(this.songs, writer);
+                writer.flush();
+            } catch (IOException e) {
 
-            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
+                throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
+            }
+        } else {
+
+            try {
+
+                GSON.toJson(this.songs, this.songsWriter);
+                this.songsWriter.flush();
+            } catch (IOException e) {
+
+                throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
+            }
+
         }
     }
 
     private void readSongs() throws IODatabaseException {
 
-        try (Reader reader = Files.newBufferedReader(Paths.get(SONGS_LIST_PATH))) {
+        if (this.songsReader == null) {
+
+            try (Reader reader = Files.newBufferedReader(Paths.get(SONGS_LIST_PATH))) {
+
+                Type type = new TypeToken<List<SongEntity>>() {
+                }.getType();
+                List<SongEntity> songCollection = GSON.fromJson(reader, type);
+                this.songs = new LinkedHashSet<>(songCollection);
+            } catch (IOException e) {
+
+                throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
+            }
+        } else {
 
             Type type = new TypeToken<List<SongEntity>>() {
             }.getType();
-            List<SongEntity> songCollection = GSON.fromJson(reader, type);
-            this.songs = new HashSet<>(songCollection);
-        } catch (IOException e) {
-
-            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
+            List<SongEntity> songCollection = GSON.fromJson(this.songsReader, type);
+            this.songs = new LinkedHashSet<>(songCollection);
         }
+
     }
 
     private void writePlaylists() throws IODatabaseException {
@@ -374,34 +444,66 @@ public class StreamingPlatform {
         List<Playlist> allPlaylists = new ArrayList<>();
         for (Map.Entry<String, Set<Playlist>> currentEntry : this.playlists.entrySet()) {
 
-            allPlaylists.addAll(currentEntry.getValue());
+            for (Playlist currentPlaylist : currentEntry.getValue()) {
+
+                allPlaylists.add(currentPlaylist);
+            }
+
+
+            //allPlaylists.addAll(currentEntry.getValue());
         }
 
-        try (Writer writer = new FileWriter(PLAYLISTS_LIST_PATH)) {
+        if (this.playlistsWriter == null) {
 
-            GSON.toJson(allPlaylists, writer);
-            writer.flush();
-        } catch (IOException e) {
+            try (Writer writer = new FileWriter(PLAYLISTS_LIST_PATH)) {
 
-            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
+                GSON.toJson(allPlaylists, writer);
+                writer.flush();
+            } catch (IOException e) {
+
+                throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
+            }
+        } else {
+
+            try {
+
+                GSON.toJson(allPlaylists, this.playlistsWriter);
+                this.playlistsWriter.flush();
+            } catch (IOException e) {
+
+                throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
+            }
         }
     }
 
     private void readPlaylists() throws IODatabaseException {
 
-        try (Reader reader = Files.newBufferedReader(Paths.get(PLAYLISTS_LIST_PATH))) {
+        if (this.playlistsReader == null) {
 
-            Set<Playlist> readPlaylists = new HashSet<>();
+            try (Reader reader = Files.newBufferedReader(Paths.get(PLAYLISTS_LIST_PATH))) {
+
+                Set<Playlist> readPlaylists = new LinkedHashSet<>();
+
+                Type type = new TypeToken<Set<Playlist>>() {
+                }.getType();
+                Set<Playlist> playlistCollection = GSON.fromJson(reader, type);
+                readPlaylists = new LinkedHashSet<>(playlistCollection);
+
+                this.allocatePlaylists(readPlaylists);
+            } catch (IOException e) {
+
+                throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
+            }
+        } else {
+
+            Set<Playlist> readPlaylists = new LinkedHashSet<>();
 
             Type type = new TypeToken<Set<Playlist>>() {
             }.getType();
-            Set<Playlist> playlistCollection = GSON.fromJson(reader, type);
-            readPlaylists = new HashSet<>(playlistCollection);
+            Set<Playlist> playlistCollection = GSON.fromJson(this.playlistsReader, type);
+            readPlaylists = new LinkedHashSet<>(playlistCollection);
 
             this.allocatePlaylists(readPlaylists);
-        } catch (IOException e) {
-
-            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
         }
     }
 
@@ -410,11 +512,11 @@ public class StreamingPlatform {
         Map<String, List<Playlist>> resultWithList = toAllocate.stream()
             .collect(Collectors.groupingBy(Playlist::getEmailCreator));
 
-        Map<String, Set<Playlist>> resultWithSet = new HashMap<>();
+        Map<String, Set<Playlist>> resultWithSet = new LinkedHashMap<>();
 
         for (Map.Entry<String, List<Playlist>> currentEntry : resultWithList.entrySet()) {
 
-            Set<Playlist> currentSet = new HashSet<>(currentEntry.getValue());
+            Set<Playlist> currentSet = new LinkedHashSet<>(currentEntry.getValue());
             resultWithSet.put(currentEntry.getKey(), currentSet);
         }
         this.playlists = resultWithSet;
@@ -505,9 +607,10 @@ public class StreamingPlatform {
         }
     }
 
+    /*
     public static void main(String[] args) throws IOException, IODatabaseException {
 
-       /* Set<SongEntity> hashSet = new HashSet<>();
+        Set<SongEntity> hashSet = new HashSet<>();
 
         Song song1 = new Song("No Time To Die", "Billie Eilish", 239, "pop");
         Song song2 = new Song("The Crown - Main title", "Hans Zimmer", 85, "classical");
@@ -538,11 +641,11 @@ public class StreamingPlatform {
         playlistst.add(toAdd2);
 
         String json2 = GSON.toJson(playlistst);
-        System.out.println(json2);*/
+        System.out.println(json2);
 
         StreamingPlatform streamingPlatform = new StreamingPlatform();
 
-        Map<String, List<Playlist>> toWrite = new HashMap<>();
+        Map<String, List<Playlist>> toWrite = new LinkedHashMap<>();
 
-    }
+    }*/
 }
