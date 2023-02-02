@@ -113,7 +113,7 @@ public enum ServerReply {
 
     public String getReply() {
 
-        return this.reply;
+        return reply;
     }
 
 }

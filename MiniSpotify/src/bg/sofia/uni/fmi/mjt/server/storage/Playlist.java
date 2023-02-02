@@ -11,7 +11,7 @@ public class Playlist {
     private Set<Song> playlistSongs;
 
     public Playlist() {
-        this.playlistSongs = new HashSet<>();
+        playlistSongs = new HashSet<>();
     }
     public Playlist(String emailCreator, String title) {
         this.emailCreator = emailCreator;
@@ -21,22 +21,22 @@ public class Playlist {
 
     public void addSong(Song toAdd) {
 
-        this.playlistSongs.add(toAdd);
+        playlistSongs.add(toAdd);
     }
 
     public void removeSong(Song toRemove) {
 
-        this.playlistSongs.remove(toRemove);
+        playlistSongs.remove(toRemove);
     }
 
     public boolean containsSong(Song toCheck) {
 
-        return this.playlistSongs.contains(toCheck);
+        return playlistSongs.contains(toCheck);
     }
 
     public String getEmailCreator() {
 
-        return this.emailCreator;
+        return emailCreator;
     }
 
     public String getTitle() {

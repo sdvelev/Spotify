@@ -35,8 +35,8 @@ public class PlayPlaylist extends Thread {
     public void run()  {
 
         Set<Song> songsToPlay = new HashSet<>();
-        for (Playlist currentPlaylist : this.streamingPlatform.getPlaylists().get(
-            this.streamingPlatform.getUser().getEmail())) {
+        for (Playlist currentPlaylist : streamingPlatform.getPlaylists().get(
+            streamingPlatform.getUser().getEmail())) {
 
             if (currentPlaylist.getTitle().equals(playListTitle)) {
 
@@ -49,36 +49,36 @@ public class PlayPlaylist extends Thread {
 
             try {
 
-                this.streamingPlatform.playSong(currentSong.getTitle(), this.selectionKey);
+                streamingPlatform.playSong(currentSong.getTitle(), selectionKey);
             } catch (UserNotLoggedException e) {
 
                 SpotifyLogger.log(Level.INFO, ServerReply.PLAY_SONG_NOT_LOGGED_REPLY.getReply(), e);
             } catch (NoSuchSongException e) {
 
-                SpotifyLogger.log(Level.INFO, this.streamingPlatform.getUser().getEmail() + " " +
+                SpotifyLogger.log(Level.INFO, streamingPlatform.getUser().getEmail() + " " +
                     ServerReply.PLAY_SONG_NO_SUCH_SONG_REPLY.getReply(), e);
             } catch (SongIsAlreadyPlayingException e) {
 
-                SpotifyLogger.log(Level.INFO, this.streamingPlatform.getUser().getEmail() + " " +
+                SpotifyLogger.log(Level.INFO, streamingPlatform.getUser().getEmail() + " " +
                     ServerReply.PLAY_SONG_IS_ALREADY_RUNNING_REPLY.getReply(), e);
             } catch (IODatabaseException e) {
 
-                SpotifyLogger.log(Level.INFO, this.streamingPlatform.getUser().getEmail() + " " +
+                SpotifyLogger.log(Level.INFO, streamingPlatform.getUser().getEmail() + " " +
                     ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
             } catch (Exception e) {
 
-                SpotifyLogger.log(Level.INFO, this.streamingPlatform.getUser().getEmail() + " " +
+                SpotifyLogger.log(Level.INFO, streamingPlatform.getUser().getEmail() + " " +
                     ServerReply.SERVER_EXCEPTION.getReply(), e);
             }
 
-            while (this.streamingPlatform.getAlreadyRunning().containsKey(selectionKey)) {
+            while (streamingPlatform.getAlreadyRunning().containsKey(selectionKey)) {
 
                 try {
 
                     Thread.sleep(WAITING_TIME);
                 } catch (InterruptedException e) {
 
-                    SpotifyLogger.log(Level.INFO, this.streamingPlatform.getUser().getEmail() + " " +
+                    SpotifyLogger.log(Level.INFO, streamingPlatform.getUser().getEmail() + " " +
                         ServerReply.SERVER_EXCEPTION.getReply(), e);
                 }
             }

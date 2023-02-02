@@ -67,22 +67,22 @@ public class CommandExecutor {
 
         return switch(cmd.command()) {
 
-            case REGISTER_COMMAND_NAME -> this.processRegisterCommand(cmd.arguments());
-            case LOGIN_COMMAND_NAME -> this.processLoginCommand(cmd.arguments(), selectionKey);
-            case LOGOUT_COMMAND_NAME -> this.processLogoutCommand(selectionKey);
-            case DISCONNECT_COMMAND_NAME -> this.processDisconnectCommand(selectionKey);
-            case SEARCH_COMMAND_NAME -> this.processSearchCommand(cmd.arguments());
-            case TOP_COMMAND_NAME -> this.processTopCommand(cmd.arguments());
-            case CREATE_PLAYLIST_COMMAND_NAME -> this.processCreatePlaylistCommand(cmd.arguments(), selectionKey);
-            case DELETE_PLAYLIST_COMMAND_NAME -> this.processDeletePlaylistCommand(cmd.arguments(), selectionKey);
-            case ADD_SONG_TO_COMMAND_NAME -> this.processAddSongToCommand(cmd.arguments(), selectionKey);
-            case REMOVE_SONG_FROM_COMMAND_NAME -> this.processRemoveSongFromCommand(cmd.arguments(), selectionKey);
-            case SHOW_PLAYLIST_COMMAND_NAME -> this.processShowPlaylistCommand(cmd.arguments(), selectionKey);
-            case SHOW_PLAYLISTS_COMMAND_NAME -> this.processShowPlaylistsCommand(selectionKey);
-            case PLAY_SONG_COMMAND_NAME -> this.processPlayCommand(cmd.arguments(), selectionKey);
-            case PLAY_PLAYLIST_COMMAND_NAME -> this.processPlayPlaylistCommand(cmd.arguments(), selectionKey);
-            case STOP_COMMAND_NAME -> this.processStopCommand(selectionKey);
-            case HELP_COMMAND_NAME -> this.processHelpCommand();
+            case REGISTER_COMMAND_NAME -> processRegisterCommand(cmd.arguments());
+            case LOGIN_COMMAND_NAME -> processLoginCommand(cmd.arguments(), selectionKey);
+            case LOGOUT_COMMAND_NAME -> processLogoutCommand(selectionKey);
+            case DISCONNECT_COMMAND_NAME -> processDisconnectCommand(selectionKey);
+            case SEARCH_COMMAND_NAME -> processSearchCommand(cmd.arguments());
+            case TOP_COMMAND_NAME -> processTopCommand(cmd.arguments());
+            case CREATE_PLAYLIST_COMMAND_NAME -> processCreatePlaylistCommand(cmd.arguments(), selectionKey);
+            case DELETE_PLAYLIST_COMMAND_NAME -> processDeletePlaylistCommand(cmd.arguments(), selectionKey);
+            case ADD_SONG_TO_COMMAND_NAME -> processAddSongToCommand(cmd.arguments(), selectionKey);
+            case REMOVE_SONG_FROM_COMMAND_NAME -> processRemoveSongFromCommand(cmd.arguments(), selectionKey);
+            case SHOW_PLAYLIST_COMMAND_NAME -> processShowPlaylistCommand(cmd.arguments(), selectionKey);
+            case SHOW_PLAYLISTS_COMMAND_NAME -> processShowPlaylistsCommand(selectionKey);
+            case PLAY_SONG_COMMAND_NAME -> processPlayCommand(cmd.arguments(), selectionKey);
+            case PLAY_PLAYLIST_COMMAND_NAME -> processPlayPlaylistCommand(cmd.arguments(), selectionKey);
+            case STOP_COMMAND_NAME -> processStopCommand(selectionKey);
+            case HELP_COMMAND_NAME -> processHelpCommand();
             default -> ServerReply.UNKNOWN_COMMAND_REPLY.getReply();
         };
 
@@ -95,7 +95,7 @@ public class CommandExecutor {
 
     private String processDisconnectCommand(SelectionKey selectionKey) {
 
-        if (this.streamingPlatform.getAlreadyLogged().contains(selectionKey)) {
+        if (streamingPlatform.getAlreadyLogged().contains(selectionKey)) {
 
             String result = processLogoutCommand(selectionKey);
             if (!result.equals(ServerReply.SERVER_EXCEPTION.getReply())) {
@@ -113,7 +113,7 @@ public class CommandExecutor {
 
         try {
 
-            this.streamingPlatform.logout(selectionKey);
+            streamingPlatform.logout(selectionKey);
         } catch (UserNotLoggedException e) {
 
             return getCorrectReply(Level.INFO, ServerReply.LOGOUT_COMMAND_USER_NOT_LOGGED_REPLY.getReply(), e);
@@ -129,17 +129,17 @@ public class CommandExecutor {
 
         try {
 
-            this.streamingPlatform.stopSong(selectionKey);
+            streamingPlatform.stopSong(selectionKey);
         } catch (UserNotLoggedException e) {
 
             return getCorrectReply(Level.INFO, ServerReply.STOP_COMMAND_NOT_LOGGED_REPLY.getReply(), e);
         } catch (NoSongPlayingException e) {
 
-            return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
+            return getCorrectReply(Level.INFO, streamingPlatform.getUser().getEmail(),
                 ServerReply.STOP_COMMAND_NO_SONG_PLAYING.getReply(), e);
         } catch (Exception e) {
 
-            return getCorrectReply(Level.SEVERE, this.streamingPlatform.getUser().getEmail(),
+            return getCorrectReply(Level.SEVERE, streamingPlatform.getUser().getEmail(),
                 ServerReply.STOP_COMMAND_ERROR_REPLY.getReply(), e);
         }
 
@@ -151,25 +151,25 @@ public class CommandExecutor {
         String songName = arguments.get(0);
         try {
 
-            this.streamingPlatform.playSong(songName, selectionKey);
+            streamingPlatform.playSong(songName, selectionKey);
         } catch (UserNotLoggedException e) {
 
             return getCorrectReply(Level.INFO, ServerReply.PLAY_SONG_NOT_LOGGED_REPLY.getReply(), e);
         } catch (NoSuchSongException e) {
 
-            return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
+            return getCorrectReply(Level.INFO, streamingPlatform.getUser().getEmail(),
                 ServerReply.PLAY_SONG_NO_SUCH_SONG_REPLY.getReply(), e);
         } catch (SongIsAlreadyPlayingException e) {
 
-            return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
+            return getCorrectReply(Level.INFO, streamingPlatform.getUser().getEmail(),
                 ServerReply.PLAY_SONG_IS_ALREADY_RUNNING_REPLY.getReply(), e);
         } catch (IODatabaseException e) {
 
-            return getCorrectReply(Level.SEVERE, this.streamingPlatform.getUser().getEmail(),
+            return getCorrectReply(Level.SEVERE, streamingPlatform.getUser().getEmail(),
                 ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
         } catch (Exception e) {
 
-            return getCorrectReply(Level.SEVERE, this.streamingPlatform.getUser().getEmail(),
+            return getCorrectReply(Level.SEVERE, streamingPlatform.getUser().getEmail(),
                 ServerReply.SERVER_EXCEPTION.getReply(), e);
         }
 
@@ -182,17 +182,17 @@ public class CommandExecutor {
 
         try {
 
-            this.streamingPlatform.playPlaylist(playlistName, selectionKey);
+            streamingPlatform.playPlaylist(playlistName, selectionKey);
         } catch (UserNotLoggedException e) {
 
             return getCorrectReply(Level.INFO, ServerReply.PLAY_PLAYLIST_NOT_LOGGED_REPLY.getReply(), e);
         } catch (SongIsAlreadyPlayingException e) {
 
-            return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
+            return getCorrectReply(Level.INFO, streamingPlatform.getUser().getEmail(),
                 ServerReply.PLAY_PLAYLIST_ALREADY_PLAYING.getReply(), e);
         } catch (Exception e) {
 
-            return getCorrectReply(Level.SEVERE, this.streamingPlatform.getUser().getEmail(),
+            return getCorrectReply(Level.SEVERE, streamingPlatform.getUser().getEmail(),
                 ServerReply.SERVER_EXCEPTION.getReply(), e);
         }
 
@@ -227,18 +227,18 @@ public class CommandExecutor {
         String playlistTitle = arguments.get(0);
         try {
 
-            Playlist toReturn = this.streamingPlatform.showPlaylist(playlistTitle, selectionKey);
+            Playlist toReturn = streamingPlatform.showPlaylist(playlistTitle, selectionKey);
             return generateOutputShowPlaylistCommand(playlistTitle, toReturn);
         } catch (UserNotLoggedException e) {
 
             return getCorrectReply(Level.INFO, ServerReply.SHOW_PLAYLIST_NOT_LOGGED_REPLY.getReply(), e);
         } catch (NoSuchPlaylistException e) {
 
-            return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
+            return getCorrectReply(Level.INFO, streamingPlatform.getUser().getEmail(),
                 ServerReply.SHOW_PLAYLIST_NO_SUCH_PLAYLIST_REPLY.getReply(), e);
         } catch (Exception e) {
 
-            return getCorrectReply(Level.SEVERE, this.streamingPlatform.getUser().getEmail(),
+            return getCorrectReply(Level.SEVERE, streamingPlatform.getUser().getEmail(),
                 ServerReply.SERVER_EXCEPTION.getReply(), e);
         }
     }
@@ -267,14 +267,14 @@ public class CommandExecutor {
 
         try {
 
-            List<String> playlistTitles = this.streamingPlatform.showPlaylists(selectionKey);
+            List<String> playlistTitles = streamingPlatform.showPlaylists(selectionKey);
             return generateOutputShowPlaylistsCommand(playlistTitles);
         } catch (UserNotLoggedException e) {
 
             return getCorrectReply(Level.INFO, ServerReply.SHOW_PLAYLISTS_NOT_LOGGED_REPLY.getReply(), e);
         } catch (Exception e) {
 
-            return getCorrectReply(Level.SEVERE, this.streamingPlatform.getUser().getEmail(),
+            return getCorrectReply(Level.SEVERE, streamingPlatform.getUser().getEmail(),
                 ServerReply.SERVER_EXCEPTION.getReply(), e);
         }
     }
@@ -286,29 +286,29 @@ public class CommandExecutor {
 
         try {
 
-            this.streamingPlatform.addSongToPlaylist(playlistTitle, songTitle, selectionKey);
+            streamingPlatform.addSongToPlaylist(playlistTitle, songTitle, selectionKey);
         } catch (UserNotLoggedException e) {
 
             return getCorrectReply(Level.INFO, ServerReply.ADD_SONG_TO_NOT_LOGGED_REPLY.getReply(), e);
         } catch (NoSuchSongException e) {
 
-            return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
+            return getCorrectReply(Level.INFO, streamingPlatform.getUser().getEmail(),
                 ServerReply.ADD_SONG_TO_NO_SUCH_SONG_REPLY.getReply(), e);
         } catch (NoSuchPlaylistException e) {
 
-            return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
+            return getCorrectReply(Level.INFO, streamingPlatform.getUser().getEmail(),
                 ServerReply.ADD_SONG_TO_NO_SUCH_PLAYLIST_REPLY.getReply(), e);
         } catch (SongAlreadyInPlaylistException e) {
 
-            return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
+            return getCorrectReply(Level.INFO, streamingPlatform.getUser().getEmail(),
                 ServerReply.ADD_SONG_TO_SONG_ALREADY_EXIST_REPLY.getReply(), e);
         } catch (IODatabaseException e) {
 
-            return getCorrectReply(Level.SEVERE, this.streamingPlatform.getUser().getEmail(),
+            return getCorrectReply(Level.SEVERE, streamingPlatform.getUser().getEmail(),
                 ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
         } catch (Exception e) {
 
-            return getCorrectReply(Level.SEVERE, this.streamingPlatform.getUser().getEmail(),
+            return getCorrectReply(Level.SEVERE, streamingPlatform.getUser().getEmail(),
                 ServerReply.SERVER_EXCEPTION.getReply(), e);
         }
 
@@ -322,25 +322,25 @@ public class CommandExecutor {
 
         try {
 
-            this.streamingPlatform.removeSongFromPlaylist(playlistTitle, songTitle, selectionKey);
+            streamingPlatform.removeSongFromPlaylist(playlistTitle, songTitle, selectionKey);
         } catch (UserNotLoggedException e) {
 
             return getCorrectReply(Level.INFO, ServerReply.REMOVE_SONG_FROM_NOT_LOGGED_REPLY.getReply(), e);
         } catch (NoSuchSongException e) {
 
-            return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
+            return getCorrectReply(Level.INFO, streamingPlatform.getUser().getEmail(),
                 ServerReply.REMOVE_SONG_FROM_NO_SUCH_SONG_REPLY.getReply(), e);
         } catch (NoSuchPlaylistException e) {
 
-            return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
+            return getCorrectReply(Level.INFO, streamingPlatform.getUser().getEmail(),
                 ServerReply.REMOVE_SONG_FROM_NO_SUCH_PLAYLIST_REPLY.getReply(), e);
         } catch (IODatabaseException e) {
 
-            return getCorrectReply(Level.SEVERE, this.streamingPlatform.getUser().getEmail(),
+            return getCorrectReply(Level.SEVERE, streamingPlatform.getUser().getEmail(),
                 ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
         } catch (Exception e) {
 
-            return getCorrectReply(Level.SEVERE, this.streamingPlatform.getUser().getEmail(),
+            return getCorrectReply(Level.SEVERE, streamingPlatform.getUser().getEmail(),
                 ServerReply.SERVER_EXCEPTION.getReply(), e);
         }
 
@@ -352,21 +352,21 @@ public class CommandExecutor {
         String playlistTitle = arguments.get(0);
         try {
 
-            this.streamingPlatform.createPlaylist(playlistTitle, selectionKey);
+            streamingPlatform.createPlaylist(playlistTitle, selectionKey);
         } catch (UserNotLoggedException e) {
 
             return getCorrectReply(Level.INFO, ServerReply.CREATE_PLAYLIST_NOT_LOGGED_REPLY.getReply(), e);
         } catch (IODatabaseException e) {
 
-            return getCorrectReply(Level.SEVERE, this.streamingPlatform.getUser().getEmail(),
+            return getCorrectReply(Level.SEVERE, streamingPlatform.getUser().getEmail(),
                 ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
         } catch (PlaylistAlreadyExistException e) {
 
-            return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
+            return getCorrectReply(Level.INFO, streamingPlatform.getUser().getEmail(),
                 ServerReply.CREATE_PLAYLIST_ALREADY_EXIST_REPLY.getReply(), e);
         } catch (Exception e) {
 
-            return getCorrectReply(Level.SEVERE, this.streamingPlatform.getUser().getEmail(),
+            return getCorrectReply(Level.SEVERE, streamingPlatform.getUser().getEmail(),
                 ServerReply.SERVER_EXCEPTION.getReply(), e);
         }
 
@@ -378,25 +378,25 @@ public class CommandExecutor {
         String playlistTitle = arguments.get(0);
         try {
 
-            this.streamingPlatform.deletePlaylist(playlistTitle, selectionKey);
+            streamingPlatform.deletePlaylist(playlistTitle, selectionKey);
         } catch (UserNotLoggedException e) {
 
             return getCorrectReply(Level.INFO, ServerReply.DELETE_PLAYLIST_NOT_LOGGED_REPLY.getReply(), e);
         } catch (IODatabaseException e) {
 
-            return getCorrectReply(Level.SEVERE, this.streamingPlatform.getUser().getEmail(),
+            return getCorrectReply(Level.SEVERE, streamingPlatform.getUser().getEmail(),
                 ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
         } catch (NoSuchPlaylistException e) {
 
-            return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
+            return getCorrectReply(Level.INFO, streamingPlatform.getUser().getEmail(),
                 ServerReply.DELETE_PLAYLIST_NO_SUCH_PLAYLIST_REPLY.getReply(), e);
         } catch (PlaylistNotEmptyException e) {
 
-            return getCorrectReply(Level.INFO, this.streamingPlatform.getUser().getEmail(),
+            return getCorrectReply(Level.INFO, streamingPlatform.getUser().getEmail(),
                 ServerReply.DELETE_PLAYLIST_NOT_EMPTY_PLAYLIST_REPLY.getReply(), e);
         } catch (Exception e) {
 
-            return getCorrectReply(Level.SEVERE, this.streamingPlatform.getUser().getEmail(),
+            return getCorrectReply(Level.SEVERE, streamingPlatform.getUser().getEmail(),
                 ServerReply.SERVER_EXCEPTION.getReply(), e);
         }
 
@@ -407,7 +407,7 @@ public class CommandExecutor {
 
         String wordToSearch = arguments.get(0);
 
-        List<SongEntity> searchedSongs = this.streamingPlatform.searchSongs(wordToSearch);
+        List<SongEntity> searchedSongs = streamingPlatform.searchSongs(wordToSearch);
 
         if (searchedSongs.isEmpty()) {
 
@@ -459,7 +459,7 @@ public class CommandExecutor {
 
     private void validateIsLogged(SelectionKey selectionKey) throws UserAlreadyLoggedException {
 
-        if (this.streamingPlatform.getAlreadyLogged().contains(selectionKey)) {
+        if (streamingPlatform.getAlreadyLogged().contains(selectionKey)) {
             throw new UserAlreadyLoggedException(ServerReply.LOGIN_COMMAND_USER_ALREADY_LOGGED_REPLY.getReply());
         }
     }
@@ -490,8 +490,8 @@ public class CommandExecutor {
         try {
             validateIsLogged(selectionKey);
             User toLog = login(emailToLogin, passwordToLogin);
-            this.streamingPlatform.setUser(toLog);
-            this.streamingPlatform.getAlreadyLogged().add(selectionKey);
+            streamingPlatform.setUser(toLog);
+            streamingPlatform.getAlreadyLogged().add(selectionKey);
         } catch (UserNotFoundException e) {
 
             return getCorrectReply(Level.INFO, emailToLogin,
@@ -524,7 +524,7 @@ public class CommandExecutor {
             return getCorrectReply(Level.INFO, ServerReply.TOP_COMMAND_INVALID_ARGUMENT_REPLY.getReply());
         }
 
-        List<SongEntity> result = this.streamingPlatform.getTopNMostListenedSongs(
+        List<SongEntity> result = streamingPlatform.getTopNMostListenedSongs(
             Integer.parseInt(arguments.get(0)));
 
         StringBuilder toReturn = new StringBuilder();

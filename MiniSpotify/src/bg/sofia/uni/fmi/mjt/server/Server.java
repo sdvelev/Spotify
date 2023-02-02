@@ -50,7 +50,7 @@ public class Server {
 
             selector = Selector.open();
             configureServerSocketChannel(serverSocketChannel, selector);
-            this.buffer = ByteBuffer.allocateDirect(BUFFER_SIZE);
+            buffer = ByteBuffer.allocateDirect(BUFFER_SIZE);
             isServerWorking = true;
 
             while (isServerWorking) {
@@ -99,14 +99,14 @@ public class Server {
 
     public void stop() {
 
-        this.isServerWorking = false;
+        isServerWorking = false;
         if (selector.isOpen()) {
             selector.wakeup();
         }
     }
 
     private void configureServerSocketChannel(ServerSocketChannel channel, Selector selector) throws IOException {
-        channel.bind(new InetSocketAddress(HOST, this.port));
+        channel.bind(new InetSocketAddress(HOST, port));
         channel.configureBlocking(false);
         channel.register(selector, SelectionKey.OP_ACCEPT);
     }
@@ -116,7 +116,7 @@ public class Server {
 
         int readBytes = clientChannel.read(buffer);
         if (readBytes < 0) {
-            System.out.println(CLIENT_LABEL + this.numberOfConnection.incrementAndGet() + CLOSE_CONNECTION_LABEL);
+            System.out.println(CLIENT_LABEL + numberOfConnection.incrementAndGet() + CLOSE_CONNECTION_LABEL);
             clientChannel.close();
             return null;
         }

@@ -37,7 +37,7 @@ public class PlaySong extends Thread {
     @Override
     public void run() {
 
-        this.isRunning = true;
+        isRunning = true;
         try {
 
             AudioInputStream stream = AudioSystem.getAudioInputStream(new File(DATA_PATH + this.songName +
@@ -78,18 +78,18 @@ public class PlaySong extends Thread {
             SpotifyLogger.log(Level.SEVERE, ServerReply.STOP_COMMAND_ERROR_REPLY.getReply(), e);
         }
 
-        this.isRunning = false;
+        isRunning = false;
         removeFrom();
     }
 
     private void removeFrom() {
 
-        this.streamingPlatform.getAlreadyRunning().remove(selectionKey);
+        streamingPlatform.getAlreadyRunning().remove(selectionKey);
     }
 
     public void terminateSong() {
 
-        this.isRunning = false;
+        isRunning = false;
     }
 
 }

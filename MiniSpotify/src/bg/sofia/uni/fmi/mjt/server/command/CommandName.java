@@ -27,6 +27,6 @@ public enum CommandName {
 
     public String getCommandName() {
 
-        return this.commandName;
+        return commandName;
     }
 }

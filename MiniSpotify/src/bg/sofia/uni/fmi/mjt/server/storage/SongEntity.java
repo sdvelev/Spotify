@@ -10,8 +10,8 @@ public class SongEntity {
 
     public SongEntity() {
 
-        this.song = new Song();
-        this.listeningTimes = new AtomicInteger();
+        song = new Song();
+        listeningTimes = new AtomicInteger();
     }
 
     public SongEntity(Song song, int listeningTimes) {
@@ -30,7 +30,7 @@ public class SongEntity {
 
     public void increaseListeningTimes() {
 
-        this.listeningTimes.getAndIncrement();
+        listeningTimes.getAndIncrement();
     }
 
     @Override
