@@ -34,17 +34,4 @@ public class SHAAlgorithm {
 
         return toHexadecimal(getSHA(toEncrypt));
     }
-
-    public static void main(String[] args) {
-
-        try {
-
-            String str = "JavaTpoint";
-            String hash = getHash(str);
-            System.out.println("\n" + str + " : " + hash);
-        } catch (NoSuchAlgorithmException e) {
-
-            System.out.println("There is a mistake in algorithm");
-        }
-    }
 }

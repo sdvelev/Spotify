@@ -22,16 +22,19 @@ public class PlaySong extends Thread {
     private SelectionKey selectionKey;
     private boolean isRunning;
     private StreamingPlatform streamingPlatform;
+    private SpotifyLogger spotifyLogger;
     private final static String DATA_PATH = "data/";
     private final static String WAV_FORMAT = ".wav";
 
 
-    public PlaySong(String songName, SelectionKey selectionKey, StreamingPlatform streamingPlatform) {
+    public PlaySong(String songName, SelectionKey selectionKey, StreamingPlatform streamingPlatform,
+                    SpotifyLogger spotifyLogger) {
 
         this.isRunning = false;
         this.songName = songName;
         this.selectionKey = selectionKey;
         this.streamingPlatform = streamingPlatform;
+        this.spotifyLogger = spotifyLogger;
     }
 
     @Override
@@ -75,7 +78,7 @@ public class PlaySong extends Thread {
             line.stop();
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 
-            SpotifyLogger.log(Level.SEVERE, ServerReply.STOP_COMMAND_ERROR_REPLY.getReply(), e);
+            this.spotifyLogger.log(Level.SEVERE, ServerReply.STOP_COMMAND_ERROR_REPLY.getReply(), e);
         }
 
         isRunning = false;

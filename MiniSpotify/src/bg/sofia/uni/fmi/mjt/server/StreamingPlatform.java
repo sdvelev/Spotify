@@ -9,6 +9,7 @@ import bg.sofia.uni.fmi.mjt.server.exceptions.PlaylistNotEmptyException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.SongAlreadyInPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.SongIsAlreadyPlayingException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException;
+import bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger;
 import bg.sofia.uni.fmi.mjt.server.login.User;
 import bg.sofia.uni.fmi.mjt.server.player.PlayPlaylist;
 import bg.sofia.uni.fmi.mjt.server.player.PlaySong;
@@ -59,12 +60,16 @@ public class StreamingPlatform {
     private Writer playlistsWriter;
     private Reader songsReader;
     private Writer songsWriter;
+    private SpotifyLogger spotifyLogger;
 
-    public StreamingPlatform() throws IODatabaseException {
+    public StreamingPlatform(SpotifyLogger spotifyLogger) throws IODatabaseException {
 
         this.playlists = new LinkedHashMap<>();
         this.alreadyRunning = new ConcurrentHashMap<>();
         this.alreadyLogged = new HashSet<>();
+        this.spotifyLogger = spotifyLogger;
+
+        this.user = new User("", "");
 
         this.readSongs();
         this.readPlaylists();
@@ -75,12 +80,13 @@ public class StreamingPlatform {
         throws IODatabaseException {
 
         this.playlists = new LinkedHashMap<>();
-        this.alreadyRunning = new ConcurrentHashMap<>();
 
         this.playlistsReader = playlistsReader;
         this.playlistsWriter = playlistsWriter;
         this.songsReader = songsReader;
         this.songsWriter = songsWriter;
+
+        this.user = new User("", "");
 
         this.alreadyLogged = alreadyLogged;
         this.alreadyRunning = alreadyRunning;
@@ -271,7 +277,8 @@ public class StreamingPlatform {
             throw new SongIsAlreadyPlayingException(ServerReply.PLAY_SONG_IS_ALREADY_RUNNING_REPLY.getReply());
         }
 
-        PlayPlaylist playPlaylistThread = new PlayPlaylist(playListTitle, selectionKey, this);
+        PlayPlaylist playPlaylistThread = new PlayPlaylist(playListTitle, selectionKey, this,
+            this.spotifyLogger);
         playPlaylistThread.start();
     }
 
@@ -294,7 +301,7 @@ public class StreamingPlatform {
         }
 
         PlaySong playSongThread = new PlaySong(songToPlay.getArtist() + UNDERSCORE + songToPlay.getTitle(),
-            selectionKey, this);
+            selectionKey, this, this.spotifyLogger);
         this.alreadyRunning.put(selectionKey, playSongThread);
         playSongThread.start();
         this.increaseSongPlays(songToPlay);

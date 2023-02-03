@@ -25,6 +25,7 @@ import java.nio.channels.SelectionKey;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static bg.sofia.uni.fmi.mjt.server.login.Authentication.login;
 import static bg.sofia.uni.fmi.mjt.server.login.Authentication.register;
@@ -59,10 +60,12 @@ public class CommandExecutor {
     private final static String POSITIVE_NUMBER_REGEX = "^[0-9]+$";
 
     private StreamingPlatform streamingPlatform;
+    private SpotifyLogger spotifyLogger;
 
-    public CommandExecutor(StreamingPlatform streamingPlatform) {
+    public CommandExecutor(StreamingPlatform streamingPlatform, SpotifyLogger spotifyLogger) {
 
         this.streamingPlatform = streamingPlatform;
+        this.spotifyLogger = spotifyLogger;
     }
 
     public String executeCommand(Command cmd, SelectionKey selectionKey) {
@@ -215,12 +218,13 @@ public class CommandExecutor {
         for (Song currentSong : toReturn.getPlaylistSongs()) {
 
             String toAppend = counter + TITLE_LABEL + currentSong.getTitle() + ARTIST_LABEL +
-                currentSong.getArtist() + System.lineSeparator();
+                currentSong.getArtist() + GENRE_LABEL + currentSong.getGenre() + DURATION_LABEL +
+                currentSong.getDuration() + System.lineSeparator();
             resultString.append(toAppend);
             ++counter;
         }
 
-        resultString.deleteCharAt(resultString.length() - 1);
+        //  resultString.deleteCharAt(resultString.length() - 1);
         return resultString.toString();
     }
 
@@ -252,7 +256,8 @@ public class CommandExecutor {
         }
 
         StringBuilder resultString = new StringBuilder();
-        resultString.append(ServerReply.SHOW_PLAYLISTS_SUCCESSFULLY_REPLY.getReply() + System.lineSeparator());
+        resultString.append(ServerReply.SHOW_PLAYLISTS_SUCCESSFULLY_REPLY.getReply() +
+            System.lineSeparator());
         int counter = 1;
         for (String currentPlaylistTitle : playlistTitles) {
 
@@ -261,7 +266,7 @@ public class CommandExecutor {
             ++counter;
         }
 
-        resultString.deleteCharAt(resultString.length() - 1);
+        //resultString.deleteCharAt(resultString.length() - 1);
         return resultString.toString();
     }
 
@@ -427,7 +432,7 @@ public class CommandExecutor {
             toReturn.append(currentResult);
         }
 
-        toReturn.deleteCharAt(toReturn.length() - 1);
+        //toReturn.deleteCharAt(toReturn.length() - 1);
         return toReturn.toString();
     }
 
@@ -471,19 +476,19 @@ public class CommandExecutor {
 
     private String getCorrectReply(Level level, String message) {
 
-        SpotifyLogger.log(level, REPLY_FIELD_TO_LOG + message);
+        this.spotifyLogger.log(level, REPLY_FIELD_TO_LOG + message);
         return message;
     }
 
     private String getCorrectReply(Level level, String message, Exception e) {
 
-        SpotifyLogger.log(level, REPLY_FIELD_TO_LOG + message, e);
+        this.spotifyLogger.log(level, REPLY_FIELD_TO_LOG + message, e);
         return message;
     }
 
     private String getCorrectReply(Level level, String email, String message, Exception e) {
 
-        SpotifyLogger.log(level, EMAIL_MESSAGE_TO_LOG + email + " " + REPLY_FIELD_TO_LOG +
+        this.spotifyLogger.log(level, EMAIL_MESSAGE_TO_LOG + email + " " + REPLY_FIELD_TO_LOG +
             message, e);
         return message;
     }
@@ -542,15 +547,16 @@ public class CommandExecutor {
                 currentSongEntity.getSong().getDuration() + System.lineSeparator();
             toReturn.append(toAppend);
         }
-        toReturn.deleteCharAt(toReturn.length() - 1);
+
+        //toReturn.deleteCharAt(toReturn.length() - 1);
         return toReturn.toString();
     }
 
-    public static void main(String[] args) throws IODatabaseException {
-        CommandExecutor ce = new CommandExecutor(new StreamingPlatform());
+  /*  public static void main(String[] args) throws IODatabaseException {
+        CommandExecutor ce = new CommandExecutor(new StreamingPlatform(), new SpotifyLogger(new Logger()));
 
         Command cm = new Command("register", List.of("sampleEmail@abv.bg", "666777888"));
         //System.out.println(ce.executeCommand(cm), );
-    }
+    }*/
 
 }

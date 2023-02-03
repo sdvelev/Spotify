@@ -2025,3 +2025,58 @@ bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot log ou
 	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:77)
 	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:152)
 
+
+Feb 03, 2023 3:41:24 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: There isn't such a song in the platform.
+bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException: There isn't such a song in the platform.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:297)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:159)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:87)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:79)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:157)
+
+Feb 03, 2023 3:41:48 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: Song has already been started and is now playing. You can stop it with the relevant command or wait for it to finish.
+bg.sofia.uni.fmi.mjt.server.exceptions.SongIsAlreadyPlayingException: Song has already been started and is now playing. You can stop it with the relevant command or wait for it to finish.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:292)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:159)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:87)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:79)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:157)
+
+Feb 03, 2023 9:27:25 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: Reply from server: You cannot play songs unless you are logged in.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot play songs unless you are logged in.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:290)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:159)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:87)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:79)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:157)
+
+Feb 03, 2023 9:31:08 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: Unable to connect to the server. Try again later or contact administrator
+java.net.ConnectException: Connection refused: connect
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:579)
+	at java.base/sun.nio.ch.Net.connect(Net.java:586)
+	at java.base/sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:880)
+	at bg.sofia.uni.fmi.mjt.client.Client.main(Client.java:29)
+
+Feb 03, 2023 9:35:48 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: Reply from server: You cannot stop a song as you are not logged in.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot stop a song as you are not logged in.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.stopSong(StreamingPlatform.java:332)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processStopCommand(CommandExecutor.java:137)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:89)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:79)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:157)
+
+Feb 03, 2023 9:36:03 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: There isn't a song which is playing at the moment.
+bg.sofia.uni.fmi.mjt.server.exceptions.NoSongPlayingException: There isn't a song which is playing at the moment.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.stopSong(StreamingPlatform.java:337)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processStopCommand(CommandExecutor.java:137)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:89)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:79)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:157)
+

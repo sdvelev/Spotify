@@ -806,7 +806,7 @@ public class StreamingPlatformTest {
 
         int nMostListenedNumber = -6;
         assertThrows(IllegalArgumentException.class, () -> this.streamingPlatform
-            .getTopNMostListenedSongs(nMostListenedNumber),
+                .getTopNMostListenedSongs(nMostListenedNumber),
             "IllegalArgumentException is expected but not thrown.");
     }
 
@@ -961,8 +961,8 @@ public class StreamingPlatformTest {
 
         when(this.alreadyRunningMock.containsKey(this.selectionKey)).thenReturn(false);
 
-       assertThrows(NoSongPlayingException.class, () -> this.streamingPlatform.stopSong(selectionKey),
-           "NoSongPlayingException is expected but not thrown.");
+        assertThrows(NoSongPlayingException.class, () -> this.streamingPlatform.stopSong(selectionKey),
+            "NoSongPlayingException is expected but not thrown.");
         verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
         verify(this.alreadyRunningMock, times(1)).containsKey(this.selectionKey);
     }
@@ -1055,7 +1055,7 @@ public class StreamingPlatformTest {
 
 
         assertTrue(firstSongListeningTimesAfter == firstSongListeningTimesBefore + 1 &&
-            secondSongListeningTimesAfter == secondSongListeningTimesBefore + 1,
+                secondSongListeningTimesAfter == secondSongListeningTimesBefore + 1,
             "Number of listening times must increase when playing songs of playlist.");
     }
 

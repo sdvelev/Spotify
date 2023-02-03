@@ -23,13 +23,15 @@ public class PlayPlaylist extends Thread {
     private String playListTitle;
     private SelectionKey selectionKey;
     private StreamingPlatform streamingPlatform;
+    private SpotifyLogger spotifyLogger;
 
     public PlayPlaylist(String playListTitle, SelectionKey selectionKey,
-                        StreamingPlatform streamingPlatform) {
+                        StreamingPlatform streamingPlatform, SpotifyLogger spotifyLogger) {
 
         this.playListTitle = playListTitle;
         this.selectionKey = selectionKey;
         this.streamingPlatform = streamingPlatform;
+        this.spotifyLogger = spotifyLogger;
     }
 
     @Override
@@ -53,22 +55,22 @@ public class PlayPlaylist extends Thread {
                 streamingPlatform.playSong(currentSong.getTitle(), selectionKey);
             } catch (UserNotLoggedException e) {
 
-                SpotifyLogger.log(Level.INFO, ServerReply.PLAY_SONG_NOT_LOGGED_REPLY.getReply(), e);
+                this.spotifyLogger.log(Level.INFO, ServerReply.PLAY_SONG_NOT_LOGGED_REPLY.getReply(), e);
             } catch (NoSuchSongException e) {
 
-                SpotifyLogger.log(Level.INFO, streamingPlatform.getUser().getEmail() + " " +
+                this.spotifyLogger.log(Level.INFO, streamingPlatform.getUser().getEmail() + " " +
                     ServerReply.PLAY_SONG_NO_SUCH_SONG_REPLY.getReply(), e);
             } catch (SongIsAlreadyPlayingException e) {
 
-                SpotifyLogger.log(Level.INFO, streamingPlatform.getUser().getEmail() + " " +
+                this.spotifyLogger.log(Level.INFO, streamingPlatform.getUser().getEmail() + " " +
                     ServerReply.PLAY_SONG_IS_ALREADY_RUNNING_REPLY.getReply(), e);
             } catch (IODatabaseException e) {
 
-                SpotifyLogger.log(Level.INFO, streamingPlatform.getUser().getEmail() + " " +
+                this.spotifyLogger.log(Level.INFO, streamingPlatform.getUser().getEmail() + " " +
                     ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
             } catch (Exception e) {
 
-                SpotifyLogger.log(Level.INFO, streamingPlatform.getUser().getEmail() + " " +
+                this.spotifyLogger.log(Level.INFO, streamingPlatform.getUser().getEmail() + " " +
                     ServerReply.SERVER_EXCEPTION.getReply(), e);
             }
 
@@ -79,7 +81,7 @@ public class PlayPlaylist extends Thread {
                     Thread.sleep(WAITING_TIME);
                 } catch (InterruptedException e) {
 
-                    SpotifyLogger.log(Level.INFO, streamingPlatform.getUser().getEmail() + " " +
+                    this.spotifyLogger.log(Level.INFO, streamingPlatform.getUser().getEmail() + " " +
                         ServerReply.SERVER_EXCEPTION.getReply(), e);
                 }
             }

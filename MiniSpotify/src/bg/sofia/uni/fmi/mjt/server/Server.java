@@ -38,11 +38,13 @@ public class Server {
     private ByteBuffer buffer;
     private Selector selector;
     private AtomicInteger numberOfConnection;
+    private SpotifyLogger spotifyLogger;
 
-    public Server(int port, CommandExecutor commandExecutor) {
+    public Server(int port, CommandExecutor commandExecutor, SpotifyLogger spotifyLogger) {
         this.port = port;
         this.commandExecutor = commandExecutor;
         this.numberOfConnection = new AtomicInteger(0);
+        this.spotifyLogger = spotifyLogger;
     }
 
     public void start() {
@@ -86,13 +88,13 @@ public class Server {
                     }
                 } catch (IOException e) {
 
-                    SpotifyLogger.log(Level.SEVERE, ERROR_CLIENT_REQUEST, e);
+                    this.spotifyLogger.log(Level.SEVERE, ERROR_CLIENT_REQUEST, e);
                     System.out.println(ERROR_CLIENT_REQUEST);
                 }
             }
         } catch (IOException e) {
 
-            SpotifyLogger.log(Level.SEVERE, UNABLE_TO_START_SERVER, e);
+            this.spotifyLogger.log(Level.SEVERE, UNABLE_TO_START_SERVER, e);
             System.out.println(ERROR_CLIENT_REQUEST);
         }
     }
@@ -147,7 +149,10 @@ public class Server {
 
     public static void main(String[] args) throws InterruptedException, IODatabaseException {
 
-        Server s = new Server(SERVER_PORT, new CommandExecutor(new StreamingPlatform()));
+        SpotifyLogger spotifyLogger = new SpotifyLogger("spotifyLogger.log");
+
+        Server s = new Server(SERVER_PORT, new CommandExecutor(new StreamingPlatform(spotifyLogger), spotifyLogger),
+            spotifyLogger);
 
         s.start();
     }
