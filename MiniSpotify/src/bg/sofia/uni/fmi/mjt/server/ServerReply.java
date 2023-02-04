@@ -77,6 +77,8 @@ public enum ServerReply {
     STOP_COMMAND_ERROR_REPLY("Something went wrong with streaming the song."),
     PLAY_PLAYLIST_NOT_LOGGED_REPLY("You cannot play playlist unless you log in first."),
     PLAY_PLAYLIST_SUCCESSFULLY_REPLY("The playlist is starting."),
+    PLAY_PLAYLIST_NO_SUCH_PLAYLIST_REPLY("There isn't such a playlist to play associated with this account."),
+    PLAY_PLAYLIST_NO_SONGS_IN_PLAYLIST_REPLY("There aren't any songs to play in the given playlist."),
     PLAY_PLAYLIST_ALREADY_PLAYING("Song is already playing at the moment. Please, stop it and try again."),
     HELP_COMMAND_REPLY("Commands (in lexicographic order):" + System.lineSeparator() +
         "add-song-to <name_of_the_playlist> <title_of_the_song> : Add <song> to <playlist>" + System.lineSeparator() +

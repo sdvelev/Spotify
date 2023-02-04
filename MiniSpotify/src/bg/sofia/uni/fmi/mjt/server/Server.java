@@ -4,6 +4,7 @@ import bg.sofia.uni.fmi.mjt.server.command.CommandExecutor;
 import bg.sofia.uni.fmi.mjt.server.command.CommandExtractor;
 import bg.sofia.uni.fmi.mjt.server.exceptions.IODatabaseException;
 import bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger;
+import bg.sofia.uni.fmi.mjt.server.login.Authentication;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -151,7 +152,8 @@ public class Server {
 
         SpotifyLogger spotifyLogger = new SpotifyLogger("spotifyLogger.log");
 
-        Server s = new Server(SERVER_PORT, new CommandExecutor(new StreamingPlatform(spotifyLogger), spotifyLogger),
+        Server s = new Server(SERVER_PORT, new CommandExecutor(new StreamingPlatform(spotifyLogger),
+            new Authentication(), spotifyLogger),
             spotifyLogger);
 
         s.start();

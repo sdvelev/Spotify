@@ -2,6 +2,7 @@ package bg.sofia.uni.fmi.mjt.server;
 
 import bg.sofia.uni.fmi.mjt.server.exceptions.IODatabaseException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSongPlayingException;
+import bg.sofia.uni.fmi.mjt.server.exceptions.NoSongsInPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.PlaylistAlreadyExistException;
@@ -10,6 +11,7 @@ import bg.sofia.uni.fmi.mjt.server.exceptions.SongAlreadyInPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.SongIsAlreadyPlayingException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException;
 import bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger;
+import bg.sofia.uni.fmi.mjt.server.login.Authentication;
 import bg.sofia.uni.fmi.mjt.server.login.User;
 import bg.sofia.uni.fmi.mjt.server.player.PlayPlaylist;
 import bg.sofia.uni.fmi.mjt.server.player.PlaySong;
@@ -55,6 +57,7 @@ public class StreamingPlatform {
     private Map<String, Set<Playlist>> playlists;
     private Map<SelectionKey, PlaySong> alreadyRunning;
     private Set<SelectionKey> alreadyLogged;
+    private Authentication authenticationService;
 
     private Reader playlistsReader;
     private Writer playlistsWriter;
@@ -65,18 +68,21 @@ public class StreamingPlatform {
     public StreamingPlatform(SpotifyLogger spotifyLogger) throws IODatabaseException {
 
         this.playlists = new LinkedHashMap<>();
+
         this.alreadyRunning = new ConcurrentHashMap<>();
         this.alreadyLogged = new HashSet<>();
         this.spotifyLogger = spotifyLogger;
 
         this.user = new User("", "");
+        this.authenticationService = new Authentication();
 
         this.readSongs();
         this.readPlaylists();
     }
 
     public StreamingPlatform(Reader playlistsReader, Writer playlistsWriter, Reader songsReader, Writer songsWriter,
-                             Set<SelectionKey> alreadyLogged, Map<SelectionKey, PlaySong> alreadyRunning)
+                             Set<SelectionKey> alreadyLogged, Map<SelectionKey, PlaySong> alreadyRunning,
+                             Authentication authenticationService)
         throws IODatabaseException {
 
         this.playlists = new LinkedHashMap<>();
@@ -90,6 +96,8 @@ public class StreamingPlatform {
 
         this.alreadyLogged = alreadyLogged;
         this.alreadyRunning = alreadyRunning;
+
+        this.authenticationService = authenticationService;
 
         this.readSongs();
         this.readPlaylists();
@@ -174,7 +182,8 @@ public class StreamingPlatform {
         }
 
         String emailCreator = this.user.getEmail();
-        if (!this.playlists.get(emailCreator).contains(new Playlist(emailCreator, playlistTitle))) {
+        if (!this.playlists.containsKey(emailCreator) || !this.playlists.get(emailCreator)
+            .contains(new Playlist(emailCreator, playlistTitle))) {
             throw new NoSuchPlaylistException(ServerReply.DELETE_PLAYLIST_NO_SUCH_PLAYLIST_REPLY.getReply());
         }
 
@@ -204,7 +213,8 @@ public class StreamingPlatform {
         }
 
         String emailCreator = this.user.getEmail();
-        if (!this.playlists.get(emailCreator).contains(new Playlist(emailCreator, playlistTitle))) {
+        if (!this.playlists.containsKey(emailCreator) || !this.playlists.get(emailCreator)
+            .contains(new Playlist(emailCreator, playlistTitle))) {
             throw new NoSuchPlaylistException(ServerReply.ADD_SONG_TO_NO_SUCH_PLAYLIST_REPLY.getReply());
         }
 
@@ -219,7 +229,8 @@ public class StreamingPlatform {
         }
 
         String emailCreator = this.user.getEmail();
-        if (!this.playlists.get(emailCreator).contains(new Playlist(emailCreator, playlistTitle))) {
+        if (!this.playlists.containsKey(emailCreator) ||
+            !this.playlists.get(emailCreator).contains(new Playlist(emailCreator, playlistTitle))) {
             throw new NoSuchPlaylistException(ServerReply.REMOVE_SONG_FROM_NO_SUCH_PLAYLIST_REPLY.getReply());
         }
 
@@ -234,7 +245,8 @@ public class StreamingPlatform {
         }
 
         String emailCreator = this.user.getEmail();
-        if (!this.playlists.get(emailCreator).contains(new Playlist(emailCreator, playlistTitle))) {
+        if (!this.playlists.containsKey(emailCreator) || !this.playlists.get(emailCreator)
+            .contains(new Playlist(emailCreator, playlistTitle))) {
 
             throw new NoSuchPlaylistException(ServerReply.SHOW_PLAYLIST_NO_SUCH_PLAYLIST_REPLY.getReply());
         }
@@ -258,23 +270,46 @@ public class StreamingPlatform {
 
         String emailCreator = this.user.getEmail();
 
+        if (!this.playlists.containsKey(emailCreator)) {
+
+            return new ArrayList<>();
+        }
+
         return this.playlists.get(emailCreator).stream()
             .map(Playlist::getTitle)
             .toList();
-
     }
 
     public void playPlaylist(String playListTitle, SelectionKey selectionKey) throws UserNotLoggedException,
-        SongIsAlreadyPlayingException {
+        SongIsAlreadyPlayingException, NoSuchPlaylistException, NoSongsInPlaylistException {
 
         if (!this.alreadyLogged.contains(selectionKey)) {
 
             throw new UserNotLoggedException(ServerReply.PLAY_SONG_NOT_LOGGED_REPLY.getReply());
         }
 
+        if (!this.playlists.containsKey(this.user.getEmail()) || !this.playlists.get(this.user.getEmail())
+            .contains(new Playlist(this.user.getEmail(), playListTitle))) {
+
+            throw new NoSuchPlaylistException(ServerReply.PLAY_PLAYLIST_NO_SUCH_PLAYLIST_REPLY.getReply());
+        }
+
         if (this.alreadyRunning.containsKey(selectionKey)) {
 
             throw new SongIsAlreadyPlayingException(ServerReply.PLAY_SONG_IS_ALREADY_RUNNING_REPLY.getReply());
+        }
+
+        for (Playlist currentPlaylist : this.playlists.get(this.user.getEmail())) {
+
+            if (currentPlaylist.getTitle().equals(playListTitle)) {
+
+                if (currentPlaylist.getPlaylistSongs().isEmpty()) {
+
+                    throw new
+                        NoSongsInPlaylistException(ServerReply.PLAY_PLAYLIST_NO_SONGS_IN_PLAYLIST_REPLY.getReply());
+                }
+                break;
+            }
         }
 
         PlayPlaylist playPlaylistThread = new PlayPlaylist(playListTitle, selectionKey, this,

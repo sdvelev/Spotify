@@ -1,5 +1,10 @@
 [
   {
+    "emailCreator": "s@s.com",
+    "title": "My",
+    "playlistSongs": []
+  },
+  {
     "emailCreator": "sdvelev@gmail.com",
     "title": "MyPlaylist",
     "playlistSongs": [
@@ -52,5 +57,10 @@
         "genre": "modern"
       }
     ]
+  },
+  {
+    "emailCreator": "qw@qw.com",
+    "title": "Hi",
+    "playlistSongs": []
   }
 ]

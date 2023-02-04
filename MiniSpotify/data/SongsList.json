@@ -6,7 +6,7 @@
       "duration": 87,
       "genre": "classical"
     },
-    "listeningTimes": 19
+    "listeningTimes": 20
   },
   {
     "song": {
@@ -15,7 +15,7 @@
       "duration": 239,
       "genre": "pop"
     },
-    "listeningTimes": 30
+    "listeningTimes": 32
   },
   {
     "song": {
@@ -24,7 +24,7 @@
       "duration": 114,
       "genre": "classical"
     },
-    "listeningTimes": 32
+    "listeningTimes": 33
   },
   {
     "song": {
@@ -33,6 +33,6 @@
       "duration": 248,
       "genre": "modern"
     },
-    "listeningTimes": 14
+    "listeningTimes": 15
   }
 ]

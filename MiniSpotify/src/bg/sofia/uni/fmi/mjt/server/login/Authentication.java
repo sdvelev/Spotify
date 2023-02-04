@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
 import java.security.NoSuchAlgorithmException;
 
 import static bg.sofia.uni.fmi.mjt.server.login.SHAAlgorithm.getHash;
@@ -22,47 +24,69 @@ public class Authentication {
     private final static String REGISTERED_USERS_LIST_PATH = "data" + File.separator + "RegisteredUsersList.txt";
     private final static String INTERVAL_REGEX = " ";
 
+    private Reader authenticationReader;
 
-    public static User login(String email, String password) throws UserNotFoundException,
+    private Writer authenticationWriter;
+
+    public Authentication() {
+
+
+    }
+
+    public Authentication(Reader authenticationReader, Writer authenticationWriter) {
+
+        this.authenticationReader = authenticationReader;
+        this.authenticationWriter = authenticationWriter;
+    }
+
+    public User login(String email, String password) throws UserNotFoundException,
         NoSuchAlgorithmException, IODatabaseException {
 
         String entryToSearch = email + INTERVAL_REGEX + getHash(password);
-        try (BufferedReader bufferedReader = new BufferedReader(new
-            FileReader(REGISTERED_USERS_LIST_PATH))) {
 
-            if (bufferedReader.lines()
-                .filter(currentEntry -> currentEntry.equals(entryToSearch))
-                .toList().size() == 1) {
+        if (this.authenticationReader == null) {
+
+            try (BufferedReader bufferedReader = new BufferedReader(new
+                FileReader(REGISTERED_USERS_LIST_PATH))) {
+
+                if (bufferedReader.lines()
+                    .filter(currentEntry -> currentEntry.equals(entryToSearch))
+                    .toList().size() == 1) {
+
+                    return new User(email, password);
+                }
+
+            } catch (IOException e) {
+
+                throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
+            }
+        } else {
+
+            if (doExist(email)) {
 
                 return new User(email, password);
             }
 
-        } catch (IOException e) {
+         /*   try (BufferedReader bufferedReader = new BufferedReader(this.authenticationReader)) {
 
-            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
+                if (bufferedReader.lines()
+                    .filter(currentEntry -> currentEntry.equals(entryToSearch))
+                    .toList().size() == 1) {
+
+                    return new User(email, password);
+                }
+
+            } catch (IOException e) {
+
+                throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
+            }*/
+
         }
 
         throw new UserNotFoundException(ServerReply.LOGIN_COMMAND_USER_NOT_EXIST_REPLY.getReply());
     }
 
-    private static boolean doExist(String email) throws IODatabaseException {
-
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(REGISTERED_USERS_LIST_PATH))) {
-
-            if (bufferedReader.lines()
-                .filter(currentEntry -> currentEntry.split(INTERVAL_REGEX)[0].equals(email))
-                .toList().size() == 1) {
-                return true;
-            }
-        } catch (IOException e) {
-
-            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply());
-        }
-
-        return false;
-    }
-
-    public static void register(String email, String password) throws
+    public void register(String email, String password) throws
         NoSuchAlgorithmException, NotValidEmailFormatException, EmailAlreadyRegisteredException, IODatabaseException {
 
         if (doExist(email)) {
@@ -74,15 +98,72 @@ public class Authentication {
         }
 
         String toWriteEntry = email + " " + getHash(password) + System.lineSeparator();
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new
-            FileWriter(REGISTERED_USERS_LIST_PATH, true))) {
 
-            bufferedWriter.write(toWriteEntry);
-            bufferedWriter.flush();
-        } catch (IOException e) {
+        if (this.authenticationWriter == null) {
 
-            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
+            try (BufferedWriter bufferedWriter = new BufferedWriter(new
+                FileWriter(REGISTERED_USERS_LIST_PATH, true))) {
+
+                bufferedWriter.write(toWriteEntry);
+                bufferedWriter.flush();
+            } catch (IOException e) {
+
+                throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
+            }
+        } else {
+
+            try (BufferedWriter bufferedWriter = new BufferedWriter(this.authenticationWriter)) {
+
+                bufferedWriter.write(toWriteEntry);
+                bufferedWriter.flush();
+            } catch (IOException e) {
+
+                throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
+            }
+
         }
+    }
+
+    public Reader getAuthenticationReader() {
+        return authenticationReader;
+    }
+
+    public Writer getAuthenticationWriter() {
+        return authenticationWriter;
+    }
+
+    private boolean doExist(String email) throws IODatabaseException {
+
+        if (this.authenticationWriter == null) {
+
+            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(REGISTERED_USERS_LIST_PATH))) {
+
+                if (bufferedReader.lines()
+                    .filter(currentEntry -> currentEntry.split(INTERVAL_REGEX)[0].equals(email))
+                    .toList().size() == 1) {
+                    return true;
+                }
+            } catch (IOException e) {
+
+                throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply());
+            }
+
+        } else {
+
+            try (BufferedReader bufferedReader = new BufferedReader(this.authenticationReader)) {
+
+                if (bufferedReader.lines()
+                    .filter(currentEntry -> currentEntry.split(INTERVAL_REGEX)[0].equals(email))
+                    .toList().size() == 1) {
+                    return true;
+                }
+            } catch (IOException e) {
+
+                throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply());
+            }
+        }
+
+        return false;
     }
 
     /*public static void main(String[] args)

@@ -2,6 +2,7 @@ package bg.sofia.uni.fmi.mjt.server;
 
 import bg.sofia.uni.fmi.mjt.server.exceptions.IODatabaseException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSongPlayingException;
+import bg.sofia.uni.fmi.mjt.server.exceptions.NoSongsInPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.PlaylistAlreadyExistException;
@@ -9,6 +10,7 @@ import bg.sofia.uni.fmi.mjt.server.exceptions.PlaylistNotEmptyException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.SongAlreadyInPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.SongIsAlreadyPlayingException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException;
+import bg.sofia.uni.fmi.mjt.server.login.Authentication;
 import bg.sofia.uni.fmi.mjt.server.login.User;
 import bg.sofia.uni.fmi.mjt.server.player.PlayPlaylist;
 import bg.sofia.uni.fmi.mjt.server.player.PlaySong;
@@ -276,6 +278,9 @@ public class StreamingPlatformTest {
 
     private Map<SelectionKey, PlaySong> alreadyRunningMock = mock(Map.class);
 
+    @Mock
+    private Authentication authenticationServiceMock = mock(Authentication.class);
+
     @BeforeEach
     void setTests() throws IODatabaseException {
 
@@ -285,7 +290,7 @@ public class StreamingPlatformTest {
         var playlistsListOut = new StringWriter();
 
         this.streamingPlatform = new StreamingPlatform(playlistsListIn, playlistsListOut, songsListIn, songsListOut,
-            alreadyLoggedMock, alreadyRunningMock);
+            alreadyLoggedMock, alreadyRunningMock, this.authenticationServiceMock);
     }
 
     @AfterEach
@@ -1011,7 +1016,8 @@ public class StreamingPlatformTest {
 
     @Test
     void testPlayPlaylistSuccessfully()
-        throws UserNotLoggedException, SongIsAlreadyPlayingException, InterruptedException, NoSongPlayingException {
+        throws UserNotLoggedException, SongIsAlreadyPlayingException, InterruptedException, NoSongPlayingException,
+        NoSuchPlaylistException, NoSongsInPlaylistException {
 
         User user = new User("sdvelev@gmail.com", "123456");
         this.streamingPlatform.setUser(user);
@@ -1092,4 +1098,43 @@ public class StreamingPlatformTest {
         verify(this.alreadyRunningMock, times(1)).containsKey(this.selectionKey);
     }
 
+    @Test
+    void testPlayPlaylistNoSuchPlaylistException() {
+
+        User user = new User("sm@sm.com", "123456");
+        this.streamingPlatform.setUser(user);
+
+        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+
+        String playListTitle = "MyPlaylist";
+
+        assertThrows(NoSuchPlaylistException.class ,() ->
+                this.streamingPlatform.playPlaylist(playListTitle, selectionKey),
+            "NoSuchPlaylistException is expected but not thrown.");
+
+        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
+    }
+
+    @Test
+    void testPlayPlaylistNoSongsInPlaylistException()
+        throws UserNotLoggedException, PlaylistAlreadyExistException, IODatabaseException {
+
+        User user = new User("sdvelev@gmail.com", "123456");
+        this.streamingPlatform.setUser(user);
+
+        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+
+        when(this.alreadyRunningMock.containsKey(this.selectionKey)).thenReturn(false);
+
+        String playListTitle = "EmptyPlaylist";
+
+        this.streamingPlatform.createPlaylist(playListTitle, this.selectionKey);
+
+        assertThrows(NoSongsInPlaylistException.class ,() ->
+                this.streamingPlatform.playPlaylist(playListTitle, selectionKey),
+            "NoSongsInPlaylistException is expected but not thrown.");
+
+        verify(this.alreadyLoggedMock, times(2)).contains(this.selectionKey);
+        verify(this.alreadyRunningMock, times(1)).containsKey(this.selectionKey);
+    }
 }

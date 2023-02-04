@@ -5,6 +5,7 @@ import bg.sofia.uni.fmi.mjt.server.StreamingPlatform;
 import bg.sofia.uni.fmi.mjt.server.exceptions.EmailAlreadyRegisteredException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.IODatabaseException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSongPlayingException;
+import bg.sofia.uni.fmi.mjt.server.exceptions.NoSongsInPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NotValidEmailFormatException;
@@ -16,6 +17,7 @@ import bg.sofia.uni.fmi.mjt.server.exceptions.UserAlreadyLoggedException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException;
 import bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger;
+import bg.sofia.uni.fmi.mjt.server.login.Authentication;
 import bg.sofia.uni.fmi.mjt.server.login.User;
 import bg.sofia.uni.fmi.mjt.server.storage.Playlist;
 import bg.sofia.uni.fmi.mjt.server.storage.Song;
@@ -26,9 +28,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static bg.sofia.uni.fmi.mjt.server.login.Authentication.login;
-import static bg.sofia.uni.fmi.mjt.server.login.Authentication.register;
 
 public class CommandExecutor {
 
@@ -60,11 +59,14 @@ public class CommandExecutor {
     private final static String POSITIVE_NUMBER_REGEX = "^[0-9]+$";
 
     private StreamingPlatform streamingPlatform;
+    private Authentication authenticationService;
     private SpotifyLogger spotifyLogger;
 
-    public CommandExecutor(StreamingPlatform streamingPlatform, SpotifyLogger spotifyLogger) {
+    public CommandExecutor(StreamingPlatform streamingPlatform, Authentication authenticationService,
+                           SpotifyLogger spotifyLogger) {
 
         this.streamingPlatform = streamingPlatform;
+        this.authenticationService = authenticationService;
         this.spotifyLogger = spotifyLogger;
     }
 
@@ -195,6 +197,14 @@ public class CommandExecutor {
 
             return getCorrectReply(Level.INFO, streamingPlatform.getUser().getEmail(),
                 ServerReply.PLAY_PLAYLIST_ALREADY_PLAYING.getReply(), e);
+        } catch (NoSuchPlaylistException e) {
+
+            return getCorrectReply(Level.INFO, streamingPlatform.getUser().getEmail(),
+                ServerReply.PLAY_PLAYLIST_NO_SUCH_PLAYLIST_REPLY.getReply(), e);
+        } catch (NoSongsInPlaylistException e) {
+
+            return getCorrectReply(Level.INFO, streamingPlatform.getUser().getEmail(),
+                ServerReply.PLAY_PLAYLIST_NO_SONGS_IN_PLAYLIST_REPLY.getReply(), e);
         } catch (Exception e) {
 
             return getCorrectReply(Level.SEVERE, streamingPlatform.getUser().getEmail(),
@@ -441,7 +451,7 @@ public class CommandExecutor {
         String emailToRegister = arguments.get(0);
         String passwordToRegister = arguments.get(1);
         try {
-            register(emailToRegister, passwordToRegister);
+            authenticationService.register(emailToRegister, passwordToRegister);
         } catch (NoSuchAlgorithmException e) {
 
             return getCorrectReply(Level.SEVERE, emailToRegister,
@@ -499,7 +509,7 @@ public class CommandExecutor {
         String passwordToLogin = arguments.get(1);
         try {
             validateIsLogged(selectionKey);
-            User toLog = login(emailToLogin, passwordToLogin);
+            User toLog = authenticationService.login(emailToLogin, passwordToLogin);
             streamingPlatform.setUser(toLog);
             streamingPlatform.getAlreadyLogged().add(selectionKey);
         } catch (UserNotFoundException e) {

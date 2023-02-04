@@ -1,18 +1,23 @@
 package bg.sofia.uni.fmi.mjt.server.command;
 
-import bg.sofia.uni.fmi.mjt.server.Server;
 import bg.sofia.uni.fmi.mjt.server.ServerReply;
 import bg.sofia.uni.fmi.mjt.server.StreamingPlatform;
+import bg.sofia.uni.fmi.mjt.server.exceptions.EmailAlreadyRegisteredException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.IODatabaseException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSongPlayingException;
+import bg.sofia.uni.fmi.mjt.server.exceptions.NoSongsInPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException;
+import bg.sofia.uni.fmi.mjt.server.exceptions.NotValidEmailFormatException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.PlaylistAlreadyExistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.PlaylistNotEmptyException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.SongAlreadyInPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.SongIsAlreadyPlayingException;
+import bg.sofia.uni.fmi.mjt.server.exceptions.UserAlreadyLoggedException;
+import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException;
 import bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger;
+import bg.sofia.uni.fmi.mjt.server.login.Authentication;
 import bg.sofia.uni.fmi.mjt.server.login.User;
 import bg.sofia.uni.fmi.mjt.server.storage.Playlist;
 import bg.sofia.uni.fmi.mjt.server.storage.Song;
@@ -20,17 +25,16 @@ import bg.sofia.uni.fmi.mjt.server.storage.SongEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.internal.matchers.Null;
 
-import java.io.IOException;
 import java.nio.channels.SelectionKey;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -46,6 +50,9 @@ public class CommandExecutorTest {
     @Mock
     private StreamingPlatform streamingPlatformMock = mock(StreamingPlatform.class);
 
+    @Mock
+    private Authentication authenticationServiceMock = mock(Authentication.class);
+
     private CommandExecutor commandExecutor;
 
     @Mock
@@ -54,7 +61,7 @@ public class CommandExecutorTest {
     @BeforeEach
     void setTests() {
 
-        this.commandExecutor = new CommandExecutor(streamingPlatformMock, spotifyLoggerMock);
+        this.commandExecutor = new CommandExecutor(streamingPlatformMock, authenticationServiceMock, spotifyLoggerMock);
     }
 
     @Test
@@ -1070,7 +1077,8 @@ public class CommandExecutorTest {
 
     @Test
     void testExecuteCommandProcessPlayPlaylistCommandUserNotLoggedException()
-        throws UserNotLoggedException, SongIsAlreadyPlayingException {
+        throws UserNotLoggedException, SongIsAlreadyPlayingException, NoSuchPlaylistException,
+        NoSongsInPlaylistException {
 
         Command toProcess = new Command("play-playlist", List.of("Favourites"));
 
@@ -1088,7 +1096,8 @@ public class CommandExecutorTest {
 
     @Test
     void testExecuteCommandProcessPlayPlaylistCommandSongIsAlreadyPlayingException()
-        throws UserNotLoggedException, SongIsAlreadyPlayingException {
+        throws UserNotLoggedException, SongIsAlreadyPlayingException, NoSuchPlaylistException,
+        NoSongsInPlaylistException {
 
         Command toProcess = new Command("play-playlist", List.of("Favourites"));
 
@@ -1107,8 +1116,51 @@ public class CommandExecutorTest {
     }
 
     @Test
+    void testExecuteCommandProcessPlayPlaylistCommandNoSongsInPlaylistException()
+        throws UserNotLoggedException, SongIsAlreadyPlayingException, NoSuchPlaylistException,
+        NoSongsInPlaylistException {
+
+        Command toProcess = new Command("play-playlist", List.of("Favourites"));
+
+        doThrow(new NoSongsInPlaylistException((ServerReply.PLAY_PLAYLIST_NO_SONGS_IN_PLAYLIST_REPLY.getReply())))
+            .when(this.streamingPlatformMock).playPlaylist("Favourites" ,this.selectionKeyMock);
+
+        when(this.streamingPlatformMock.getUser()).thenReturn(new User("sdvelev@gmail.com", "123456"));
+        String result = this.commandExecutor.executeCommand(toProcess, this.selectionKeyMock);
+
+        assertEquals(ServerReply.PLAY_PLAYLIST_NO_SONGS_IN_PLAYLIST_REPLY.getReply(), result,
+            "The received reply from the server after executing the play-playlist when no songs are found " +
+                "is not the same as the expected.");
+        verify(this.streamingPlatformMock, times(1)).playPlaylist("Favourites",
+            this.selectionKeyMock);
+        verify(this.streamingPlatformMock, times(1)).getUser();
+    }
+
+    @Test
+    void testExecuteCommandProcessPlayPlaylistCommandNoSuchPlaylistException()
+        throws UserNotLoggedException, SongIsAlreadyPlayingException, NoSuchPlaylistException,
+        NoSongsInPlaylistException {
+
+        Command toProcess = new Command("play-playlist", List.of("Favourites"));
+
+        doThrow(new NoSuchPlaylistException((ServerReply.PLAY_PLAYLIST_NO_SUCH_PLAYLIST_REPLY.getReply())))
+            .when(this.streamingPlatformMock).playPlaylist("Favourites" ,this.selectionKeyMock);
+
+        when(this.streamingPlatformMock.getUser()).thenReturn(new User("sdvelev@gmail.com", "123456"));
+        String result = this.commandExecutor.executeCommand(toProcess, this.selectionKeyMock);
+
+        assertEquals(ServerReply.PLAY_PLAYLIST_NO_SUCH_PLAYLIST_REPLY.getReply(), result,
+            "The received reply from the server after executing the play-playlist when no such playlist is " +
+                "found is not the same as the expected.");
+        verify(this.streamingPlatformMock, times(1)).playPlaylist("Favourites",
+            this.selectionKeyMock);
+        verify(this.streamingPlatformMock, times(1)).getUser();
+    }
+
+    @Test
     void testExecuteCommandProcessPlayPlaylistCommandNullPointerException()
-        throws UserNotLoggedException, SongIsAlreadyPlayingException {
+        throws UserNotLoggedException, SongIsAlreadyPlayingException, NoSuchPlaylistException,
+        NoSongsInPlaylistException {
 
         Command toProcess = new Command("play-playlist", List.of("Favourites"));
 
@@ -1218,5 +1270,213 @@ public class CommandExecutorTest {
             "The received reply from the server after executing unknown command is not " +
                 "the same as the expected.");
     }
+
+    @Test
+    void testExecuteCommandProcessRegisterCommandSuccessfully() {
+
+        Command toProcess = new Command("register", List.of("sdvelev@outlook.com", "123456"));
+
+        String result = this.commandExecutor.executeCommand(toProcess, this.selectionKeyMock);
+
+        assertEquals(ServerReply.REGISTER_COMMAND_SUCCESSFULLY_REPLY.getReply(), result,
+            "The received reply from the server after executing register command successfully is not " +
+                "the same as the expected.");
+    }
+
+    @Test
+    void testExecuteCommandProcessRegisterCommandNoSuchAlgorithmException()
+        throws NotValidEmailFormatException, EmailAlreadyRegisteredException, IODatabaseException,
+        NoSuchAlgorithmException {
+
+        Command toProcess = new Command("register", List.of("sdvelev@outlook.com", "123456"));
+
+        doThrow(new NoSuchAlgorithmException(ServerReply.REGISTER_COMMAND_ALGORITHM_REPLY.getReply()))
+            .when(this.authenticationServiceMock).register("sdvelev@outlook.com", "123456");
+
+        String result = this.commandExecutor.executeCommand(toProcess, this.selectionKeyMock);
+
+        assertEquals(ServerReply.REGISTER_COMMAND_ALGORITHM_REPLY.getReply(), result,
+            "The received reply from the server after executing register command and algorithm is not " +
+                "found is not the same as the expected.");
+        verify(this.authenticationServiceMock, times(1))
+            .register("sdvelev@outlook.com", "123456");
+    }
+
+    @Test
+    void testExecuteCommandProcessRegisterCommandNotValidEmailFormatException()
+        throws NotValidEmailFormatException, EmailAlreadyRegisteredException, IODatabaseException,
+        NoSuchAlgorithmException {
+
+        Command toProcess = new Command("register", List.of("sdvelev@outlook", "123456"));
+
+        doThrow(new NotValidEmailFormatException(ServerReply.REGISTER_COMMAND_INVALID_EMAIL_REPLY.getReply()))
+            .when(this.authenticationServiceMock).register("sdvelev@outlook", "123456");
+
+        String result = this.commandExecutor.executeCommand(toProcess, this.selectionKeyMock);
+
+        assertEquals(ServerReply.REGISTER_COMMAND_INVALID_EMAIL_REPLY.getReply(), result,
+            "The received reply from the server after executing register command and email is not " +
+                "valid is not the same as the expected.");
+        verify(this.authenticationServiceMock, times(1))
+            .register("sdvelev@outlook", "123456");
+    }
+
+    @Test
+    void testExecuteCommandProcessRegisterCommandEmailAlreadyRegisteredException()
+        throws NotValidEmailFormatException, EmailAlreadyRegisteredException, IODatabaseException,
+        NoSuchAlgorithmException {
+
+        Command toProcess = new Command("register", List.of("sdvelev@outlook", "123456"));
+
+        doThrow(new EmailAlreadyRegisteredException(ServerReply.REGISTER_COMMAND_ALREADY_EXIST_REPLY.getReply()))
+            .when(this.authenticationServiceMock).register("sdvelev@outlook", "123456");
+
+        String result = this.commandExecutor.executeCommand(toProcess, this.selectionKeyMock);
+
+        assertEquals(ServerReply.REGISTER_COMMAND_ALREADY_EXIST_REPLY.getReply(), result,
+            "The received reply from the server after executing register command and email is already " +
+                "registered is not the same as the expected.");
+        verify(this.authenticationServiceMock, times(1))
+            .register("sdvelev@outlook", "123456");
+    }
+
+    @Test
+    void testExecuteCommandProcessRegisterCommandIODatabaseException()
+        throws NotValidEmailFormatException, EmailAlreadyRegisteredException, IODatabaseException,
+        NoSuchAlgorithmException {
+
+        Command toProcess = new Command("register", List.of("sdvelev@outlook", "123456"));
+
+        doThrow(new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply()))
+            .when(this.authenticationServiceMock).register("sdvelev@outlook", "123456");
+
+        String result = this.commandExecutor.executeCommand(toProcess, this.selectionKeyMock);
+
+        assertEquals(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), result,
+            "The received reply from the server after executing register command and there is a problem with " +
+                "database is not the same as the expected.");
+        verify(this.authenticationServiceMock, times(1))
+            .register("sdvelev@outlook", "123456");
+    }
+
+    @Test
+    void testExecuteCommandProcessRegisterCommandIndexOutOfBoundsException()
+        throws NotValidEmailFormatException, EmailAlreadyRegisteredException, IODatabaseException,
+        NoSuchAlgorithmException {
+
+        Command toProcess = new Command("register", List.of("sdvelev@outlook", "123456"));
+
+        doThrow(new IndexOutOfBoundsException(ServerReply.SERVER_EXCEPTION.getReply()))
+            .when(this.authenticationServiceMock).register("sdvelev@outlook", "123456");
+
+        String result = this.commandExecutor.executeCommand(toProcess, this.selectionKeyMock);
+
+        assertEquals(ServerReply.SERVER_EXCEPTION.getReply(), result,
+            "The received reply from the server after executing register command and there is an unexpected " +
+                "exception is not the same as the expected.");
+        verify(this.authenticationServiceMock, times(1))
+            .register("sdvelev@outlook", "123456");
+    }
+
+    @Test
+    void testExecuteCommandProcessLoginCommandSuccessfully() {
+
+        Command toProcess = new Command("login", List.of("sdvelev@outlook.com", "123456"));
+
+        String result = this.commandExecutor.executeCommand(toProcess, this.selectionKeyMock);
+
+        assertEquals(ServerReply.LOGIN_COMMAND_SUCCESSFULLY_REPLY.getReply(), result,
+            "The received reply from the server after executing login command successfully is not " +
+                "the same as the expected.");
+    }
+
+    @Test
+    void testExecuteCommandProcessLoginCommandNoSuchAlgorithmException()
+        throws IODatabaseException, NoSuchAlgorithmException, UserNotFoundException {
+
+        Command toProcess = new Command("login", List.of("sdvelev@outlook.com", "123456"));
+
+        when(this.authenticationServiceMock.login("sdvelev@outlook.com", "123456"))
+            .thenThrow(new NoSuchAlgorithmException(ServerReply.LOGIN_COMMAND_ALGORITHM_REPLY.getReply()));
+
+        String result = this.commandExecutor.executeCommand(toProcess, this.selectionKeyMock);
+
+        assertEquals(ServerReply.LOGIN_COMMAND_ALGORITHM_REPLY.getReply(), result,
+            "The received reply from the server after executing login command and algorithm is not " +
+                "found is not the same as the expected.");
+        verify(this.authenticationServiceMock, times(1))
+            .login("sdvelev@outlook.com", "123456");
+    }
+
+    @Test
+    void testExecuteCommandProcessLoginCommandUserAlreadyLoggedException()
+        throws IODatabaseException, NoSuchAlgorithmException, UserNotFoundException {
+
+        Command toProcess = new Command("login", List.of("sdvelev@outlook.com", "123456"));
+
+        when(this.streamingPlatformMock.getAlreadyLogged()).thenReturn(Set.of(this.selectionKeyMock));
+
+        String result = this.commandExecutor.executeCommand(toProcess, this.selectionKeyMock);
+
+        assertEquals(ServerReply.LOGIN_COMMAND_USER_ALREADY_LOGGED_REPLY.getReply(), result,
+            "The received reply from the server after executing login command and user is already " +
+                "logged is not the same as the expected.");
+    }
+
+    @Test
+    void testExecuteCommandProcessLoginCommandUserNotFoundException()
+        throws IODatabaseException, NoSuchAlgorithmException, UserNotFoundException {
+
+        Command toProcess = new Command("login", List.of("sdvelev@outlook", "123456"));
+
+        when(this.authenticationServiceMock.login("sdvelev@outlook", "123456"))
+            .thenThrow(new UserNotFoundException(ServerReply.LOGIN_COMMAND_USER_NOT_EXIST_REPLY.getReply()));
+
+        String result = this.commandExecutor.executeCommand(toProcess, this.selectionKeyMock);
+
+        assertEquals(ServerReply.LOGIN_COMMAND_USER_NOT_EXIST_REPLY.getReply(), result,
+            "The received reply from the server after executing login command and user is not " +
+                "found is not the same as the expected.");
+        verify(this.authenticationServiceMock, times(1))
+            .login("sdvelev@outlook", "123456");
+    }
+
+    @Test
+    void testExecuteCommandProcessLoginCommandIODatabaseException()
+        throws IODatabaseException, NoSuchAlgorithmException, UserNotFoundException {
+
+        Command toProcess = new Command("login", List.of("sdvelev@outlook", "123456"));
+
+        when(this.authenticationServiceMock.login("sdvelev@outlook", "123456"))
+            .thenThrow(new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply()));
+
+        String result = this.commandExecutor.executeCommand(toProcess, this.selectionKeyMock);
+
+        assertEquals(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), result,
+            "The received reply from the server after executing login command and there is a problem with " +
+                "database is not the same as the expected.");
+        verify(this.authenticationServiceMock, times(1))
+            .login("sdvelev@outlook", "123456");
+    }
+
+    @Test
+    void testExecuteCommandProcessLoginCommandIndexOutOfBoundsException()
+        throws IODatabaseException, NoSuchAlgorithmException, UserNotFoundException {
+
+        Command toProcess = new Command("login", List.of("sdvelev@outlook", "123456"));
+
+        when(this.authenticationServiceMock.login("sdvelev@outlook", "123456"))
+            .thenThrow(new IndexOutOfBoundsException(ServerReply.SERVER_EXCEPTION.getReply()));
+
+        String result = this.commandExecutor.executeCommand(toProcess, this.selectionKeyMock);
+
+        assertEquals(ServerReply.SERVER_EXCEPTION.getReply(), result,
+            "The received reply from the server after executing login command and there is an unexpected " +
+                "exception is not the same as the expected.");
+        verify(this.authenticationServiceMock, times(1))
+            .login("sdvelev@outlook", "123456");
+    }
+
+
 
 }
