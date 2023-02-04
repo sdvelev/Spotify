@@ -85,7 +85,7 @@ public class Authentication {
         }
     }
 
-    public static void main(String[] args)
+    /*public static void main(String[] args)
         throws NotValidEmailFormatException, NoSuchAlgorithmException, UserNotFoundException,
         EmailAlreadyRegisteredException, IODatabaseException {
 
@@ -95,6 +95,6 @@ public class Authentication {
 
        // User res = login(email, password);
       //  System.out.println(res.getEmail());
-    }
+    }*/
 
 }

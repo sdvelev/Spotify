@@ -474,11 +474,11 @@ public class CommandExecutor {
         }
     }
 
-    private String getCorrectReply(Level level, String message) {
+    /*private String getCorrectReply(Level level, String message) {
 
         this.spotifyLogger.log(level, REPLY_FIELD_TO_LOG + message);
         return message;
-    }
+    }*/
 
     private String getCorrectReply(Level level, String message, Exception e) {
 
@@ -531,7 +531,8 @@ public class CommandExecutor {
 
         if (arguments.get(0).equals(ZERO_CHARACTER) || !arguments.get(0).matches(POSITIVE_NUMBER_REGEX)) {
 
-            return getCorrectReply(Level.INFO, ServerReply.TOP_COMMAND_INVALID_ARGUMENT_REPLY.getReply());
+            return getCorrectReply(Level.INFO, ServerReply.TOP_COMMAND_INVALID_ARGUMENT_REPLY.getReply(),
+                new IllegalArgumentException(ServerReply.TOP_COMMAND_INVALID_ARGUMENT_REPLY.getReply()));
         }
 
         List<SongEntity> result = streamingPlatform.getTopNMostListenedSongs(

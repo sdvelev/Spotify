@@ -2080,3 +2080,30 @@ bg.sofia.uni.fmi.mjt.server.exceptions.NoSongPlayingException: There isn't a son
 	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:79)
 	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:157)
 
+Feb 04, 2023 3:06:33 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: Song has already been started and is now playing. You can stop it with the relevant command or wait for it to finish.
+bg.sofia.uni.fmi.mjt.server.exceptions.SongIsAlreadyPlayingException: Song has already been started and is now playing. You can stop it with the relevant command or wait for it to finish.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playSong(StreamingPlatform.java:295)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:159)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:87)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:79)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:157)
+
+Feb 04, 2023 3:07:29 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: Song is already playing at the moment. Please, stop it and try again.
+bg.sofia.uni.fmi.mjt.server.exceptions.SongIsAlreadyPlayingException: Song has already been started and is now playing. You can stop it with the relevant command or wait for it to finish.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.playPlaylist(StreamingPlatform.java:277)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processPlayPlaylistCommand(CommandExecutor.java:190)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:88)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:79)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:157)
+
+Feb 04, 2023 3:09:19 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: Reply from server: You cannot log out as there's not a logged in user associated with the current session. Please, log in first.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException: You cannot log out as there's not a logged in user associated with the current session. Please, log in first.
+	at bg.sofia.uni.fmi.mjt.server.StreamingPlatform.logout(StreamingPlatform.java:316)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processLogoutCommand(CommandExecutor.java:121)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:77)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:79)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:157)
+

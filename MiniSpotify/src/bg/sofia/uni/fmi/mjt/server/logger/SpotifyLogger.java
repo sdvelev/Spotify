@@ -14,10 +14,11 @@ public class SpotifyLogger {
     //private SpotifyLogger spotifyLogger = new SpotifyLogger("spotifyLogger.log");
     private static FileHandler fileHandler;
 
-   /* public Logger getLogger() {
+    public Logger getLogger() {
 
         return SPOTIFY_LOGGER;
-    }*/
+    }
+
     public SpotifyLogger(String nameLogger) {
 
         try {
@@ -40,11 +41,6 @@ public class SpotifyLogger {
     public void log(Level level, String message, Exception exception) {
 
         SPOTIFY_LOGGER.log(level, message, exception);
-    }
-
-    public void log(Level level, String message) {
-
-        SPOTIFY_LOGGER.log(level, message);
     }
 
    /* public static void main(String[] args) {
