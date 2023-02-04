@@ -7,17 +7,15 @@ import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.SongIsAlreadyPlayingException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException;
 import bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger;
-import bg.sofia.uni.fmi.mjt.server.login.User;
 import bg.sofia.uni.fmi.mjt.server.storage.Playlist;
 import bg.sofia.uni.fmi.mjt.server.storage.Song;
 
 import java.nio.channels.SelectionKey;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.logging.Level;
 
-public class PlayPlaylist extends Thread {
+public class PlayPlaylistThread extends Thread {
 
     private final static int WAITING_TIME = 2000;
     private String playListTitle;
@@ -25,8 +23,8 @@ public class PlayPlaylist extends Thread {
     private StreamingPlatform streamingPlatform;
     private SpotifyLogger spotifyLogger;
 
-    public PlayPlaylist(String playListTitle, SelectionKey selectionKey,
-                        StreamingPlatform streamingPlatform, SpotifyLogger spotifyLogger) {
+    public PlayPlaylistThread(String playListTitle, SelectionKey selectionKey,
+                              StreamingPlatform streamingPlatform, SpotifyLogger spotifyLogger) {
 
         this.playListTitle = playListTitle;
         this.selectionKey = selectionKey;

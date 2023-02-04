@@ -18,22 +18,23 @@ import java.security.NoSuchAlgorithmException;
 
 import static bg.sofia.uni.fmi.mjt.server.login.SHAAlgorithm.getHash;
 
-public class Authentication {
+public class AuthenticationService {
 
     private final static String VALID_EMAIL_REGEX = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
-    private final static String REGISTERED_USERS_LIST_PATH = "data" + File.separator + "RegisteredUsersList.txt";
+    private final static String REGISTERED_USERS_LIST_PATH = "data" + File.separator + "authentication" + File.separator +
+        "RegisteredUsersList.txt";
     private final static String INTERVAL_REGEX = " ";
 
     private Reader authenticationReader;
 
     private Writer authenticationWriter;
 
-    public Authentication() {
+    public AuthenticationService() {
 
 
     }
 
-    public Authentication(Reader authenticationReader, Writer authenticationWriter) {
+    public AuthenticationService(Reader authenticationReader, Writer authenticationWriter) {
 
         this.authenticationReader = authenticationReader;
         this.authenticationWriter = authenticationWriter;

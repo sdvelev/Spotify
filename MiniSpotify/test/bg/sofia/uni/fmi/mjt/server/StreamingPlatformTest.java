@@ -10,19 +10,16 @@ import bg.sofia.uni.fmi.mjt.server.exceptions.PlaylistNotEmptyException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.SongAlreadyInPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.SongIsAlreadyPlayingException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException;
-import bg.sofia.uni.fmi.mjt.server.login.Authentication;
+import bg.sofia.uni.fmi.mjt.server.login.AuthenticationService;
 import bg.sofia.uni.fmi.mjt.server.login.User;
-import bg.sofia.uni.fmi.mjt.server.player.PlayPlaylist;
-import bg.sofia.uni.fmi.mjt.server.player.PlaySong;
+import bg.sofia.uni.fmi.mjt.server.player.PlaySongThread;
 import bg.sofia.uni.fmi.mjt.server.storage.Playlist;
 import bg.sofia.uni.fmi.mjt.server.storage.Song;
 import bg.sofia.uni.fmi.mjt.server.storage.SongEntity;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -276,10 +273,10 @@ public class StreamingPlatformTest {
     @Mock
     private Set<SelectionKey> alreadyLoggedMock = mock(Set.class);
 
-    private Map<SelectionKey, PlaySong> alreadyRunningMock = mock(Map.class);
+    private Map<SelectionKey, PlaySongThread> alreadyRunningMock = mock(Map.class);
 
     @Mock
-    private Authentication authenticationServiceMock = mock(Authentication.class);
+    private AuthenticationService authenticationServiceMock = mock(AuthenticationService.class);
 
     @BeforeEach
     void setTests() throws IODatabaseException {
@@ -934,7 +931,7 @@ public class StreamingPlatformTest {
     }
 
     @Mock
-    private PlaySong playSongMock = mock(PlaySong.class);
+    private PlaySongThread playSongThreadMock = mock(PlaySongThread.class);
 
     @Test
     void testStopSongSuccessfully() throws InterruptedException, UserNotLoggedException, NoSongPlayingException {
@@ -946,14 +943,14 @@ public class StreamingPlatformTest {
 
         when(this.alreadyRunningMock.containsKey(this.selectionKey)).thenReturn(true);
 
-        when(this.alreadyRunningMock.get(selectionKey)).thenReturn(playSongMock);
-        doNothing().when(playSongMock).terminateSong();
-        doNothing().when(playSongMock).join();
+        when(this.alreadyRunningMock.get(selectionKey)).thenReturn(playSongThreadMock);
+        doNothing().when(playSongThreadMock).terminateSong();
+        doNothing().when(playSongThreadMock).join();
 
         this.streamingPlatform.stopSong(selectionKey);
 
-        verify(this.playSongMock, times(1)).terminateSong();
-        verify(this.playSongMock, times(1)).join();
+        verify(this.playSongThreadMock, times(1)).terminateSong();
+        verify(this.playSongThreadMock, times(1)).join();
     }
 
     @Test
@@ -992,14 +989,14 @@ public class StreamingPlatformTest {
 
         when(this.alreadyRunningMock.containsKey(this.selectionKey)).thenReturn(true);
 
-        when(this.alreadyRunningMock.get(selectionKey)).thenReturn(playSongMock);
-        doNothing().when(playSongMock).terminateSong();
-        doNothing().when(playSongMock).join();
+        when(this.alreadyRunningMock.get(selectionKey)).thenReturn(playSongThreadMock);
+        doNothing().when(playSongThreadMock).terminateSong();
+        doNothing().when(playSongThreadMock).join();
 
         this.streamingPlatform.logout(this.selectionKey);
 
-        verify(this.playSongMock, times(1)).terminateSong();
-        verify(this.playSongMock, times(1)).join();
+        verify(this.playSongThreadMock, times(1)).terminateSong();
+        verify(this.playSongThreadMock, times(1)).join();
 
         verify(this.alreadyLoggedMock, times(1)).remove(this.selectionKey);
     }
@@ -1040,9 +1037,9 @@ public class StreamingPlatformTest {
 
         when(this.alreadyRunningMock.containsKey(this.selectionKey)).thenReturn(true);
 
-        when(this.alreadyRunningMock.get(selectionKey)).thenReturn(playSongMock);
-        doNothing().when(playSongMock).terminateSong();
-        doNothing().when(playSongMock).join();
+        when(this.alreadyRunningMock.get(selectionKey)).thenReturn(playSongThreadMock);
+        doNothing().when(playSongThreadMock).terminateSong();
+        doNothing().when(playSongThreadMock).join();
 
         this.streamingPlatform.stopSong(selectionKey);
 
@@ -1050,9 +1047,9 @@ public class StreamingPlatformTest {
 
         when(this.alreadyRunningMock.containsKey(this.selectionKey)).thenReturn(true);
 
-        when(this.alreadyRunningMock.get(selectionKey)).thenReturn(playSongMock);
-        doNothing().when(playSongMock).terminateSong();
-        doNothing().when(playSongMock).join();
+        when(this.alreadyRunningMock.get(selectionKey)).thenReturn(playSongThreadMock);
+        doNothing().when(playSongThreadMock).terminateSong();
+        doNothing().when(playSongThreadMock).join();
 
         this.streamingPlatform.stopSong(selectionKey);
 

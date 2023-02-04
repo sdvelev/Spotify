@@ -17,7 +17,7 @@ import bg.sofia.uni.fmi.mjt.server.exceptions.UserAlreadyLoggedException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException;
 import bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger;
-import bg.sofia.uni.fmi.mjt.server.login.Authentication;
+import bg.sofia.uni.fmi.mjt.server.login.AuthenticationService;
 import bg.sofia.uni.fmi.mjt.server.login.User;
 import bg.sofia.uni.fmi.mjt.server.storage.Playlist;
 import bg.sofia.uni.fmi.mjt.server.storage.Song;
@@ -27,7 +27,6 @@ import java.nio.channels.SelectionKey;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class CommandExecutor {
 
@@ -59,10 +58,10 @@ public class CommandExecutor {
     private final static String POSITIVE_NUMBER_REGEX = "^[0-9]+$";
 
     private StreamingPlatform streamingPlatform;
-    private Authentication authenticationService;
+    private AuthenticationService authenticationService;
     private SpotifyLogger spotifyLogger;
 
-    public CommandExecutor(StreamingPlatform streamingPlatform, Authentication authenticationService,
+    public CommandExecutor(StreamingPlatform streamingPlatform, AuthenticationService authenticationService,
                            SpotifyLogger spotifyLogger) {
 
         this.streamingPlatform = streamingPlatform;

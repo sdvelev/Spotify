@@ -11,10 +11,10 @@ import bg.sofia.uni.fmi.mjt.server.exceptions.SongAlreadyInPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.SongIsAlreadyPlayingException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException;
 import bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger;
-import bg.sofia.uni.fmi.mjt.server.login.Authentication;
+import bg.sofia.uni.fmi.mjt.server.login.AuthenticationService;
 import bg.sofia.uni.fmi.mjt.server.login.User;
-import bg.sofia.uni.fmi.mjt.server.player.PlayPlaylist;
-import bg.sofia.uni.fmi.mjt.server.player.PlaySong;
+import bg.sofia.uni.fmi.mjt.server.player.PlayPlaylistThread;
+import bg.sofia.uni.fmi.mjt.server.player.PlaySongThread;
 import bg.sofia.uni.fmi.mjt.server.storage.Playlist;
 import bg.sofia.uni.fmi.mjt.server.storage.Song;
 import bg.sofia.uni.fmi.mjt.server.storage.SongEntity;
@@ -32,7 +32,6 @@ import java.nio.channels.SelectionKey;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -55,9 +54,9 @@ public class StreamingPlatform {
     private User user;
     private boolean isLogged;
     private Map<String, Set<Playlist>> playlists;
-    private Map<SelectionKey, PlaySong> alreadyRunning;
+    private Map<SelectionKey, PlaySongThread> alreadyRunning;
     private Set<SelectionKey> alreadyLogged;
-    private Authentication authenticationService;
+    private AuthenticationService authenticationService;
 
     private Reader playlistsReader;
     private Writer playlistsWriter;
@@ -74,15 +73,15 @@ public class StreamingPlatform {
         this.spotifyLogger = spotifyLogger;
 
         this.user = new User("", "");
-        this.authenticationService = new Authentication();
+        this.authenticationService = new AuthenticationService();
 
         this.readSongs();
         this.readPlaylists();
     }
 
     public StreamingPlatform(Reader playlistsReader, Writer playlistsWriter, Reader songsReader, Writer songsWriter,
-                             Set<SelectionKey> alreadyLogged, Map<SelectionKey, PlaySong> alreadyRunning,
-                             Authentication authenticationService)
+                             Set<SelectionKey> alreadyLogged, Map<SelectionKey, PlaySongThread> alreadyRunning,
+                             AuthenticationService authenticationService)
         throws IODatabaseException {
 
         this.playlists = new LinkedHashMap<>();
@@ -312,7 +311,7 @@ public class StreamingPlatform {
             }
         }
 
-        PlayPlaylist playPlaylistThread = new PlayPlaylist(playListTitle, selectionKey, this,
+        PlayPlaylistThread playPlaylistThread = new PlayPlaylistThread(playListTitle, selectionKey, this,
             this.spotifyLogger);
         playPlaylistThread.start();
     }
@@ -335,7 +334,7 @@ public class StreamingPlatform {
             throw new NoSuchSongException(ServerReply.PLAY_SONG_NO_SUCH_SONG_REPLY.getReply());
         }
 
-        PlaySong playSongThread = new PlaySong(songToPlay.getArtist() + UNDERSCORE + songToPlay.getTitle(),
+        PlaySongThread playSongThread = new PlaySongThread(songToPlay.getArtist() + UNDERSCORE + songToPlay.getTitle(),
             selectionKey, this, this.spotifyLogger);
         this.alreadyRunning.put(selectionKey, playSongThread);
         playSongThread.start();
@@ -399,12 +398,12 @@ public class StreamingPlatform {
         return playlists;
     }
 
-    public Map<SelectionKey, PlaySong> getAlreadyRunning() {
+    public Map<SelectionKey, PlaySongThread> getAlreadyRunning() {
 
         return alreadyRunning;
     }
 
-   /* public void setAlreadyRunning(Map<SelectionKey, PlaySong> alreadyRunning) {
+   /* public void setAlreadyRunning(Map<SelectionKey, PlaySongThread> alreadyRunning) {
         this.alreadyRunning = alreadyRunning;
     }*/
 

@@ -16,19 +16,19 @@ import java.io.IOException;
 import java.nio.channels.SelectionKey;
 import java.util.logging.Level;
 
-public class PlaySong extends Thread {
+public class PlaySongThread extends Thread {
 
     private String songName;
     private SelectionKey selectionKey;
     private boolean isRunning;
     private StreamingPlatform streamingPlatform;
     private SpotifyLogger spotifyLogger;
-    private final static String DATA_PATH = "data/";
+    private final static String DATA_PATH = "data" + File.separator + "music" + File.separator;
     private final static String WAV_FORMAT = ".wav";
 
 
-    public PlaySong(String songName, SelectionKey selectionKey, StreamingPlatform streamingPlatform,
-                    SpotifyLogger spotifyLogger) {
+    public PlaySongThread(String songName, SelectionKey selectionKey, StreamingPlatform streamingPlatform,
+                          SpotifyLogger spotifyLogger) {
 
         this.isRunning = false;
         this.songName = songName;

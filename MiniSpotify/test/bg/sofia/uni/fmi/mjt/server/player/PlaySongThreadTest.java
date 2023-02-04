@@ -1,23 +1,13 @@
 package bg.sofia.uni.fmi.mjt.server.player;
 
-import bg.sofia.uni.fmi.mjt.server.ServerReply;
 import bg.sofia.uni.fmi.mjt.server.StreamingPlatform;
-import bg.sofia.uni.fmi.mjt.server.exceptions.IODatabaseException;
-import bg.sofia.uni.fmi.mjt.server.exceptions.NoSuchSongException;
-import bg.sofia.uni.fmi.mjt.server.exceptions.SongIsAlreadyPlayingException;
-import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException;
 import bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger;
-import bg.sofia.uni.fmi.mjt.server.login.User;
-import bg.sofia.uni.fmi.mjt.server.storage.Playlist;
-import bg.sofia.uni.fmi.mjt.server.storage.Song;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import java.nio.channels.SelectionKey;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.logging.Level;
 
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.doThrow;
@@ -40,10 +30,10 @@ public class PlaySongThreadTest {
     @Test
     void testRunSongThreadTerminateSong() {
 
-        PlaySong playSongThread = new PlaySong("The Crown - Main title", this.selectionKeyMock,
+        PlaySongThread playSongThread = new PlaySongThread("The Crown - Main title", this.selectionKeyMock,
             this.streamingPlatformMock, this.spotifyLoggerMock);
 
-        Map<SelectionKey, PlaySong> toReturnAlreadyRunning = new LinkedHashMap<>();
+        Map<SelectionKey, PlaySongThread> toReturnAlreadyRunning = new LinkedHashMap<>();
         toReturnAlreadyRunning.put(this.selectionKeyMock, null);
 
         when(this.streamingPlatformMock.getAlreadyRunning()).thenReturn(toReturnAlreadyRunning);

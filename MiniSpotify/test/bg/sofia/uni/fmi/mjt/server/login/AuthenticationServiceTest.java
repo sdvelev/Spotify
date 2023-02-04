@@ -1,6 +1,5 @@
 package bg.sofia.uni.fmi.mjt.server.login;
 
-import bg.sofia.uni.fmi.mjt.server.StreamingPlatform;
 import bg.sofia.uni.fmi.mjt.server.exceptions.EmailAlreadyRegisteredException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.IODatabaseException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.NotValidEmailFormatException;
@@ -23,7 +22,7 @@ public class AuthenticationServiceTest {
         "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92" + System.lineSeparator() +
         "s@s.com a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3" + System.lineSeparator();
 
-    private Authentication authenticationService;
+    private AuthenticationService authenticationService;
 
     @BeforeEach
     void setTests() throws IODatabaseException {
@@ -31,7 +30,7 @@ public class AuthenticationServiceTest {
         var authenticationReader = new StringReader(REGISTERED_USERS);
         var authenticationWriter = new StringWriter();
 
-        this.authenticationService = new Authentication(authenticationReader, authenticationWriter);
+        this.authenticationService = new AuthenticationService(authenticationReader, authenticationWriter);
     }
 
     @AfterEach

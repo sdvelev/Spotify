@@ -13,11 +13,10 @@ import bg.sofia.uni.fmi.mjt.server.exceptions.PlaylistAlreadyExistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.PlaylistNotEmptyException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.SongAlreadyInPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.SongIsAlreadyPlayingException;
-import bg.sofia.uni.fmi.mjt.server.exceptions.UserAlreadyLoggedException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException;
 import bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger;
-import bg.sofia.uni.fmi.mjt.server.login.Authentication;
+import bg.sofia.uni.fmi.mjt.server.login.AuthenticationService;
 import bg.sofia.uni.fmi.mjt.server.login.User;
 import bg.sofia.uni.fmi.mjt.server.storage.Playlist;
 import bg.sofia.uni.fmi.mjt.server.storage.Song;
@@ -51,7 +50,7 @@ public class CommandExecutorTest {
     private StreamingPlatform streamingPlatformMock = mock(StreamingPlatform.class);
 
     @Mock
-    private Authentication authenticationServiceMock = mock(Authentication.class);
+    private AuthenticationService authenticationServiceMock = mock(AuthenticationService.class);
 
     private CommandExecutor commandExecutor;
 
