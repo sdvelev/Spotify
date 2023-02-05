@@ -11,7 +11,6 @@ import bg.sofia.uni.fmi.mjt.server.exceptions.SongAlreadyInPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.SongIsAlreadyPlayingException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException;
 import bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger;
-import bg.sofia.uni.fmi.mjt.server.login.AuthenticationService;
 import bg.sofia.uni.fmi.mjt.server.login.User;
 import bg.sofia.uni.fmi.mjt.server.player.PlayPlaylistThread;
 import bg.sofia.uni.fmi.mjt.server.player.PlaySongThread;
@@ -37,6 +36,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -45,18 +45,18 @@ public class StreamingPlatform {
 
     private static final String INTERVAL_REGEX = " ";
     private final static String UNDERSCORE = "_";
+    private final static String EMPTY_STRING = "";
     private final static String PLAYLISTS_LIST_PATH = "data" + File.separator + "PlaylistsList.json";
     private final static String SONGS_LIST_PATH = "data" + File.separator + "SongsList.json";
+    private final static String NEGATIVE_N_ARGUMENT = "The provided argument cannot be negative.";
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     private Set<SongEntity> songs;
     private User user;
-    private boolean isLogged;
     private Map<String, Set<Playlist>> playlists;
-    private Map<SelectionKey, PlaySongThread> alreadyRunning;
-    private Set<SelectionKey> alreadyLogged;
-    private AuthenticationService authenticationService;
+    private final Map<SelectionKey, PlaySongThread> alreadyRunning;
+    private final Set<SelectionKey> alreadyLogged;
 
     private Reader playlistsReader;
     private Writer playlistsWriter;
@@ -72,16 +72,14 @@ public class StreamingPlatform {
         this.alreadyLogged = new HashSet<>();
         this.spotifyLogger = spotifyLogger;
 
-        this.user = new User("", "");
-        this.authenticationService = new AuthenticationService();
+        this.user = new User(EMPTY_STRING, EMPTY_STRING);
 
         this.readSongs();
         this.readPlaylists();
     }
 
     public StreamingPlatform(Reader playlistsReader, Writer playlistsWriter, Reader songsReader, Writer songsWriter,
-                             Set<SelectionKey> alreadyLogged, Map<SelectionKey, PlaySongThread> alreadyRunning,
-                             AuthenticationService authenticationService)
+                             Set<SelectionKey> alreadyLogged, Map<SelectionKey, PlaySongThread> alreadyRunning)
         throws IODatabaseException {
 
         this.playlists = new LinkedHashMap<>();
@@ -91,19 +89,14 @@ public class StreamingPlatform {
         this.songsReader = songsReader;
         this.songsWriter = songsWriter;
 
-        this.user = new User("", "");
+        this.user = new User(EMPTY_STRING, EMPTY_STRING);
 
         this.alreadyLogged = alreadyLogged;
         this.alreadyRunning = alreadyRunning;
 
-        this.authenticationService = authenticationService;
-
         this.readSongs();
         this.readPlaylists();
     }
-
-
-    private final static String NEGATIVE_N_ARGUMENT = "The provided argument cannot be negative.";
 
     public List<SongEntity> getTopNMostListenedSongs(int n) {
 
@@ -125,6 +118,8 @@ public class StreamingPlatform {
 
     public List<SongEntity> searchSongs(String word) {
 
+        Objects.requireNonNull(word, "The given word cannot be null.");
+
         List<SongEntity> result = new ArrayList<>();
         for (SongEntity currentSongEntity : this.songs) {
 
@@ -135,6 +130,7 @@ public class StreamingPlatform {
                     !currentSongEntity.getSong().getArtist().toLowerCase().contains(currentWord.toLowerCase())) {
 
                     contains = false;
+                    break;
                 }
             }
 
@@ -146,8 +142,11 @@ public class StreamingPlatform {
         return result;
     }
 
-    public void createPlaylist(String playlistTitle, SelectionKey selectionKey) throws UserNotLoggedException,
-        IODatabaseException, PlaylistAlreadyExistException {
+    public synchronized void createPlaylist(String playlistTitle, SelectionKey selectionKey)
+        throws UserNotLoggedException, IODatabaseException, PlaylistAlreadyExistException {
+
+        Objects.requireNonNull(playlistTitle, "The given playlist title cannot be null");
+        Objects.requireNonNull(selectionKey, "The given selection key cannot be null.");
 
         if (!this.alreadyLogged.contains(selectionKey)) {
 
@@ -175,6 +174,9 @@ public class StreamingPlatform {
     public void deletePlaylist(String playlistTitle, SelectionKey selectionKey) throws UserNotLoggedException,
         IODatabaseException, PlaylistNotEmptyException, NoSuchPlaylistException {
 
+        Objects.requireNonNull(playlistTitle, "The given playlist title cannot be null.");
+        Objects.requireNonNull(selectionKey, "The given selection key cannot be null.");
+
         if (!this.alreadyLogged.contains(selectionKey)) {
 
             throw new UserNotLoggedException(ServerReply.DELETE_PLAYLIST_NOT_LOGGED_REPLY.getReply());
@@ -194,18 +196,15 @@ public class StreamingPlatform {
         throws UserNotLoggedException, NoSuchSongException, NoSuchPlaylistException, IODatabaseException,
         SongAlreadyInPlaylistException {
 
+        Objects.requireNonNull(playlistTitle, "The given playlist title cannot be null.");
+        Objects.requireNonNull(songTitle, "The given song title cannot be null.");
+        Objects.requireNonNull(selectionKey, "The given selection key cannot be null");
+
         if (!this.alreadyLogged.contains(selectionKey)) {
             throw new UserNotLoggedException(ServerReply.ADD_SONG_TO_NOT_LOGGED_REPLY.getReply());
         }
 
         Song songToAdd = isFound(songTitle);
-        /*for (SongEntity currentSongEntity : this.songs) {
-            if (currentSongEntity.getSong().getTitle().equalsIgnoreCase(songTitle)) {
-                isFound = true;
-                songToAdd = currentSongEntity.getSong();
-                break;
-            }
-        }*/
 
         if (songToAdd == null) {
             throw new NoSuchSongException(ServerReply.ADD_SONG_TO_NO_SUCH_SONG_REPLY.getReply());
@@ -223,6 +222,10 @@ public class StreamingPlatform {
     public void removeSongFromPlaylist(String playlistTitle, String songTitle, SelectionKey selectionKey)
         throws UserNotLoggedException, NoSuchSongException, NoSuchPlaylistException, IODatabaseException {
 
+        Objects.requireNonNull(playlistTitle, "The given playlist title cannot be null.");
+        Objects.requireNonNull(songTitle, "The given playlist title cannot be null");
+        Objects.requireNonNull(selectionKey, "The given selection key cannot be null.");
+
         if (!this.alreadyLogged.contains(selectionKey)) {
             throw new UserNotLoggedException(ServerReply.REMOVE_SONG_FROM_NOT_LOGGED_REPLY.getReply());
         }
@@ -238,6 +241,9 @@ public class StreamingPlatform {
 
     public Playlist showPlaylist(String playlistTitle, SelectionKey selectionKey)
         throws UserNotLoggedException, NoSuchPlaylistException {
+
+        Objects.requireNonNull(playlistTitle, "The given playlist title cannot be null.");
+        Objects.requireNonNull(selectionKey, "The given selection key cannot be null.");
 
         if (!this.alreadyLogged.contains(selectionKey)) {
             throw new UserNotLoggedException(ServerReply.SHOW_PLAYLIST_NOT_LOGGED_REPLY.getReply());
@@ -263,6 +269,8 @@ public class StreamingPlatform {
     public List<String> showPlaylists(SelectionKey selectionKey)
         throws UserNotLoggedException {
 
+        Objects.requireNonNull(selectionKey, "The given selection key cannot be null.");
+
         if (!this.alreadyLogged.contains(selectionKey)) {
             throw new UserNotLoggedException(ServerReply.SHOW_PLAYLIST_NOT_LOGGED_REPLY.getReply());
         }
@@ -279,45 +287,36 @@ public class StreamingPlatform {
             .toList();
     }
 
-    public void playPlaylist(String playListTitle, SelectionKey selectionKey) throws UserNotLoggedException,
+    public void playPlaylist(String playlistTitle, SelectionKey selectionKey) throws UserNotLoggedException,
         SongIsAlreadyPlayingException, NoSuchPlaylistException, NoSongsInPlaylistException {
 
-        if (!this.alreadyLogged.contains(selectionKey)) {
+        Objects.requireNonNull(playlistTitle, "The given playlist title cannot be null.");
+        Objects.requireNonNull(selectionKey, "The given selection key cannot be null.");
 
+        if (!this.alreadyLogged.contains(selectionKey)) {
             throw new UserNotLoggedException(ServerReply.PLAY_SONG_NOT_LOGGED_REPLY.getReply());
         }
 
         if (!this.playlists.containsKey(this.user.getEmail()) || !this.playlists.get(this.user.getEmail())
-            .contains(new Playlist(this.user.getEmail(), playListTitle))) {
-
+            .contains(new Playlist(this.user.getEmail(), playlistTitle))) {
             throw new NoSuchPlaylistException(ServerReply.PLAY_PLAYLIST_NO_SUCH_PLAYLIST_REPLY.getReply());
         }
 
         if (this.alreadyRunning.containsKey(selectionKey)) {
-
             throw new SongIsAlreadyPlayingException(ServerReply.PLAY_SONG_IS_ALREADY_RUNNING_REPLY.getReply());
         }
 
-        for (Playlist currentPlaylist : this.playlists.get(this.user.getEmail())) {
-
-            if (currentPlaylist.getTitle().equals(playListTitle)) {
-
-                if (currentPlaylist.getPlaylistSongs().isEmpty()) {
-
-                    throw new
-                        NoSongsInPlaylistException(ServerReply.PLAY_PLAYLIST_NO_SONGS_IN_PLAYLIST_REPLY.getReply());
-                }
-                break;
-            }
-        }
-
-        PlayPlaylistThread playPlaylistThread = new PlayPlaylistThread(playListTitle, selectionKey, this,
+        validateNoSongsInPlaylistException(playlistTitle);
+        PlayPlaylistThread playPlaylistThread = new PlayPlaylistThread(playlistTitle, selectionKey, this,
             this.spotifyLogger);
         playPlaylistThread.start();
     }
 
     public void playSong(String songTitle, SelectionKey selectionKey) throws UserNotLoggedException,
         NoSuchSongException, SongIsAlreadyPlayingException, IODatabaseException {
+
+        Objects.requireNonNull(songTitle, "The given playlist title cannot be null.");
+        Objects.requireNonNull(selectionKey, "The given selection key cannot be null.");
 
         if (!this.alreadyLogged.contains(selectionKey)) {
 
@@ -345,6 +344,8 @@ public class StreamingPlatform {
     public void logout(SelectionKey selectionKey) throws UserNotLoggedException, NoSongPlayingException,
         InterruptedException {
 
+        Objects.requireNonNull(selectionKey, "The given selection key cannot be null.");
+
         if (!this.alreadyLogged.contains(selectionKey)) {
 
             throw new UserNotLoggedException(ServerReply.LOGOUT_COMMAND_USER_NOT_LOGGED_REPLY.getReply());
@@ -361,6 +362,8 @@ public class StreamingPlatform {
     public void stopSong(SelectionKey selectionKey) throws NoSongPlayingException, UserNotLoggedException,
         InterruptedException {
 
+        Objects.requireNonNull(selectionKey, "The given selection key cannot be null.");
+
         if (!this.alreadyLogged.contains(selectionKey)) {
 
             throw new UserNotLoggedException(ServerReply.STOP_COMMAND_NOT_LOGGED_REPLY.getReply());
@@ -374,8 +377,6 @@ public class StreamingPlatform {
         this.alreadyRunning.get(selectionKey).terminateSong();
 
         this.alreadyRunning.get(selectionKey).join();
-
-        //this.alreadyRunning.remove(selectionKey);
     }
 
     public void setUser(User user) {
@@ -403,10 +404,6 @@ public class StreamingPlatform {
         return alreadyRunning;
     }
 
-   /* public void setAlreadyRunning(Map<SelectionKey, PlaySongThread> alreadyRunning) {
-        this.alreadyRunning = alreadyRunning;
-    }*/
-
     public Reader getPlaylistsReader() {
         return playlistsReader;
     }
@@ -431,56 +428,65 @@ public class StreamingPlatform {
         return songs;
     }
 
-    private void writeSongs() throws IODatabaseException {
+    private Writer getAppropriateSongsWriter() throws IOException {
 
         if (this.songsWriter == null) {
-            try (Writer writer = new FileWriter(SONGS_LIST_PATH)) {
 
-                GSON.toJson(this.songs, writer);
-                writer.flush();
-            } catch (IOException e) {
+            return new FileWriter(SONGS_LIST_PATH);
+        }
 
-                throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
-            }
-        } else {
+        return this.songsWriter;
+    }
 
-            try {
+    private synchronized void writeSongs() throws IODatabaseException {
 
-                GSON.toJson(this.songs, this.songsWriter);
-                this.songsWriter.flush();
-            } catch (IOException e) {
+        try {
 
-                throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
-            }
+            Writer toUseSongWriter = getAppropriateSongsWriter();
+            GSON.toJson(this.songs, toUseSongWriter);
+            toUseSongWriter.flush();
+        } catch (IOException e) {
 
+            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
         }
     }
 
-    private void readSongs() throws IODatabaseException {
+    private Reader getAppropriateSongsReader() throws IOException {
 
         if (this.songsReader == null) {
 
-            try (Reader reader = Files.newBufferedReader(Paths.get(SONGS_LIST_PATH))) {
+            return Files.newBufferedReader(Paths.get(SONGS_LIST_PATH));
+        }
 
-                Type type = new TypeToken<List<SongEntity>>() {
-                }.getType();
-                List<SongEntity> songCollection = GSON.fromJson(reader, type);
-                this.songs = new LinkedHashSet<>(songCollection);
-            } catch (IOException e) {
+        return this.songsReader;
+    }
 
-                throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
-            }
-        } else {
+    private synchronized void readSongs() throws IODatabaseException {
+
+        try {
 
             Type type = new TypeToken<List<SongEntity>>() {
             }.getType();
-            List<SongEntity> songCollection = GSON.fromJson(this.songsReader, type);
+            List<SongEntity> songCollection;
+            songCollection = GSON.fromJson(getAppropriateSongsReader(), type);
             this.songs = new LinkedHashSet<>(songCollection);
-        }
+        } catch (IOException e) {
 
+            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
+        }
     }
 
-    private void writePlaylists() throws IODatabaseException {
+    private Writer getAppropriatePlaylistsWriter() throws IOException {
+
+        if (this.playlistsWriter == null) {
+
+            return new FileWriter(PLAYLISTS_LIST_PATH);
+        }
+
+        return this.playlistsWriter;
+    }
+
+    private synchronized void writePlaylists() throws IODatabaseException {
 
         List<Playlist> allPlaylists = new ArrayList<>();
         for (Map.Entry<String, Set<Playlist>> currentEntry : this.playlists.entrySet()) {
@@ -489,66 +495,47 @@ public class StreamingPlatform {
 
                 allPlaylists.add(currentPlaylist);
             }
-
-
-            //allPlaylists.addAll(currentEntry.getValue());
         }
 
-        if (this.playlistsWriter == null) {
+        try {
 
-            try (Writer writer = new FileWriter(PLAYLISTS_LIST_PATH)) {
+            Writer toUsePlaylistWriter = getAppropriatePlaylistsWriter();
+            GSON.toJson(allPlaylists, toUsePlaylistWriter);
+            toUsePlaylistWriter.flush();
+        } catch (IOException e) {
 
-                GSON.toJson(allPlaylists, writer);
-                writer.flush();
-            } catch (IOException e) {
-
-                throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
-            }
-        } else {
-
-            try {
-
-                GSON.toJson(allPlaylists, this.playlistsWriter);
-                this.playlistsWriter.flush();
-            } catch (IOException e) {
-
-                throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
-            }
+            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
         }
     }
 
-    private void readPlaylists() throws IODatabaseException {
+    private Reader getAppropriatePlaylistsReader() throws IOException {
 
         if (this.playlistsReader == null) {
 
-            try (Reader reader = Files.newBufferedReader(Paths.get(PLAYLISTS_LIST_PATH))) {
+            return Files.newBufferedReader(Paths.get(PLAYLISTS_LIST_PATH));
+        }
 
-                Set<Playlist> readPlaylists = new LinkedHashSet<>();
+        return this.playlistsReader;
+    }
 
-                Type type = new TypeToken<Set<Playlist>>() {
-                }.getType();
-                Set<Playlist> playlistCollection = GSON.fromJson(reader, type);
-                readPlaylists = new LinkedHashSet<>(playlistCollection);
+    private synchronized void readPlaylists() throws IODatabaseException {
 
-                this.allocatePlaylists(readPlaylists);
-            } catch (IOException e) {
+        try {
 
-                throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
-            }
-        } else {
-
-            Set<Playlist> readPlaylists = new LinkedHashSet<>();
-
+            Set<Playlist> readPlaylists;
             Type type = new TypeToken<Set<Playlist>>() {
             }.getType();
-            Set<Playlist> playlistCollection = GSON.fromJson(this.playlistsReader, type);
+            Set<Playlist> playlistCollection = GSON.fromJson(getAppropriatePlaylistsReader(), type);
             readPlaylists = new LinkedHashSet<>(playlistCollection);
 
             this.allocatePlaylists(readPlaylists);
+        } catch (IOException e) {
+
+            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
         }
     }
 
-    private void allocatePlaylists(Set<Playlist> toAllocate) {
+    private synchronized void allocatePlaylists(Set<Playlist> toAllocate) {
 
         Map<String, List<Playlist>> resultWithList = toAllocate.stream()
             .collect(Collectors.groupingBy(Playlist::getEmailCreator));
@@ -563,7 +550,7 @@ public class StreamingPlatform {
         this.playlists = resultWithSet;
     }
 
-    private void removePlaylistFromPlaylists(String emailCreator, String playlistTitle)
+    private synchronized void removePlaylistFromPlaylists(String emailCreator, String playlistTitle)
         throws PlaylistNotEmptyException {
 
         Set<Playlist> allPlaylists =  this.playlists.get(emailCreator);
@@ -593,7 +580,7 @@ public class StreamingPlatform {
         return null;
     }
 
-    private void removeSongFromPlaylists(String emailCreator, String playlistTitle, String songTitle)
+    private synchronized void removeSongFromPlaylists(String emailCreator, String playlistTitle, String songTitle)
         throws IODatabaseException, NoSuchSongException {
 
         Song songToRemove = isFound(songTitle);
@@ -617,7 +604,7 @@ public class StreamingPlatform {
         this.writePlaylists();
     }
 
-    private void addSongInPlaylist(String emailCreator, String playlistTitle, Song songToAdd)
+    private synchronized void addSongInPlaylist(String emailCreator, String playlistTitle, Song songToAdd)
         throws IODatabaseException, SongAlreadyInPlaylistException {
 
         Set<Playlist> allPlaylists =  this.playlists.get(emailCreator);
@@ -638,6 +625,22 @@ public class StreamingPlatform {
         this.writePlaylists();
     }
 
+    private void validateNoSongsInPlaylistException(String playlistTitle) throws NoSongsInPlaylistException {
+
+        for (Playlist currentPlaylist : this.playlists.get(this.user.getEmail())) {
+
+            if (currentPlaylist.getTitle().equals(playlistTitle)) {
+
+                if (currentPlaylist.getPlaylistSongs().isEmpty()) {
+
+                    throw new
+                        NoSongsInPlaylistException(ServerReply.PLAY_PLAYLIST_NO_SONGS_IN_PLAYLIST_REPLY.getReply());
+                }
+                break;
+            }
+        }
+    }
+
     private void increaseSongPlays(Song songToPlay) {
 
         for (SongEntity currentSongEntity : this.songs) {
@@ -647,46 +650,4 @@ public class StreamingPlatform {
             }
         }
     }
-
-    /*
-    public static void main(String[] args) throws IOException, IODatabaseException {
-
-        Set<SongEntity> hashSet = new HashSet<>();
-
-        Song song1 = new Song("No Time To Die", "Billie Eilish", 239, "pop");
-        Song song2 = new Song("The Crown - Main title", "Hans Zimmer", 85, "classical");
-        Song song3 = new Song("Vivaldi Variation", "Florian Christl", 114, "classical");
-        Song song4 = new Song("The Crown - Bittersweet Symphony", "Richard Ashcroft", 248, "modern");
-
-        hashSet.add(new SongEntity(song1, 0));
-        hashSet.add(new SongEntity(song2, 0));
-        hashSet.add(new SongEntity(song3, 0));
-        hashSet.add(new SongEntity(song4, 0));
-        String json = GSON.toJson(hashSet);
-        //System.out.println(json);
-
-        StreamingPlatform streamingPlatform = new StreamingPlatform();
-
-        Set<Playlist> playlistst = new HashSet<>();
-
-        Playlist toAdd = new Playlist("sampleEmail@abv.bg", "The Crown Music");
-        toAdd.addSongToPlaylist(song2);
-        toAdd.addSongToPlaylist(song4);
-
-        playlistst.add(toAdd);
-
-        Playlist toAdd2 = new Playlist("sampleEmail2@abv.bg", "My Favourites");
-        toAdd2.addSongToPlaylist(song1);
-        toAdd2.addSongToPlaylist(song3);
-
-        playlistst.add(toAdd2);
-
-        String json2 = GSON.toJson(playlistst);
-        System.out.println(json2);
-
-        StreamingPlatform streamingPlatform = new StreamingPlatform();
-
-        Map<String, List<Playlist>> toWrite = new LinkedHashMap<>();
-
-    }*/
 }

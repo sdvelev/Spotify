@@ -37,8 +37,8 @@ public class Server {
 
     private ByteBuffer buffer;
     private Selector selector;
-    private AtomicInteger numberOfConnection;
-    private SpotifyLogger spotifyLogger;
+    private final AtomicInteger numberOfConnection;
+    private final SpotifyLogger spotifyLogger;
 
     public Server(int port, CommandExecutor commandExecutor, SpotifyLogger spotifyLogger) {
         this.port = port;
@@ -149,7 +149,7 @@ public class Server {
 
     public static void main(String[] args) throws InterruptedException, IODatabaseException {
 
-        SpotifyLogger spotifyLogger = new SpotifyLogger("spotifyLogger.log");
+        SpotifyLogger spotifyLogger = new SpotifyLogger("SpotifyLogger.log");
 
         Server s = new Server(SERVER_PORT, new CommandExecutor(new StreamingPlatform(spotifyLogger),
             new AuthenticationService(), spotifyLogger),

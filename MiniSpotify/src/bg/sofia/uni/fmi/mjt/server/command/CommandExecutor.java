@@ -58,9 +58,9 @@ public class CommandExecutor {
     private final static String TIMES_SIGN = "# ";
     private final static String POSITIVE_NUMBER_REGEX = "^[0-9]+$";
 
-    private StreamingPlatform streamingPlatform;
-    private AuthenticationService authenticationService;
-    private SpotifyLogger spotifyLogger;
+    private final StreamingPlatform streamingPlatform;
+    private final AuthenticationService authenticationService;
+    private final SpotifyLogger spotifyLogger;
 
     public CommandExecutor(StreamingPlatform streamingPlatform, AuthenticationService authenticationService,
                            SpotifyLogger spotifyLogger) {
@@ -231,8 +231,8 @@ public class CommandExecutor {
         }
 
         StringBuilder resultString = new StringBuilder();
-        resultString.append(ServerReply.SHOW_PLAYLIST_SUCCESSFULLY_REPLY.getReply() +
-            toReturn.getTitle() + System.lineSeparator());
+        resultString.append(ServerReply.SHOW_PLAYLIST_SUCCESSFULLY_REPLY.getReply()).append(toReturn.getTitle())
+            .append(System.lineSeparator());
         int counter = 1;
         for (Song currentSong : toReturn.getPlaylistSongs()) {
 
@@ -278,8 +278,7 @@ public class CommandExecutor {
         }
 
         StringBuilder resultString = new StringBuilder();
-        resultString.append(ServerReply.SHOW_PLAYLISTS_SUCCESSFULLY_REPLY.getReply() +
-            System.lineSeparator());
+        resultString.append(ServerReply.SHOW_PLAYLISTS_SUCCESSFULLY_REPLY.getReply()).append(System.lineSeparator());
         int counter = 1;
         for (String currentPlaylistTitle : playlistTitles) {
 
@@ -451,7 +450,7 @@ public class CommandExecutor {
         }
 
         StringBuilder toReturn = new StringBuilder();
-        toReturn.append(ServerReply.SEARCH_COMMAND_SUCCESSFULLY_REPLY.getReply() + System.lineSeparator());
+        toReturn.append(ServerReply.SEARCH_COMMAND_SUCCESSFULLY_REPLY.getReply()).append(System.lineSeparator());
         for (SongEntity currentSongEntity : searchedSongs) {
 
             String currentResult = TITLE_LABEL + currentSongEntity.getSong().getTitle() +
@@ -567,7 +566,7 @@ public class CommandExecutor {
             Integer.parseInt(arguments.get(0)));
 
         StringBuilder toReturn = new StringBuilder();
-        toReturn.append(ServerReply.TOP_COMMAND_SUCCESSFULLY_REPLY.getReply() + System.lineSeparator());
+        toReturn.append(ServerReply.TOP_COMMAND_SUCCESSFULLY_REPLY.getReply()).append(System.lineSeparator());
         for (SongEntity currentSongEntity : result) {
 
             String toAppend = TIMES_SIGN + currentSongEntity.getListeningTimes() + TITLE_LABEL +

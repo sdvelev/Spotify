@@ -15,14 +15,13 @@ public class SpotifyLogger {
     private final static String SPOTIFY_LOGGER_PATH = "data" + File.separator;
     private final static String SPOTIFY_LOGGER_NOT_CREATED_MESSAGE = "The SpotifyLogger object was not created " +
         "successfully.";
-    private static FileHandler fileHandler;
 
     public SpotifyLogger(String nameLogger) {
 
         try {
 
             SPOTIFY_LOGGER.setUseParentHandlers(false);
-            fileHandler = new FileHandler(SPOTIFY_LOGGER_PATH + nameLogger, true);
+            FileHandler fileHandler = new FileHandler(SPOTIFY_LOGGER_PATH + nameLogger, true);
             SPOTIFY_LOGGER.addHandler(fileHandler);
             SimpleFormatter formatter = new SimpleFormatter();
             fileHandler.setFormatter(formatter);

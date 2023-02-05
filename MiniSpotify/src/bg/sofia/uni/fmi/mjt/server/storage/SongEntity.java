@@ -5,15 +5,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class SongEntity {
 
-    private Song song;
-    private AtomicInteger listeningTimes;
-
-    public SongEntity() {
-
-        song = new Song();
-        listeningTimes = new AtomicInteger();
-    }
-
+    private final Song song;
+    private final AtomicInteger listeningTimes;
     public SongEntity(Song song, int listeningTimes) {
 
         this.song = song;

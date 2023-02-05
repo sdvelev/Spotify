@@ -32,13 +32,13 @@ public class PlayPlaylistThreadTest {
 
 
     @Mock
-    StreamingPlatform streamingPlatformMock;
+    private StreamingPlatform streamingPlatformMock;
 
     @Mock
-    SelectionKey selectionKeyMock;
+    private SelectionKey selectionKeyMock;
 
     @Mock
-    SpotifyLogger spotifyLoggerMock;
+    private SpotifyLogger spotifyLoggerMock;
 
     @Test
     void testRunPlayPlaylistThreadUserNotLoggedException() throws UserNotLoggedException, NoSuchSongException,

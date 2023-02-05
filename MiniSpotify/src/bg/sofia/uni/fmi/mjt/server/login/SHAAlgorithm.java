@@ -9,7 +9,13 @@ public class SHAAlgorithm {
 
     private final static int RADIX = 16;
     private final static int MAX_LENGTH = 32;
+    private final static Character ZERO_CHARACTER = '0';
     private final static String ALGORITHM_NAME = "SHA-256";
+
+    public static String getHash(String toEncrypt) throws NoSuchAlgorithmException {
+
+        return toHexadecimal(getSHA(toEncrypt));
+    }
 
     private static byte[] getSHA(String toEncrypt) throws NoSuchAlgorithmException {
 
@@ -24,14 +30,9 @@ public class SHAAlgorithm {
 
         while (hexadecimalString.length() < MAX_LENGTH) {
 
-            hexadecimalString.insert(0, '0');
+            hexadecimalString.insert(0, ZERO_CHARACTER);
         }
 
         return hexadecimalString.toString();
-    }
-
-    public static String getHash(String toEncrypt) throws NoSuchAlgorithmException {
-
-        return toHexadecimal(getSHA(toEncrypt));
     }
 }

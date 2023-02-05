@@ -10,7 +10,6 @@ import bg.sofia.uni.fmi.mjt.server.exceptions.PlaylistNotEmptyException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.SongAlreadyInPlaylistException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.SongIsAlreadyPlayingException;
 import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotLoggedException;
-import bg.sofia.uni.fmi.mjt.server.login.AuthenticationService;
 import bg.sofia.uni.fmi.mjt.server.login.User;
 import bg.sofia.uni.fmi.mjt.server.player.PlaySongThread;
 import bg.sofia.uni.fmi.mjt.server.storage.Playlist;
@@ -278,8 +277,6 @@ public class StreamingPlatformTest {
     private Map<SelectionKey, PlaySongThread> alreadyRunningMock;
 
     @Mock
-    private AuthenticationService authenticationServiceMock;
-    @Mock
     private PlaySongThread playSongThreadMock;
 
     @BeforeEach
@@ -291,7 +288,7 @@ public class StreamingPlatformTest {
         var playlistsListOut = new StringWriter();
 
         this.streamingPlatform = new StreamingPlatform(playlistsListIn, playlistsListOut, songsListIn, songsListOut,
-            alreadyLoggedMock, alreadyRunningMock, this.authenticationServiceMock);
+            alreadyLoggedMock, alreadyRunningMock);
     }
 
     @AfterEach
@@ -715,7 +712,7 @@ public class StreamingPlatformTest {
         when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
 
         String playlistTitle = "MyPlaylist";
-        String songTitleToRemove = "The CrOwN - Main TitlE";
+        String songTitleToRemove = "The CrOwN - Main TitLE";
         this.streamingPlatform.removeSongFromPlaylist(playlistTitle, songTitleToRemove, selectionKey);
 
         Playlist expected = new Playlist("sdvelev@gmail.com", "MyPlaylist");
@@ -877,7 +874,7 @@ public class StreamingPlatformTest {
 
         assertFalse(this.streamingPlatform.getAlreadyRunning().isEmpty(),
             "Song is expected to run but it isn't playing.");
-        assertTrue(listeningTimesAfter == listeningTimesBefore + 1,
+        assertEquals(listeningTimesAfter, listeningTimesBefore + 1,
             "The number of listening times is expected to increase with one when playing song but it isn't.");
     }
 

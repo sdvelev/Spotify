@@ -35,10 +35,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -198,16 +195,16 @@ public class CommandExecutorTest {
     @Test
     void testExecuteCommandProcessSearchCommandNoSongs() {
 
-        Command toProcess = new Command("search", List.of("Sineva"));
+        Command toProcess = new Command("search", List.of("The Crown - Voices"));
 
-        when(this.streamingPlatformMock.searchSongs("Sineva")).thenReturn(new ArrayList<>());
+        when(this.streamingPlatformMock.searchSongs("The Crown - Voices")).thenReturn(new ArrayList<>());
 
         String result = this.commandExecutor.executeCommand(toProcess, this.selectionKeyMock);
 
         assertEquals(ServerReply.SEARCH_COMMAND_NO_SONGS_REPLY.getReply(), result,
             "The received reply from the server after executing the search command successfully with " +
                 "no found songs is not the same as the expected.");
-        verify(this.streamingPlatformMock, times(1)).searchSongs("Sineva");
+        verify(this.streamingPlatformMock, times(1)).searchSongs("The Crown - Voices");
     }
 
     @Test

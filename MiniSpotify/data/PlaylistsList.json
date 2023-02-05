@@ -1,10 +1,5 @@
 [
   {
-    "emailCreator": "s@s.com",
-    "title": "My",
-    "playlistSongs": []
-  },
-  {
     "emailCreator": "sdvelev@gmail.com",
     "title": "MyPlaylist",
     "playlistSongs": [
@@ -41,6 +36,21 @@
     ]
   },
   {
+    "emailCreator": "sdvelev@gmail.com",
+    "title": "FavouritePlaylist",
+    "playlistSongs": []
+  },
+  {
+    "emailCreator": "s@s.com",
+    "title": "My",
+    "playlistSongs": []
+  },
+  {
+    "emailCreator": "qw@qw.com",
+    "title": "Hi",
+    "playlistSongs": []
+  },
+  {
     "emailCreator": "sdvelev@gmail.con",
     "title": "Playlist2",
     "playlistSongs": [
@@ -57,10 +67,5 @@
         "genre": "modern"
       }
     ]
-  },
-  {
-    "emailCreator": "qw@qw.com",
-    "title": "Hi",
-    "playlistSongs": []
   }
 ]

@@ -117,5 +117,4 @@ public enum ServerReply {
 
         return reply;
     }
-
 }

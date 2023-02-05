@@ -1,6 +1,5 @@
 package bg.sofia.uni.fmi.mjt.server.storage;
 
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -9,7 +8,7 @@ public class Playlist {
 
     private String emailCreator;
     private String title;
-    private Set<Song> playlistSongs;
+    private final Set<Song> playlistSongs;
 
     public Playlist() {
         playlistSongs = new LinkedHashSet<>();

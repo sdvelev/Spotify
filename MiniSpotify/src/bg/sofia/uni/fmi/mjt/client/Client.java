@@ -61,7 +61,7 @@ public class Client {
 
         } catch (IOException e) {
 
-            SpotifyLogger spotifyLogger = new SpotifyLogger("spotifyLogger.log");
+            SpotifyLogger spotifyLogger = new SpotifyLogger("SpotifyLogger.log");
             spotifyLogger.log(Level.SEVERE, NETWORK_COMMUNICATION_PROBLEM_MESSAGE, e);
             System.out.println(NETWORK_COMMUNICATION_PROBLEM_MESSAGE);
         }

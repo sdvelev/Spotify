@@ -4,8 +4,8 @@ import java.util.Objects;
 
 public class User {
 
-    private String email;
-    private String password;
+    private final String email;
+    private final String password;
 
     public User(String email, String password) {
         this.email = email;

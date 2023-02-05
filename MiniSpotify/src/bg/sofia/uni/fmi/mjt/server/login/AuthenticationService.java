@@ -38,8 +38,8 @@ public class AuthenticationService {
         this.authenticationWriter = authenticationWriter;
     }
 
-    public User login(String email, String password) throws UserNotFoundException, NoSuchAlgorithmException,
-        IODatabaseException {
+    public synchronized User login(String email, String password) throws UserNotFoundException,
+        NoSuchAlgorithmException, IODatabaseException {
 
         String entryToSearch = email + INTERVAL_REGEX + getHash(password);
 
@@ -56,25 +56,10 @@ public class AuthenticationService {
             throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
         }
 
-
-       /* User potentialUserToReturn;
-        if (this.authenticationReader == null ) {
-
-            potentialUserToReturn = lookForSuchUserInFile(entryToSearch, email, password);
-        } else {
-
-            potentialUserToReturn = lookForSuchUserInStream(entryToSearch, email, password);
-        }
-
-        if (potentialUserToReturn != null) {
-
-            return potentialUserToReturn;
-        }*/
-
         throw new UserNotFoundException(ServerReply.LOGIN_COMMAND_USER_NOT_EXIST_REPLY.getReply());
     }
 
-    public void register(String email, String password) throws
+    public synchronized void register(String email, String password) throws
         NoSuchAlgorithmException, NotValidEmailFormatException, EmailAlreadyRegisteredException, IODatabaseException {
 
         if (doExist(email)) {
@@ -95,14 +80,6 @@ public class AuthenticationService {
 
             throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
         }
-
-       /* if (this.authenticationWriter == null) {
-
-            writeEntryInFile(toWriteEntry);
-        } else {
-
-            writeEntryInStream(toWriteEntry);
-        }*/
     }
 
     public Reader getAuthenticationReader() {
@@ -113,104 +90,7 @@ public class AuthenticationService {
         return authenticationWriter;
     }
 
-   /* private User lookForSuchUserInStream(String entryToSearch, String email, String password)
-        throws IODatabaseException {
-
-        try (BufferedReader bufferedReader = new BufferedReader(this.authenticationReader)) {
-            if (bufferedReader.lines()
-                .filter(currentEntry -> currentEntry.equals(entryToSearch))
-                .toList().size() == 1) {
-
-                return new User(email, password);
-            }
-        } catch (IOException e) {
-
-            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
-        }
-
-        return null;
-    }
-    private User lookForSuchUserInFile(String entryToSearch, String email, String password) throws IODatabaseException {
-
-        try (BufferedReader bufferedReader = new BufferedReader(new
-            FileReader(REGISTERED_USERS_LIST_PATH))) {
-
-            if (bufferedReader.lines()
-                .filter(currentEntry -> currentEntry.equals(entryToSearch))
-                .toList().size() == 1) {
-
-                return new User(email, password);
-            }
-        } catch (IOException e) {
-
-            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
-        }
-
-        return null;
-    }*/
-
-   /* private void writeEntryInFile(String toWriteEntry) throws IODatabaseException {
-
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new
-            FileWriter(REGISTERED_USERS_LIST_PATH, true))) {
-
-            bufferedWriter.write(toWriteEntry);
-            bufferedWriter.flush();
-
-        } catch (IOException e) {
-
-            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
-        }
-    }
-
-    private void writeEntryInStream(String toWriteEntry) throws IODatabaseException {
-
-        try (BufferedWriter bufferedWriter = new BufferedWriter(this.authenticationWriter)) {
-
-            bufferedWriter.write(toWriteEntry);
-            bufferedWriter.flush();
-
-        } catch (IOException e) {
-
-            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
-        }
-    }*/
-
-   /* private boolean doExistInFile(String email) throws IODatabaseException {
-
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(REGISTERED_USERS_LIST_PATH))) {
-
-            if (bufferedReader.lines()
-                .filter(currentEntry -> currentEntry.split(INTERVAL_REGEX)[0].equals(email))
-                .toList().size() == 1) {
-                return true;
-            }
-        } catch (IOException e) {
-
-            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply());
-        }
-
-        return false;
-    }
-
-    private boolean doExistInStream(String email) throws IODatabaseException {
-
-        try (BufferedReader bufferedReader = new BufferedReader(this.authenticationReader)) {
-
-            if (bufferedReader.lines()
-                .filter(currentEntry -> currentEntry.split(INTERVAL_REGEX)[0].equals(email))
-                .toList().size() == 1) {
-                return true;
-            }
-        } catch (IOException e) {
-
-            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply());
-        }
-
-        return false;
-    }*/
-
-    private boolean doExist(String email) throws IODatabaseException {
+    private synchronized boolean doExist(String email) throws IODatabaseException {
 
         try (BufferedReader bufferedReader = new BufferedReader(getAppropriateReader())) {
 
@@ -228,27 +108,23 @@ public class AuthenticationService {
         return false;
     }
 
-    private Reader getAppropriateReader() throws FileNotFoundException {
+    private synchronized Reader getAppropriateReader() throws FileNotFoundException {
 
         if (this.authenticationReader == null) {
 
             return new FileReader(REGISTERED_USERS_LIST_PATH);
-        } else {
-
-            return this.authenticationReader;
         }
 
+        return this.authenticationReader;
     }
 
-    private Writer getAppropriateWriter() throws IOException {
+    private synchronized Writer getAppropriateWriter() throws IOException {
 
         if (this.authenticationWriter == null) {
 
             return new FileWriter(REGISTERED_USERS_LIST_PATH, true);
-        } else {
-
-            return this.authenticationWriter;
         }
 
+        return this.authenticationWriter;
     }
 }

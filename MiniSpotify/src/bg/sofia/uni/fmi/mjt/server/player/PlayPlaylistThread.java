@@ -17,11 +17,10 @@ import java.util.logging.Level;
 
 public class PlayPlaylistThread extends Thread {
 
-    private final static int WAITING_TIME = 2000;
-    private String playListTitle;
-    private SelectionKey selectionKey;
-    private StreamingPlatform streamingPlatform;
-    private SpotifyLogger spotifyLogger;
+    private final String playListTitle;
+    private final SelectionKey selectionKey;
+    private final StreamingPlatform streamingPlatform;
+    private final SpotifyLogger spotifyLogger;
 
     public PlayPlaylistThread(String playListTitle, SelectionKey selectionKey,
                               StreamingPlatform streamingPlatform, SpotifyLogger spotifyLogger) {
@@ -72,17 +71,22 @@ public class PlayPlaylistThread extends Thread {
                     ServerReply.SERVER_EXCEPTION.getReply(), e);
             }
 
-            while (streamingPlatform.getAlreadyRunning().containsKey(selectionKey)) {
+            synchronized (this.streamingPlatform) {
 
-                try {
+                while (streamingPlatform.getAlreadyRunning().containsKey(selectionKey)) {
 
-                    Thread.sleep(WAITING_TIME);
-                } catch (InterruptedException e) {
+                    try {
 
-                    this.spotifyLogger.log(Level.INFO, streamingPlatform.getUser().getEmail() + " " +
-                        ServerReply.SERVER_EXCEPTION.getReply(), e);
+                        this.streamingPlatform.wait();
+                        //Thread.sleep(WAITING_TIME);
+                    } catch (InterruptedException e) {
+
+                        this.spotifyLogger.log(Level.INFO, streamingPlatform.getUser().getEmail() + " " +
+                            ServerReply.SERVER_EXCEPTION.getReply(), e);
+                    }
                 }
             }
+
         }
 
     }
