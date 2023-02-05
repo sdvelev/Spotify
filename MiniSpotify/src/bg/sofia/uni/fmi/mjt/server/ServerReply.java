@@ -93,8 +93,8 @@ public enum ServerReply {
         "play <title_of_the_song> : Start playing the <song>" + System.lineSeparator() +
         "play-playlist <name_of_the_playlist> : Start playing all the songs of the <playlist> one after another. " +
         "The title of the playlists are case-sensitive. If you want to stop or skip a song, you can stop it with " +
-        "the relevant command" + System.lineSeparator() +
-        "register <email> <password> : Registration in Spotify" + System.lineSeparator() +
+        "the relevant command. In order to stop the playlist, you have to stop each song in it." +
+        System.lineSeparator() + "register <email> <password> : Registration in Spotify" + System.lineSeparator() +
         "remove-song-from <name_of_the_playlist> <title_of_the_song> : Remove <song> from <playlist>. The titles of " +
         "the playlist are case-sensitive." + System.lineSeparator() +
         "search <words> : Retrieve all songs whose title or artist contain all the words" + System.lineSeparator() +
