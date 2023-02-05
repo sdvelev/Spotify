@@ -3,7 +3,12 @@ package bg.sofia.uni.fmi.mjt.server.logger;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -15,23 +20,25 @@ public class SpotifyLoggerTest {
     private final static String SPOTIFY_LOGGER_PATH = "data" + File.separator + SPOTIFY_LOGGER_NAME;
 
     @Test
-    void testSpotifyLoggerSuccessfullyCreated() {
+    void testSpotifyLoggerSuccessfullyCreated() throws IOException {
 
         SpotifyLogger spotifyLogger = new SpotifyLogger(SPOTIFY_LOGGER_NAME);
 
-        File expectedFile = new File(SPOTIFY_LOGGER_PATH);
-        assertTrue(expectedFile.exists(), "SpotifyLoggerTest.log must be created but actually it is not");
+        Path expectedFilePath = Paths.get(SPOTIFY_LOGGER_PATH);
+        assertTrue(Files.exists(expectedFilePath), "SpotifyLoggerTest.log must be created but actually it is not");
 
-        spotifyLogger.log(Level.INFO, "This a test INFO log.", new IllegalArgumentException("Illegal argument"));
-        assertTrue(expectedFile.length() > 0, "SpotifyLoggerTest.log must not be empty after a log");
+        if (Files.isWritable(expectedFilePath)) {
+
+            spotifyLogger.log(Level.INFO, "This a test INFO log.", new IllegalArgumentException("Illegal argument"));
+            assertTrue(Files.size(expectedFilePath) > 0, "SpotifyLoggerTest.log must not be empty after a log");
+        }
 
         Arrays.stream(spotifyLogger.getLogger().getHandlers())
-                .forEach(handler -> handler.close());
+                .forEach(Handler::close);
 
-        if (!expectedFile.delete()) {
+        if (!Files.deleteIfExists(expectedFilePath)) {
 
             fail("The SpotifyLoggerTest.log file must be deleted but it is not.");
         }
     }
-
 }

@@ -694,5 +694,4 @@ public class CommandExtractorTest {
         assertTrue(returnedCommand.arguments().isEmpty(),
             "Command argument must be empty as it is in wrong format but actually it isn't empty");
     }
-
 }

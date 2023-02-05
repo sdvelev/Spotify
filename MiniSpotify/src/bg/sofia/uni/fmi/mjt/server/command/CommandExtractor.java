@@ -2,6 +2,7 @@ package bg.sofia.uni.fmi.mjt.server.command;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CommandExtractor {
 
@@ -13,6 +14,8 @@ public class CommandExtractor {
     private final static int NUMBER_OF_ARGUMENTS_IN_NO_ARGUMENTS = 1;
 
     public static Command newCommand(String clientInput) {
+
+        Objects.requireNonNull(clientInput, "The provided client input cannot be null.");
 
         List<String> arguments = new ArrayList<>();
 

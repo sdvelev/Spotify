@@ -26,6 +26,7 @@ import bg.sofia.uni.fmi.mjt.server.storage.SongEntity;
 import java.nio.channels.SelectionKey;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 
 public class CommandExecutor {
@@ -70,6 +71,9 @@ public class CommandExecutor {
     }
 
     public String executeCommand(Command cmd, SelectionKey selectionKey) {
+
+        Objects.requireNonNull(cmd, "The provided command cannot be null.");
+        Objects.requireNonNull(selectionKey, "The provided selectionKey cannot be null.");
 
         return switch(cmd.command()) {
 
@@ -154,6 +158,8 @@ public class CommandExecutor {
 
     private String processPlayCommand(List<String> arguments, SelectionKey selectionKey) {
 
+        Objects.requireNonNull(arguments, "The provided list of arguments cannot be null.");
+
         String songName = arguments.get(0);
         try {
 
@@ -184,6 +190,8 @@ public class CommandExecutor {
 
     private String processPlayPlaylistCommand(List<String> arguments, SelectionKey selectionKey) {
 
+        Objects.requireNonNull(arguments, "The provided list of arguments cannot be null.");
+
         String playlistName = arguments.get(0);
 
         try {
@@ -213,7 +221,9 @@ public class CommandExecutor {
         return ServerReply.PLAY_PLAYLIST_SUCCESSFULLY_REPLY.getReply();
     }
 
-    private String generateOutputShowPlaylistCommand(String playlistTitle, Playlist toReturn) {
+    private String generateOutputShowPlaylistCommand(Playlist toReturn) {
+
+        Objects.requireNonNull(toReturn, "The provided playlist cannot be null.");
 
         if (toReturn.getPlaylistSongs().isEmpty()) {
 
@@ -222,7 +232,7 @@ public class CommandExecutor {
 
         StringBuilder resultString = new StringBuilder();
         resultString.append(ServerReply.SHOW_PLAYLIST_SUCCESSFULLY_REPLY.getReply() +
-            playlistTitle + System.lineSeparator());
+            toReturn.getTitle() + System.lineSeparator());
         int counter = 1;
         for (Song currentSong : toReturn.getPlaylistSongs()) {
 
@@ -233,17 +243,18 @@ public class CommandExecutor {
             ++counter;
         }
 
-        //  resultString.deleteCharAt(resultString.length() - 1);
         return resultString.toString();
     }
 
     private String processShowPlaylistCommand(List<String> arguments, SelectionKey selectionKey) {
 
+        Objects.requireNonNull(arguments, "The provided list of arguments cannot be null.");
+
         String playlistTitle = arguments.get(0);
         try {
 
             Playlist toReturn = streamingPlatform.showPlaylist(playlistTitle, selectionKey);
-            return generateOutputShowPlaylistCommand(playlistTitle, toReturn);
+            return generateOutputShowPlaylistCommand(toReturn);
         } catch (UserNotLoggedException e) {
 
             return getCorrectReply(Level.INFO, ServerReply.SHOW_PLAYLIST_NOT_LOGGED_REPLY.getReply(), e);
@@ -260,6 +271,8 @@ public class CommandExecutor {
 
     private String generateOutputShowPlaylistsCommand(List<String> playlistTitles) {
 
+        Objects.requireNonNull(playlistTitles, "The provided list of playlist titles cannot be null.");
+
         if (playlistTitles.isEmpty()) {
             return ServerReply.SHOW_PLAYLISTS_NO_PLAYLISTS_REPLY.getReply();
         }
@@ -275,7 +288,6 @@ public class CommandExecutor {
             ++counter;
         }
 
-        //resultString.deleteCharAt(resultString.length() - 1);
         return resultString.toString();
     }
 
@@ -296,6 +308,8 @@ public class CommandExecutor {
     }
 
     private String processAddSongToCommand(List<String> arguments, SelectionKey selectionKey) {
+
+        Objects.requireNonNull(arguments, "The provided list of arguments cannot be null.");
 
         String playlistTitle = arguments.get(0);
         String songTitle = arguments.get(1);
@@ -333,9 +347,10 @@ public class CommandExecutor {
 
     private String processRemoveSongFromCommand(List<String> arguments, SelectionKey selectionKey) {
 
+        Objects.requireNonNull(arguments, "The provided list of arguments cannot be null.");
+
         String playlistTitle = arguments.get(0);
         String songTitle = arguments.get(1);
-
         try {
 
             streamingPlatform.removeSongFromPlaylist(playlistTitle, songTitle, selectionKey);
@@ -365,6 +380,8 @@ public class CommandExecutor {
 
     private String processCreatePlaylistCommand(List<String> arguments, SelectionKey selectionKey) {
 
+        Objects.requireNonNull(arguments, "The provided list of arguments cannot be null.");
+
         String playlistTitle = arguments.get(0);
         try {
 
@@ -390,6 +407,8 @@ public class CommandExecutor {
     }
 
     private String processDeletePlaylistCommand(List<String> arguments, SelectionKey selectionKey) {
+
+        Objects.requireNonNull(arguments, "The provided list of arguments cannot be null.");
 
         String playlistTitle = arguments.get(0);
         try {
@@ -421,8 +440,9 @@ public class CommandExecutor {
 
     private String processSearchCommand(List<String> arguments) {
 
-        String wordToSearch = arguments.get(0);
+        Objects.requireNonNull(arguments, "The provided list of arguments cannot be null.");
 
+        String wordToSearch = arguments.get(0);
         List<SongEntity> searchedSongs = streamingPlatform.searchSongs(wordToSearch);
 
         if (searchedSongs.isEmpty()) {
@@ -441,11 +461,12 @@ public class CommandExecutor {
             toReturn.append(currentResult);
         }
 
-        //toReturn.deleteCharAt(toReturn.length() - 1);
         return toReturn.toString();
     }
 
     private String processRegisterCommand(List<String> arguments) {
+
+        Objects.requireNonNull(arguments, "The provided list of arguments cannot be null.");
 
         String emailToRegister = arguments.get(0);
         String passwordToRegister = arguments.get(1);
@@ -483,12 +504,6 @@ public class CommandExecutor {
         }
     }
 
-    /*private String getCorrectReply(Level level, String message) {
-
-        this.spotifyLogger.log(level, REPLY_FIELD_TO_LOG + message);
-        return message;
-    }*/
-
     private String getCorrectReply(Level level, String message, Exception e) {
 
         this.spotifyLogger.log(level, REPLY_FIELD_TO_LOG + message, e);
@@ -503,6 +518,8 @@ public class CommandExecutor {
     }
 
     private String processLoginCommand(List<String> arguments, SelectionKey selectionKey) {
+
+        Objects.requireNonNull(arguments, "The provided list of arguments cannot be null.");
 
         String emailToLogin = arguments.get(0);
         String passwordToLogin = arguments.get(1);
@@ -538,6 +555,8 @@ public class CommandExecutor {
 
     private String processTopCommand(List<String> arguments) {
 
+        Objects.requireNonNull(arguments, "The provided list of arguments cannot be null.");
+
         if (arguments.get(0).equals(ZERO_CHARACTER) || !arguments.get(0).matches(POSITIVE_NUMBER_REGEX)) {
 
             return getCorrectReply(Level.INFO, ServerReply.TOP_COMMAND_INVALID_ARGUMENT_REPLY.getReply(),
@@ -558,15 +577,6 @@ public class CommandExecutor {
             toReturn.append(toAppend);
         }
 
-        //toReturn.deleteCharAt(toReturn.length() - 1);
         return toReturn.toString();
     }
-
-  /*  public static void main(String[] args) throws IODatabaseException {
-        CommandExecutor ce = new CommandExecutor(new StreamingPlatform(), new SpotifyLogger(new Logger()));
-
-        Command cm = new Command("register", List.of("sampleEmail@abv.bg", "666777888"));
-        //System.out.println(ce.executeCommand(cm), );
-    }*/
-
 }

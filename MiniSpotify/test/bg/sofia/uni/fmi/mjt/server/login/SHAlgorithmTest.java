@@ -9,7 +9,6 @@ import static bg.sofia.uni.fmi.mjt.server.login.SHAAlgorithm.getHash;
 
 public class SHAlgorithmTest {
 
-
     @Test
     void testGetHashOfWords() {
 

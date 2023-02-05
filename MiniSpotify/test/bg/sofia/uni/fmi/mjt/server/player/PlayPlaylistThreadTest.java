@@ -21,10 +21,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -34,17 +32,17 @@ public class PlayPlaylistThreadTest {
 
 
     @Mock
-    StreamingPlatform streamingPlatformMock = mock(StreamingPlatform.class);
+    StreamingPlatform streamingPlatformMock;
 
     @Mock
-    SelectionKey selectionKeyMock = mock(SelectionKey.class);
+    SelectionKey selectionKeyMock;
 
     @Mock
-    SpotifyLogger spotifyLoggerMock = mock(SpotifyLogger.class);
+    SpotifyLogger spotifyLoggerMock;
 
     @Test
-    void testRunPlayPlaylistThreadUserNotLoggedException()
-        throws UserNotLoggedException, NoSuchSongException, IODatabaseException, SongIsAlreadyPlayingException {
+    void testRunPlayPlaylistThreadUserNotLoggedException() throws UserNotLoggedException, NoSuchSongException,
+        IODatabaseException, SongIsAlreadyPlayingException {
 
         PlayPlaylistThread playPlaylistThread = new PlayPlaylistThread("CrownMusic", this.selectionKeyMock,
             this.streamingPlatformMock, this.spotifyLoggerMock);
@@ -82,8 +80,8 @@ public class PlayPlaylistThreadTest {
     }
 
     @Test
-    void testRunPlayPlaylistThreadNoSuchSongException()
-        throws UserNotLoggedException, NoSuchSongException, IODatabaseException, SongIsAlreadyPlayingException {
+    void testRunPlayPlaylistThreadNoSuchSongException() throws UserNotLoggedException, NoSuchSongException,
+        IODatabaseException, SongIsAlreadyPlayingException {
 
         PlayPlaylistThread playPlaylistThread = new PlayPlaylistThread("CrownMusic", this.selectionKeyMock,
             this.streamingPlatformMock, this.spotifyLoggerMock);
@@ -121,8 +119,8 @@ public class PlayPlaylistThreadTest {
     }
 
     @Test
-    void testRunPlayPlaylistThreadSongIsAlreadyPlayingException()
-        throws UserNotLoggedException, NoSuchSongException, IODatabaseException, SongIsAlreadyPlayingException {
+    void testRunPlayPlaylistThreadSongIsAlreadyPlayingException() throws UserNotLoggedException, NoSuchSongException,
+        IODatabaseException, SongIsAlreadyPlayingException {
 
         PlayPlaylistThread playPlaylistThread = new PlayPlaylistThread("CrownMusic", this.selectionKeyMock,
             this.streamingPlatformMock, this.spotifyLoggerMock);
@@ -160,8 +158,8 @@ public class PlayPlaylistThreadTest {
     }
 
     @Test
-    void testRunPlayPlaylistThreadIODatabaseException()
-        throws UserNotLoggedException, NoSuchSongException, IODatabaseException, SongIsAlreadyPlayingException {
+    void testRunPlayPlaylistThreadIODatabaseException() throws UserNotLoggedException, NoSuchSongException,
+        IODatabaseException, SongIsAlreadyPlayingException {
 
         PlayPlaylistThread playPlaylistThread = new PlayPlaylistThread("CrownMusic", this.selectionKeyMock,
             this.streamingPlatformMock, this.spotifyLoggerMock);
@@ -199,8 +197,8 @@ public class PlayPlaylistThreadTest {
     }
 
     @Test
-    void testRunPlayPlaylistThreadNullPointerException()
-        throws UserNotLoggedException, NoSuchSongException, IODatabaseException, SongIsAlreadyPlayingException {
+    void testRunPlayPlaylistThreadNullPointerException() throws UserNotLoggedException, NoSuchSongException,
+        IODatabaseException, SongIsAlreadyPlayingException {
 
         PlayPlaylistThread playPlaylistThread = new PlayPlaylistThread("CrownMusic", this.selectionKeyMock,
             this.streamingPlatformMock, this.spotifyLoggerMock);
@@ -234,5 +232,4 @@ public class PlayPlaylistThreadTest {
         verify(this.spotifyLoggerMock, times(1)).log(Level.INFO,
             "sdvelev@gmail.com " + ServerReply.SERVER_EXCEPTION.getReply(), e);
     }
-
 }

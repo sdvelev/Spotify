@@ -9,6 +9,7 @@ import bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -21,18 +22,15 @@ import static bg.sofia.uni.fmi.mjt.server.login.SHAAlgorithm.getHash;
 public class AuthenticationService {
 
     private final static String VALID_EMAIL_REGEX = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
-    private final static String REGISTERED_USERS_LIST_PATH = "data" + File.separator + "authentication" + File.separator +
-        "RegisteredUsersList.txt";
+    private final static String REGISTERED_USERS_LIST_PATH = "data" + File.separator + "authentication" +
+        File.separator + "RegisteredUsersList.txt";
     private final static String INTERVAL_REGEX = " ";
 
     private Reader authenticationReader;
 
     private Writer authenticationWriter;
 
-    public AuthenticationService() {
-
-
-    }
+    public AuthenticationService() { }
 
     public AuthenticationService(Reader authenticationReader, Writer authenticationWriter) {
 
@@ -40,49 +38,38 @@ public class AuthenticationService {
         this.authenticationWriter = authenticationWriter;
     }
 
-    public User login(String email, String password) throws UserNotFoundException,
-        NoSuchAlgorithmException, IODatabaseException {
+    public User login(String email, String password) throws UserNotFoundException, NoSuchAlgorithmException,
+        IODatabaseException {
 
         String entryToSearch = email + INTERVAL_REGEX + getHash(password);
 
-        if (this.authenticationReader == null) {
+        try (BufferedReader bufferedReader = new BufferedReader(getAppropriateReader())) {
 
-            try (BufferedReader bufferedReader = new BufferedReader(new
-                FileReader(REGISTERED_USERS_LIST_PATH))) {
-
-                if (bufferedReader.lines()
-                    .filter(currentEntry -> currentEntry.equals(entryToSearch))
-                    .toList().size() == 1) {
-
-                    return new User(email, password);
-                }
-
-            } catch (IOException e) {
-
-                throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
-            }
-        } else {
-
-            if (doExist(email)) {
+            if (bufferedReader.lines()
+                .filter(currentEntry -> currentEntry.equals(entryToSearch))
+                .toList().size() == 1) {
 
                 return new User(email, password);
             }
+        } catch (IOException e) {
 
-         /*   try (BufferedReader bufferedReader = new BufferedReader(this.authenticationReader)) {
-
-                if (bufferedReader.lines()
-                    .filter(currentEntry -> currentEntry.equals(entryToSearch))
-                    .toList().size() == 1) {
-
-                    return new User(email, password);
-                }
-
-            } catch (IOException e) {
-
-                throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
-            }*/
-
+            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
         }
+
+
+       /* User potentialUserToReturn;
+        if (this.authenticationReader == null ) {
+
+            potentialUserToReturn = lookForSuchUserInFile(entryToSearch, email, password);
+        } else {
+
+            potentialUserToReturn = lookForSuchUserInStream(entryToSearch, email, password);
+        }
+
+        if (potentialUserToReturn != null) {
+
+            return potentialUserToReturn;
+        }*/
 
         throw new UserNotFoundException(ServerReply.LOGIN_COMMAND_USER_NOT_EXIST_REPLY.getReply());
     }
@@ -100,29 +87,22 @@ public class AuthenticationService {
 
         String toWriteEntry = email + " " + getHash(password) + System.lineSeparator();
 
-        if (this.authenticationWriter == null) {
+        try (BufferedWriter bufferedWriter = new BufferedWriter(getAppropriateWriter())) {
 
-            try (BufferedWriter bufferedWriter = new BufferedWriter(new
-                FileWriter(REGISTERED_USERS_LIST_PATH, true))) {
+            bufferedWriter.write(toWriteEntry);
+            bufferedWriter.flush();
+        } catch (IOException e) {
 
-                bufferedWriter.write(toWriteEntry);
-                bufferedWriter.flush();
-            } catch (IOException e) {
+            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
+        }
 
-                throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
-            }
+       /* if (this.authenticationWriter == null) {
+
+            writeEntryInFile(toWriteEntry);
         } else {
 
-            try (BufferedWriter bufferedWriter = new BufferedWriter(this.authenticationWriter)) {
-
-                bufferedWriter.write(toWriteEntry);
-                bufferedWriter.flush();
-            } catch (IOException e) {
-
-                throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
-            }
-
-        }
+            writeEntryInStream(toWriteEntry);
+        }*/
     }
 
     public Reader getAuthenticationReader() {
@@ -133,50 +113,142 @@ public class AuthenticationService {
         return authenticationWriter;
     }
 
-    private boolean doExist(String email) throws IODatabaseException {
+   /* private User lookForSuchUserInStream(String entryToSearch, String email, String password)
+        throws IODatabaseException {
 
-        if (this.authenticationWriter == null) {
+        try (BufferedReader bufferedReader = new BufferedReader(this.authenticationReader)) {
+            if (bufferedReader.lines()
+                .filter(currentEntry -> currentEntry.equals(entryToSearch))
+                .toList().size() == 1) {
 
-            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(REGISTERED_USERS_LIST_PATH))) {
-
-                if (bufferedReader.lines()
-                    .filter(currentEntry -> currentEntry.split(INTERVAL_REGEX)[0].equals(email))
-                    .toList().size() == 1) {
-                    return true;
-                }
-            } catch (IOException e) {
-
-                throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply());
+                return new User(email, password);
             }
+        } catch (IOException e) {
 
-        } else {
+            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
+        }
 
-            try (BufferedReader bufferedReader = new BufferedReader(this.authenticationReader)) {
+        return null;
+    }
+    private User lookForSuchUserInFile(String entryToSearch, String email, String password) throws IODatabaseException {
 
-                if (bufferedReader.lines()
-                    .filter(currentEntry -> currentEntry.split(INTERVAL_REGEX)[0].equals(email))
-                    .toList().size() == 1) {
-                    return true;
-                }
-            } catch (IOException e) {
+        try (BufferedReader bufferedReader = new BufferedReader(new
+            FileReader(REGISTERED_USERS_LIST_PATH))) {
 
-                throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply());
+            if (bufferedReader.lines()
+                .filter(currentEntry -> currentEntry.equals(entryToSearch))
+                .toList().size() == 1) {
+
+                return new User(email, password);
             }
+        } catch (IOException e) {
+
+            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
+        }
+
+        return null;
+    }*/
+
+   /* private void writeEntryInFile(String toWriteEntry) throws IODatabaseException {
+
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new
+            FileWriter(REGISTERED_USERS_LIST_PATH, true))) {
+
+            bufferedWriter.write(toWriteEntry);
+            bufferedWriter.flush();
+
+        } catch (IOException e) {
+
+            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
+        }
+    }
+
+    private void writeEntryInStream(String toWriteEntry) throws IODatabaseException {
+
+        try (BufferedWriter bufferedWriter = new BufferedWriter(this.authenticationWriter)) {
+
+            bufferedWriter.write(toWriteEntry);
+            bufferedWriter.flush();
+
+        } catch (IOException e) {
+
+            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
+        }
+    }*/
+
+   /* private boolean doExistInFile(String email) throws IODatabaseException {
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(REGISTERED_USERS_LIST_PATH))) {
+
+            if (bufferedReader.lines()
+                .filter(currentEntry -> currentEntry.split(INTERVAL_REGEX)[0].equals(email))
+                .toList().size() == 1) {
+                return true;
+            }
+        } catch (IOException e) {
+
+            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply());
         }
 
         return false;
     }
 
-    /*public static void main(String[] args)
-        throws NotValidEmailFormatException, NoSuchAlgorithmException, UserNotFoundException,
-        EmailAlreadyRegisteredException, IODatabaseException {
+    private boolean doExistInStream(String email) throws IODatabaseException {
 
-        String email = "sampleEmail2@abv.bg";
-        String password = "123456";
-        register(email, password);
+        try (BufferedReader bufferedReader = new BufferedReader(this.authenticationReader)) {
 
-       // User res = login(email, password);
-      //  System.out.println(res.getEmail());
+            if (bufferedReader.lines()
+                .filter(currentEntry -> currentEntry.split(INTERVAL_REGEX)[0].equals(email))
+                .toList().size() == 1) {
+                return true;
+            }
+        } catch (IOException e) {
+
+            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply());
+        }
+
+        return false;
     }*/
 
+    private boolean doExist(String email) throws IODatabaseException {
+
+        try (BufferedReader bufferedReader = new BufferedReader(getAppropriateReader())) {
+
+            if (bufferedReader.lines()
+                .filter(currentEntry -> currentEntry.split(INTERVAL_REGEX)[0].equals(email))
+                .toList().size() == 1) {
+
+                return true;
+            }
+        } catch (IOException e) {
+
+            throw new IODatabaseException(ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply());
+        }
+
+        return false;
+    }
+
+    private Reader getAppropriateReader() throws FileNotFoundException {
+
+        if (this.authenticationReader == null) {
+
+            return new FileReader(REGISTERED_USERS_LIST_PATH);
+        } else {
+
+            return this.authenticationReader;
+        }
+
+    }
+
+    private Writer getAppropriateWriter() throws IOException {
+
+        if (this.authenticationWriter == null) {
+
+            return new FileWriter(REGISTERED_USERS_LIST_PATH, true);
+        } else {
+
+            return this.authenticationWriter;
+        }
+
+    }
 }

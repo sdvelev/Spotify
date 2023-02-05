@@ -19,7 +19,9 @@ import bg.sofia.uni.fmi.mjt.server.storage.SongEntity;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -35,11 +37,11 @@ import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 public class StreamingPlatformTest {
 
     private final static String SONGS_LIST = """
@@ -266,17 +268,19 @@ public class StreamingPlatformTest {
           }
         ]""";
     private StreamingPlatform streamingPlatform;
-
     @Mock
     private SelectionKey selectionKey;
 
     @Mock
-    private Set<SelectionKey> alreadyLoggedMock = mock(Set.class);
-
-    private Map<SelectionKey, PlaySongThread> alreadyRunningMock = mock(Map.class);
+    private Set<SelectionKey> alreadyLoggedMock;
 
     @Mock
-    private AuthenticationService authenticationServiceMock = mock(AuthenticationService.class);
+    private Map<SelectionKey, PlaySongThread> alreadyRunningMock;
+
+    @Mock
+    private AuthenticationService authenticationServiceMock;
+    @Mock
+    private PlaySongThread playSongThreadMock;
 
     @BeforeEach
     void setTests() throws IODatabaseException {
@@ -306,8 +310,8 @@ public class StreamingPlatformTest {
     }
 
     @Test
-    void testCreatePlaylistSuccessfully()
-        throws UserNotLoggedException, PlaylistAlreadyExistException, IODatabaseException {
+    void testCreatePlaylistSuccessfully() throws UserNotLoggedException, PlaylistAlreadyExistException,
+        IODatabaseException {
 
         User user = new User("sdvelev@gmail.com", "123456");
         this.streamingPlatform.setUser(user);
@@ -325,8 +329,8 @@ public class StreamingPlatformTest {
     }
 
     @Test
-    void testCreatePlaylistSuccessfullyNoPlaylistsYet()
-        throws UserNotLoggedException, PlaylistAlreadyExistException, IODatabaseException {
+    void testCreatePlaylistSuccessfullyNoPlaylistsYet() throws UserNotLoggedException, PlaylistAlreadyExistException,
+        IODatabaseException {
 
         User user = new User("sdvelev@outlook.com", "123456");
         this.streamingPlatform.setUser(user);
@@ -373,8 +377,8 @@ public class StreamingPlatformTest {
     }
 
     @Test
-    void testDeletePlaylistSuccessfully() throws UserNotLoggedException, IODatabaseException,
-        NoSuchPlaylistException, PlaylistNotEmptyException, PlaylistAlreadyExistException {
+    void testDeletePlaylistSuccessfully() throws UserNotLoggedException, IODatabaseException, NoSuchPlaylistException,
+        PlaylistNotEmptyException, PlaylistAlreadyExistException {
 
         User user = new User("sdvelev@gmail.com", "123456");
         this.streamingPlatform.setUser(user);
@@ -576,9 +580,8 @@ public class StreamingPlatformTest {
     }
 
     @Test
-    void testAddSongToPlaylistSuccessfullyCaseInSensitiveSongTitles()
-        throws UserNotLoggedException, NoSuchSongException, IODatabaseException, NoSuchPlaylistException,
-        SongAlreadyInPlaylistException {
+    void testAddSongToPlaylistSuccessfullyCaseInSensitiveSongTitles() throws UserNotLoggedException,
+        NoSuchSongException, IODatabaseException, NoSuchPlaylistException, SongAlreadyInPlaylistException {
 
         User user = new User("sdvelev@gmail.com", "123456");
         this.streamingPlatform.setUser(user);
@@ -675,8 +678,8 @@ public class StreamingPlatformTest {
     }
 
     @Test
-    void testRemoveSongFromPlaylistSuccessfully()
-        throws UserNotLoggedException, NoSuchSongException, IODatabaseException, NoSuchPlaylistException {
+    void testRemoveSongFromPlaylistSuccessfully() throws UserNotLoggedException, NoSuchSongException,
+        IODatabaseException, NoSuchPlaylistException {
 
         User user = new User("sdvelev@gmail.com", "123456");
         this.streamingPlatform.setUser(user);
@@ -703,8 +706,8 @@ public class StreamingPlatformTest {
     }
 
     @Test
-    void testRemoveSongFromPlaylistSuccessfullyCaseInsensitiveSongTitles()
-        throws UserNotLoggedException, NoSuchSongException, IODatabaseException, NoSuchPlaylistException {
+    void testRemoveSongFromPlaylistSuccessfullyCaseInsensitiveSongTitles() throws UserNotLoggedException,
+        NoSuchSongException, IODatabaseException, NoSuchPlaylistException {
 
         User user = new User("sdvelev@gmail.com", "123456");
         this.streamingPlatform.setUser(user);
@@ -855,15 +858,15 @@ public class StreamingPlatformTest {
     }
 
     @Test
-    void testPlaySongSuccessfully()
-        throws UserNotLoggedException, NoSuchSongException, IODatabaseException, SongIsAlreadyPlayingException {
+    void testPlaySongSuccessfully() throws UserNotLoggedException, NoSuchSongException, IODatabaseException,
+        SongIsAlreadyPlayingException {
 
         User user = new User("sdvelev@gmail.com", "123456");
         this.streamingPlatform.setUser(user);
 
         when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
 
-        String songTitle = "The Crown - Bittersweet Symphony";
+        String songTitle = "The Crown - Main title";
 
         int listeningTimesBefore = getListeningTimesBySongTitle(songTitle);
 
@@ -871,8 +874,6 @@ public class StreamingPlatformTest {
         verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
 
         int listeningTimesAfter = getListeningTimesBySongTitle(songTitle);
-
-        //when(this.alreadyRunningMock.isEmpty()).thenReturn(false);
 
         assertFalse(this.streamingPlatform.getAlreadyRunning().isEmpty(),
             "Song is expected to run but it isn't playing.");
@@ -929,9 +930,6 @@ public class StreamingPlatformTest {
             "NoSuchSongException is expected but not thrown.");
         verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
     }
-
-    @Mock
-    private PlaySongThread playSongThreadMock = mock(PlaySongThread.class);
 
     @Test
     void testStopSongSuccessfully() throws InterruptedException, UserNotLoggedException, NoSongPlayingException {
@@ -1012,9 +1010,8 @@ public class StreamingPlatformTest {
     }
 
     @Test
-    void testPlayPlaylistSuccessfully()
-        throws UserNotLoggedException, SongIsAlreadyPlayingException, InterruptedException, NoSongPlayingException,
-        NoSuchPlaylistException, NoSongsInPlaylistException {
+    void testPlayPlaylistSuccessfully() throws UserNotLoggedException, SongIsAlreadyPlayingException,
+        InterruptedException, NoSongPlayingException, NoSuchPlaylistException, NoSongsInPlaylistException {
 
         User user = new User("sdvelev@gmail.com", "123456");
         this.streamingPlatform.setUser(user);
@@ -1113,8 +1110,8 @@ public class StreamingPlatformTest {
     }
 
     @Test
-    void testPlayPlaylistNoSongsInPlaylistException()
-        throws UserNotLoggedException, PlaylistAlreadyExistException, IODatabaseException {
+    void testPlayPlaylistNoSongsInPlaylistException() throws UserNotLoggedException, PlaylistAlreadyExistException,
+        IODatabaseException {
 
         User user = new User("sdvelev@gmail.com", "123456");
         this.streamingPlatform.setUser(user);

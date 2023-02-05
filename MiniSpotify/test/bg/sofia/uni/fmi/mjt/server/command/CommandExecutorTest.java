@@ -23,7 +23,9 @@ import bg.sofia.uni.fmi.mjt.server.storage.Song;
 import bg.sofia.uni.fmi.mjt.server.storage.SongEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.nio.channels.SelectionKey;
 import java.security.NoSuchAlgorithmException;
@@ -41,21 +43,22 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 public class CommandExecutorTest {
 
     @Mock
-    private SelectionKey selectionKeyMock = mock(SelectionKey.class);
+    private SelectionKey selectionKeyMock;
 
     @Mock
-    private StreamingPlatform streamingPlatformMock = mock(StreamingPlatform.class);
+    private StreamingPlatform streamingPlatformMock;
 
     @Mock
-    private AuthenticationService authenticationServiceMock = mock(AuthenticationService.class);
+    private AuthenticationService authenticationServiceMock;
 
     private CommandExecutor commandExecutor;
 
     @Mock
-    private SpotifyLogger spotifyLoggerMock = mock(SpotifyLogger.class);
+    private SpotifyLogger spotifyLoggerMock;
 
     @BeforeEach
     void setTests() {
@@ -724,10 +727,8 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessShowPlaylistCommandSuccessfully()
-        throws UserNotLoggedException, NoSuchPlaylistException {
-
-        //when(this.streamingPlatformMock.getUser()).thenReturn(new User("sdvelev@gmail.com", "123456"));
+    void testExecuteCommandProcessShowPlaylistCommandSuccessfully() throws UserNotLoggedException,
+        NoSuchPlaylistException {
 
         Command toProcess = new Command("show-playlist", List.of("CrownMusic"));
 
@@ -757,10 +758,7 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessShowPlaylistCommandNoSongs()
-        throws UserNotLoggedException, NoSuchPlaylistException {
-
-        //when(this.streamingPlatformMock.getUser()).thenReturn(new User("sdvelev@gmail.com", "123456"));
+    void testExecuteCommandProcessShowPlaylistCommandNoSongs() throws UserNotLoggedException, NoSuchPlaylistException {
 
         Command toProcess = new Command("show-playlist", List.of("CrownMusic"));
 
@@ -779,10 +777,8 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessShowPlaylistCommandUserNotLoggedException()
-        throws UserNotLoggedException, NoSuchPlaylistException {
-
-        //when(this.streamingPlatformMock.getUser()).thenReturn(new User("sdvelev@gmail.com", "123456"));
+    void testExecuteCommandProcessShowPlaylistCommandUserNotLoggedException() throws UserNotLoggedException,
+        NoSuchPlaylistException {
 
         Command toProcess = new Command("show-playlist", List.of("CrownMusic"));
 
@@ -799,10 +795,8 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessShowPlaylistCommandNoSuchPlaylistException()
-        throws UserNotLoggedException, NoSuchPlaylistException {
-
-        //when(this.streamingPlatformMock.getUser()).thenReturn(new User("sdvelev@gmail.com", "123456"));
+    void testExecuteCommandProcessShowPlaylistCommandNoSuchPlaylistException() throws UserNotLoggedException,
+        NoSuchPlaylistException {
 
         Command toProcess = new Command("show-playlist", List.of("CrownMusic"));
 
@@ -822,8 +816,8 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessShowPlaylistCommandNullPointerException()
-        throws UserNotLoggedException, NoSuchPlaylistException {
+    void testExecuteCommandProcessShowPlaylistCommandNullPointerException() throws UserNotLoggedException,
+        NoSuchPlaylistException {
 
         Command toProcess = new Command("show-playlist", List.of("CrownMusic"));
 
@@ -843,10 +837,7 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessShowPlaylistsCommandSuccessfully()
-        throws UserNotLoggedException {
-
-        //when(this.streamingPlatformMock.getUser()).thenReturn(new User("sdvelev@gmail.com", "123456"));
+    void testExecuteCommandProcessShowPlaylistsCommandSuccessfully() throws UserNotLoggedException {
 
         Command toProcess = new Command("show-playlists", new ArrayList<>());
 
@@ -870,10 +861,7 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessShowPlaylistsCommandNoPlaylists()
-        throws UserNotLoggedException {
-
-        //when(this.streamingPlatformMock.getUser()).thenReturn(new User("sdvelev@gmail.com", "123456"));
+    void testExecuteCommandProcessShowPlaylistsCommandNoPlaylists() throws UserNotLoggedException {
 
         Command toProcess = new Command("show-playlists", new ArrayList<>());
 
@@ -889,10 +877,7 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessShowPlaylistsCommandUserNotLoggedException()
-        throws UserNotLoggedException {
-
-        //when(this.streamingPlatformMock.getUser()).thenReturn(new User("sdvelev@gmail.com", "123456"));
+    void testExecuteCommandProcessShowPlaylistsCommandUserNotLoggedException() throws UserNotLoggedException {
 
         Command toProcess = new Command("show-playlists", new ArrayList<>());
 
@@ -909,10 +894,7 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessShowPlaylistsCommandNullPointerException()
-        throws UserNotLoggedException {
-
-        //when(this.streamingPlatformMock.getUser()).thenReturn(new User("sdvelev@gmail.com", "123456"));
+    void testExecuteCommandProcessShowPlaylistsCommandNullPointerException() throws UserNotLoggedException {
 
         Command toProcess = new Command("show-playlists", new ArrayList<>());
 
@@ -932,14 +914,10 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessPlayCommandSuccessfully()
-        throws UserNotLoggedException, NoSuchSongException, IODatabaseException, SongIsAlreadyPlayingException {
-
-        //when(this.streamingPlatformMock.getUser()).thenReturn(new User("sdvelev@gmail.com", "123456"));
+    void testExecuteCommandProcessPlayCommandSuccessfully() throws UserNotLoggedException, NoSuchSongException,
+        IODatabaseException, SongIsAlreadyPlayingException {
 
         Command toProcess = new Command("play", List.of("No Time To Die"));
-
-        //when(this.streamingPlatformMock.playSong("No Time To Die", this.selectionKeyMock)).thenReturn(new ArrayList<>());
 
         String result = this.commandExecutor.executeCommand(toProcess, this.selectionKeyMock);
 
@@ -951,10 +929,8 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessPlayCommandUserNotLoggedException()
-        throws UserNotLoggedException, NoSuchSongException, IODatabaseException, SongIsAlreadyPlayingException {
-
-        //when(this.streamingPlatformMock.getUser()).thenReturn(new User("sdvelev@gmail.com", "123456"));
+    void testExecuteCommandProcessPlayCommandUserNotLoggedException() throws UserNotLoggedException,
+        NoSuchSongException, IODatabaseException, SongIsAlreadyPlayingException {
 
         Command toProcess = new Command("play", List.of("No Time To Die"));
 
@@ -971,10 +947,8 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessPlayCommandNoSuchSongException()
-        throws UserNotLoggedException, NoSuchSongException, IODatabaseException, SongIsAlreadyPlayingException {
-
-        //when(this.streamingPlatformMock.getUser()).thenReturn(new User("sdvelev@gmail.com", "123456"));
+    void testExecuteCommandProcessPlayCommandNoSuchSongException() throws UserNotLoggedException, NoSuchSongException,
+        IODatabaseException, SongIsAlreadyPlayingException {
 
         Command toProcess = new Command("play", List.of("No Time To Die"));
 
@@ -994,10 +968,8 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessPlayCommandSongIsAlreadyPlayingException()
-        throws UserNotLoggedException, NoSuchSongException, IODatabaseException, SongIsAlreadyPlayingException {
-
-        //when(this.streamingPlatformMock.getUser()).thenReturn(new User("sdvelev@gmail.com", "123456"));
+    void testExecuteCommandProcessPlayCommandSongIsAlreadyPlayingException() throws UserNotLoggedException,
+        NoSuchSongException, IODatabaseException, SongIsAlreadyPlayingException {
 
         Command toProcess = new Command("play", List.of("No Time To Die"));
 
@@ -1017,10 +989,8 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessPlayCommandIODatabaseException()
-        throws UserNotLoggedException, NoSuchSongException, IODatabaseException, SongIsAlreadyPlayingException {
-
-        //when(this.streamingPlatformMock.getUser()).thenReturn(new User("sdvelev@gmail.com", "123456"));
+    void testExecuteCommandProcessPlayCommandIODatabaseException() throws UserNotLoggedException, NoSuchSongException,
+        IODatabaseException, SongIsAlreadyPlayingException {
 
         Command toProcess = new Command("play", List.of("No Time To Die"));
 
@@ -1040,10 +1010,8 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessPlayCommandNullPointerException()
-        throws UserNotLoggedException, NoSuchSongException, IODatabaseException, SongIsAlreadyPlayingException {
-
-        //when(this.streamingPlatformMock.getUser()).thenReturn(new User("sdvelev@gmail.com", "123456"));
+    void testExecuteCommandProcessPlayCommandNullPointerException() throws UserNotLoggedException, NoSuchSongException,
+        IODatabaseException, SongIsAlreadyPlayingException {
 
         Command toProcess = new Command("play", List.of("No Time To Die"));
 
@@ -1075,9 +1043,8 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessPlayPlaylistCommandUserNotLoggedException()
-        throws UserNotLoggedException, SongIsAlreadyPlayingException, NoSuchPlaylistException,
-        NoSongsInPlaylistException {
+    void testExecuteCommandProcessPlayPlaylistCommandUserNotLoggedException() throws UserNotLoggedException,
+        SongIsAlreadyPlayingException, NoSuchPlaylistException, NoSongsInPlaylistException {
 
         Command toProcess = new Command("play-playlist", List.of("Favourites"));
 
@@ -1094,9 +1061,8 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessPlayPlaylistCommandSongIsAlreadyPlayingException()
-        throws UserNotLoggedException, SongIsAlreadyPlayingException, NoSuchPlaylistException,
-        NoSongsInPlaylistException {
+    void testExecuteCommandProcessPlayPlaylistCommandSongIsAlreadyPlayingException() throws UserNotLoggedException,
+        SongIsAlreadyPlayingException, NoSuchPlaylistException, NoSongsInPlaylistException {
 
         Command toProcess = new Command("play-playlist", List.of("Favourites"));
 
@@ -1115,9 +1081,8 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessPlayPlaylistCommandNoSongsInPlaylistException()
-        throws UserNotLoggedException, SongIsAlreadyPlayingException, NoSuchPlaylistException,
-        NoSongsInPlaylistException {
+    void testExecuteCommandProcessPlayPlaylistCommandNoSongsInPlaylistException() throws UserNotLoggedException,
+        SongIsAlreadyPlayingException, NoSuchPlaylistException, NoSongsInPlaylistException {
 
         Command toProcess = new Command("play-playlist", List.of("Favourites"));
 
@@ -1136,9 +1101,8 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessPlayPlaylistCommandNoSuchPlaylistException()
-        throws UserNotLoggedException, SongIsAlreadyPlayingException, NoSuchPlaylistException,
-        NoSongsInPlaylistException {
+    void testExecuteCommandProcessPlayPlaylistCommandNoSuchPlaylistException() throws UserNotLoggedException,
+        SongIsAlreadyPlayingException, NoSuchPlaylistException, NoSongsInPlaylistException {
 
         Command toProcess = new Command("play-playlist", List.of("Favourites"));
 
@@ -1157,9 +1121,8 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessPlayPlaylistCommandNullPointerException()
-        throws UserNotLoggedException, SongIsAlreadyPlayingException, NoSuchPlaylistException,
-        NoSongsInPlaylistException {
+    void testExecuteCommandProcessPlayPlaylistCommandNullPointerException() throws UserNotLoggedException,
+        SongIsAlreadyPlayingException, NoSuchPlaylistException, NoSongsInPlaylistException {
 
         Command toProcess = new Command("play-playlist", List.of("Favourites"));
 
@@ -1178,8 +1141,8 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessStopCommandSuccessfully()
-        throws UserNotLoggedException, NoSongPlayingException, InterruptedException {
+    void testExecuteCommandProcessStopCommandSuccessfully() throws UserNotLoggedException, NoSongPlayingException,
+        InterruptedException {
 
         Command toProcess = new Command("stop", new ArrayList<>());
 
@@ -1192,8 +1155,8 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessStopCommandUserNotLoggedException()
-        throws UserNotLoggedException, NoSongPlayingException, InterruptedException {
+    void testExecuteCommandProcessStopCommandUserNotLoggedException() throws UserNotLoggedException,
+        NoSongPlayingException, InterruptedException {
 
         Command toProcess = new Command("stop", new ArrayList<>());
 
@@ -1209,8 +1172,8 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessStopCommandNoSongPlayingException()
-        throws UserNotLoggedException, NoSongPlayingException, InterruptedException {
+    void testExecuteCommandProcessStopCommandNoSongPlayingException() throws UserNotLoggedException,
+        NoSongPlayingException, InterruptedException {
 
         Command toProcess = new Command("stop", new ArrayList<>());
 
@@ -1228,8 +1191,8 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessStopCommandNullPointerException()
-        throws UserNotLoggedException, NoSongPlayingException, InterruptedException {
+    void testExecuteCommandProcessStopCommandNullPointerException() throws UserNotLoggedException,
+        NoSongPlayingException, InterruptedException {
 
         Command toProcess = new Command("stop", new ArrayList<>());
 
@@ -1283,9 +1246,8 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessRegisterCommandNoSuchAlgorithmException()
-        throws NotValidEmailFormatException, EmailAlreadyRegisteredException, IODatabaseException,
-        NoSuchAlgorithmException {
+    void testExecuteCommandProcessRegisterCommandNoSuchAlgorithmException() throws NotValidEmailFormatException,
+        EmailAlreadyRegisteredException, IODatabaseException, NoSuchAlgorithmException {
 
         Command toProcess = new Command("register", List.of("sdvelev@outlook.com", "123456"));
 
@@ -1302,9 +1264,8 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessRegisterCommandNotValidEmailFormatException()
-        throws NotValidEmailFormatException, EmailAlreadyRegisteredException, IODatabaseException,
-        NoSuchAlgorithmException {
+    void testExecuteCommandProcessRegisterCommandNotValidEmailFormatException() throws NotValidEmailFormatException,
+        EmailAlreadyRegisteredException, IODatabaseException, NoSuchAlgorithmException {
 
         Command toProcess = new Command("register", List.of("sdvelev@outlook", "123456"));
 
@@ -1321,9 +1282,8 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessRegisterCommandEmailAlreadyRegisteredException()
-        throws NotValidEmailFormatException, EmailAlreadyRegisteredException, IODatabaseException,
-        NoSuchAlgorithmException {
+    void testExecuteCommandProcessRegisterCommandEmailAlreadyRegisteredException() throws NotValidEmailFormatException,
+        EmailAlreadyRegisteredException, IODatabaseException, NoSuchAlgorithmException {
 
         Command toProcess = new Command("register", List.of("sdvelev@outlook", "123456"));
 
@@ -1340,9 +1300,8 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessRegisterCommandIODatabaseException()
-        throws NotValidEmailFormatException, EmailAlreadyRegisteredException, IODatabaseException,
-        NoSuchAlgorithmException {
+    void testExecuteCommandProcessRegisterCommandIODatabaseException() throws NotValidEmailFormatException,
+        EmailAlreadyRegisteredException, IODatabaseException, NoSuchAlgorithmException {
 
         Command toProcess = new Command("register", List.of("sdvelev@outlook", "123456"));
 
@@ -1359,9 +1318,8 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessRegisterCommandIndexOutOfBoundsException()
-        throws NotValidEmailFormatException, EmailAlreadyRegisteredException, IODatabaseException,
-        NoSuchAlgorithmException {
+    void testExecuteCommandProcessRegisterCommandIndexOutOfBoundsException() throws NotValidEmailFormatException,
+        EmailAlreadyRegisteredException, IODatabaseException, NoSuchAlgorithmException {
 
         Command toProcess = new Command("register", List.of("sdvelev@outlook", "123456"));
 
@@ -1390,8 +1348,8 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessLoginCommandNoSuchAlgorithmException()
-        throws IODatabaseException, NoSuchAlgorithmException, UserNotFoundException {
+    void testExecuteCommandProcessLoginCommandNoSuchAlgorithmException() throws IODatabaseException,
+        NoSuchAlgorithmException, UserNotFoundException {
 
         Command toProcess = new Command("login", List.of("sdvelev@outlook.com", "123456"));
 
@@ -1408,8 +1366,7 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessLoginCommandUserAlreadyLoggedException()
-        throws IODatabaseException, NoSuchAlgorithmException, UserNotFoundException {
+    void testExecuteCommandProcessLoginCommandUserAlreadyLoggedException() {
 
         Command toProcess = new Command("login", List.of("sdvelev@outlook.com", "123456"));
 
@@ -1423,8 +1380,8 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessLoginCommandUserNotFoundException()
-        throws IODatabaseException, NoSuchAlgorithmException, UserNotFoundException {
+    void testExecuteCommandProcessLoginCommandUserNotFoundException() throws IODatabaseException,
+        NoSuchAlgorithmException, UserNotFoundException {
 
         Command toProcess = new Command("login", List.of("sdvelev@outlook", "123456"));
 
@@ -1441,8 +1398,8 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessLoginCommandIODatabaseException()
-        throws IODatabaseException, NoSuchAlgorithmException, UserNotFoundException {
+    void testExecuteCommandProcessLoginCommandIODatabaseException() throws IODatabaseException,
+        NoSuchAlgorithmException, UserNotFoundException {
 
         Command toProcess = new Command("login", List.of("sdvelev@outlook", "123456"));
 
@@ -1459,8 +1416,8 @@ public class CommandExecutorTest {
     }
 
     @Test
-    void testExecuteCommandProcessLoginCommandIndexOutOfBoundsException()
-        throws IODatabaseException, NoSuchAlgorithmException, UserNotFoundException {
+    void testExecuteCommandProcessLoginCommandIndexOutOfBoundsException() throws IODatabaseException,
+        NoSuchAlgorithmException, UserNotFoundException {
 
         Command toProcess = new Command("login", List.of("sdvelev@outlook", "123456"));
 
@@ -1475,7 +1432,4 @@ public class CommandExecutorTest {
         verify(this.authenticationServiceMock, times(1))
             .login("sdvelev@outlook", "123456");
     }
-
-
-
 }

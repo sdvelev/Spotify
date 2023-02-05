@@ -3,7 +3,9 @@ package bg.sofia.uni.fmi.mjt.server.player;
 import bg.sofia.uni.fmi.mjt.server.StreamingPlatform;
 import bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.nio.channels.SelectionKey;
 import java.util.LinkedHashMap;
@@ -16,16 +18,17 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 public class PlaySongThreadTest {
 
     @Mock
-    StreamingPlatform streamingPlatformMock = mock(StreamingPlatform.class);
+    StreamingPlatform streamingPlatformMock;
 
     @Mock
-    SelectionKey selectionKeyMock = mock(SelectionKey.class);
+    SelectionKey selectionKeyMock;
 
     @Mock
-    SpotifyLogger spotifyLoggerMock = mock(SpotifyLogger.class);
+    SpotifyLogger spotifyLoggerMock;
 
     @Test
     void testRunSongThreadTerminateSong() {
@@ -54,5 +57,4 @@ public class PlaySongThreadTest {
 
         verify(this.streamingPlatformMock, times(1)).getAlreadyRunning();
     }
-
 }

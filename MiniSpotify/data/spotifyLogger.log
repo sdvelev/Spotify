@@ -2304,3 +2304,30 @@ java.lang.IllegalArgumentException: We couldn't process the command as the provi
 	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:80)
 	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:159)
 
+Feb 05, 2023 12:15:59 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+SEVERE: With email: sdvelev@gmail.com Reply from server: You cannot log in as there is a user associated with the current session. Please, log out first.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserAlreadyLoggedException: You cannot log in as there is a user associated with the current session. Please, log out first.
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.validateIsLogged(CommandExecutor.java:503)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:527)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:81)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:79)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:158)
+
+Feb 05, 2023 12:45:44 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: The login process is unsuccessful as there's not such a profile registered.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException: The login process is unsuccessful as there's not such a profile registered.
+	at bg.sofia.uni.fmi.mjt.server.login.AuthenticationService.login(AuthenticationService.java:74)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:528)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:81)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:79)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:158)
+
+Feb 05, 2023 12:47:16 PM bg.sofia.uni.fmi.mjt.server.logger.SpotifyLogger log
+INFO: With email: r@r.com Reply from server: The login process is unsuccessful as there's not such a profile registered.
+bg.sofia.uni.fmi.mjt.server.exceptions.UserNotFoundException: The login process is unsuccessful as there's not such a profile registered.
+	at bg.sofia.uni.fmi.mjt.server.login.AuthenticationService.login(AuthenticationService.java:74)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:528)
+	at bg.sofia.uni.fmi.mjt.server.command.CommandExecutor.executeCommand(CommandExecutor.java:81)
+	at bg.sofia.uni.fmi.mjt.server.Server.start(Server.java:79)
+	at bg.sofia.uni.fmi.mjt.server.Server.main(Server.java:158)
+

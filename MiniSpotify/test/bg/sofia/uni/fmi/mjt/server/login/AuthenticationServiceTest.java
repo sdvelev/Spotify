@@ -22,10 +22,12 @@ public class AuthenticationServiceTest {
         "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92" + System.lineSeparator() +
         "s@s.com a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3" + System.lineSeparator();
 
+    private final static String IO_EXCEPTION_ERROR_MESSAGE = "There is an exception in closing streams.";
+
     private AuthenticationService authenticationService;
 
     @BeforeEach
-    void setTests() throws IODatabaseException {
+    void setTests() {
 
         var authenticationReader = new StringReader(REGISTERED_USERS);
         var authenticationWriter = new StringWriter();
@@ -42,7 +44,7 @@ public class AuthenticationServiceTest {
             this.authenticationService.getAuthenticationWriter().close();
         } catch(IOException e) {
 
-            throw new IODatabaseException("There is an exception in closing streams", e);
+            throw new IODatabaseException(IO_EXCEPTION_ERROR_MESSAGE, e);
         }
     }
 
@@ -99,7 +101,7 @@ public class AuthenticationServiceTest {
     }
 
     @Test
-    void testLoginUserNotFoundException() throws UserNotFoundException, IODatabaseException, NoSuchAlgorithmException {
+    void testLoginUserNotFoundException() {
 
         String emailToLogin = "sdvelev@outlook.com";
         String passwordToLogin = "123456";

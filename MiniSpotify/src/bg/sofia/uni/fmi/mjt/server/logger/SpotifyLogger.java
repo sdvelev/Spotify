@@ -1,5 +1,7 @@
 package bg.sofia.uni.fmi.mjt.server.logger;
 
+import bg.sofia.uni.fmi.mjt.server.exceptions.LoggerNotCreatedSuccessfullyException;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.FileHandler;
@@ -11,13 +13,9 @@ public class SpotifyLogger {
 
     private final static Logger SPOTIFY_LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     private final static String SPOTIFY_LOGGER_PATH = "data" + File.separator;
-    //private SpotifyLogger spotifyLogger = new SpotifyLogger("spotifyLogger.log");
+    private final static String SPOTIFY_LOGGER_NOT_CREATED_MESSAGE = "The SpotifyLogger object was not created " +
+        "successfully.";
     private static FileHandler fileHandler;
-
-    public Logger getLogger() {
-
-        return SPOTIFY_LOGGER;
-    }
 
     public SpotifyLogger(String nameLogger) {
 
@@ -28,26 +26,20 @@ public class SpotifyLogger {
             SPOTIFY_LOGGER.addHandler(fileHandler);
             SimpleFormatter formatter = new SimpleFormatter();
             fileHandler.setFormatter(formatter);
+        } catch (SecurityException | IOException e) {
 
-        } catch (SecurityException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            throw new LoggerNotCreatedSuccessfullyException(SPOTIFY_LOGGER_NOT_CREATED_MESSAGE, e);
         }
     }
-
-
 
     public void log(Level level, String message, Exception exception) {
 
         SPOTIFY_LOGGER.log(level, message, exception);
     }
 
-   /* public static void main(String[] args) {
-        SpotifyLogger spotifyLogger = new SpotifyLogger();
+    public Logger getLogger() {
 
-        spotifyLogger.getSpotifyLogger().info("This is second info log.");
-
-    }*/
-
+        return SPOTIFY_LOGGER;
+    }
 }
