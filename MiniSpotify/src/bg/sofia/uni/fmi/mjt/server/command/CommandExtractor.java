@@ -55,7 +55,6 @@ public class CommandExtractor {
     private static Command createCommandWithTwoArguments(List<String> arguments, String[] lineArray) {
 
         if (lineArray.length < NUMBER_OF_ARGUMENTS_IN_TWO_ARGUMENTS) {
-
             return new Command(UNKNOWN_COMMAND_NAME, new ArrayList<>());
         }
 
@@ -69,7 +68,6 @@ public class CommandExtractor {
         }
 
         if (!secondArgument.isEmpty()) {
-
             secondArgument.deleteCharAt(secondArgument.length() - 1);
             arguments.add(secondArgument.toString());
         }
@@ -88,7 +86,6 @@ public class CommandExtractor {
 
         StringBuilder firstArgument = new StringBuilder();
         for (int i = 1; i < lineArray.length; i++) {
-
             firstArgument.append(lineArray[i]).append(INTERVAL_REGEX);
         }
 
@@ -104,7 +101,6 @@ public class CommandExtractor {
     private static Command createCommandWithExactlyOneArgument(List<String> arguments, String[] lineArray) {
 
         if (lineArray.length != NUMBER_OF_ARGUMENTS_IN_ONE_ARGUMENT) {
-
             return new Command(UNKNOWN_COMMAND_NAME, new ArrayList<>());
         }
 
@@ -117,7 +113,6 @@ public class CommandExtractor {
     private static Command createCommandRegistrationLogin(List<String> arguments, String [] lineArray) {
 
         if (lineArray.length != NUMBER_ARGUMENTS_REGISTRATION_LOGIN) {
-
             return new Command(UNKNOWN_COMMAND_NAME, new ArrayList<>());
         }
 
@@ -131,7 +126,6 @@ public class CommandExtractor {
     private static Command createCommandWitNoArguments(List<String> arguments, String[] lineArray) {
 
         if (lineArray.length != NUMBER_OF_ARGUMENTS_IN_NO_ARGUMENTS) {
-
             return new Command(UNKNOWN_COMMAND_NAME, new ArrayList<>());
         }
 

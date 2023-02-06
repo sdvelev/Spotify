@@ -52,36 +52,35 @@ public class PlayPlaylistThread extends Thread {
                 streamingPlatform.playSong(currentSong.getTitle(), selectionKey);
             } catch (UserNotLoggedException e) {
 
-                this.spotifyLogger.log(Level.INFO, ServerReply.PLAY_SONG_NOT_LOGGED_REPLY.getReply(), e);
+                spotifyLogger.log(Level.INFO, ServerReply.PLAY_SONG_NOT_LOGGED_REPLY.getReply(), e);
             } catch (NoSuchSongException e) {
 
-                this.spotifyLogger.log(Level.INFO, streamingPlatform.getUser().getEmail() + " " +
+                spotifyLogger.log(Level.INFO, streamingPlatform.getUser().getEmail() + " " +
                     ServerReply.PLAY_SONG_NO_SUCH_SONG_REPLY.getReply(), e);
             } catch (SongIsAlreadyPlayingException e) {
 
-                this.spotifyLogger.log(Level.INFO, streamingPlatform.getUser().getEmail() + " " +
+                spotifyLogger.log(Level.INFO, streamingPlatform.getUser().getEmail() + " " +
                     ServerReply.PLAY_SONG_IS_ALREADY_RUNNING_REPLY.getReply(), e);
             } catch (IODatabaseException e) {
 
-                this.spotifyLogger.log(Level.INFO, streamingPlatform.getUser().getEmail() + " " +
+                spotifyLogger.log(Level.INFO, streamingPlatform.getUser().getEmail() + " " +
                     ServerReply.IO_DATABASE_PROBLEM_REPLY.getReply(), e);
             } catch (Exception e) {
 
-                this.spotifyLogger.log(Level.INFO, streamingPlatform.getUser().getEmail() + " " +
+                spotifyLogger.log(Level.INFO, streamingPlatform.getUser().getEmail() + " " +
                     ServerReply.SERVER_EXCEPTION.getReply(), e);
             }
 
-            synchronized (this.streamingPlatform) {
+            synchronized (streamingPlatform) {
 
                 while (streamingPlatform.getAlreadyRunning().containsKey(selectionKey)) {
 
                     try {
 
-                        this.streamingPlatform.wait();
-                        //Thread.sleep(WAITING_TIME);
+                        streamingPlatform.wait();
                     } catch (InterruptedException e) {
 
-                        this.spotifyLogger.log(Level.INFO, streamingPlatform.getUser().getEmail() + " " +
+                        spotifyLogger.log(Level.INFO, streamingPlatform.getUser().getEmail() + " " +
                             ServerReply.SERVER_EXCEPTION.getReply(), e);
                     }
                 }

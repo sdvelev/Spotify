@@ -43,7 +43,7 @@ public class PlaySongThread extends Thread {
         isRunning = true;
         try {
 
-            AudioInputStream stream = AudioSystem.getAudioInputStream(new File(DATA_PATH + this.songName +
+            AudioInputStream stream = AudioSystem.getAudioInputStream(new File(DATA_PATH + songName +
                 WAV_FORMAT));
 
             AudioFormat format = stream.getFormat();
@@ -79,7 +79,7 @@ public class PlaySongThread extends Thread {
             line.stop();
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 
-            this.spotifyLogger.log(Level.SEVERE, ServerReply.STOP_COMMAND_ERROR_REPLY.getReply(), e);
+            spotifyLogger.log(Level.SEVERE, ServerReply.STOP_COMMAND_ERROR_REPLY.getReply(), e);
         }
 
         isRunning = false;
@@ -93,10 +93,10 @@ public class PlaySongThread extends Thread {
 
     private void removeFrom() {
 
-        synchronized (this.streamingPlatform) {
+        synchronized (streamingPlatform) {
 
             streamingPlatform.getAlreadyRunning().remove(selectionKey);
-            this.streamingPlatform.notifyAll();
+            streamingPlatform.notifyAll();
         }
 
     }

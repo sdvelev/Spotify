@@ -114,7 +114,6 @@ public enum ServerReply {
     }
 
     public String getReply() {
-
         return reply;
     }
 }

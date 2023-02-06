@@ -33,7 +33,6 @@ public class AuthenticationService {
     public AuthenticationService() { }
 
     public AuthenticationService(Reader authenticationReader, Writer authenticationWriter) {
-
         this.authenticationReader = authenticationReader;
         this.authenticationWriter = authenticationWriter;
     }
@@ -110,21 +109,21 @@ public class AuthenticationService {
 
     private synchronized Reader getAppropriateReader() throws FileNotFoundException {
 
-        if (this.authenticationReader == null) {
+        if (authenticationReader == null) {
 
             return new FileReader(REGISTERED_USERS_LIST_PATH);
         }
 
-        return this.authenticationReader;
+        return authenticationReader;
     }
 
     private synchronized Writer getAppropriateWriter() throws IOException {
 
-        if (this.authenticationWriter == null) {
+        if (authenticationWriter == null) {
 
             return new FileWriter(REGISTERED_USERS_LIST_PATH, true);
         }
 
-        return this.authenticationWriter;
+        return authenticationWriter;
     }
 }

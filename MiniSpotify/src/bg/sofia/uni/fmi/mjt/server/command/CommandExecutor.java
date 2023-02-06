@@ -76,7 +76,6 @@ public class CommandExecutor {
         Objects.requireNonNull(selectionKey, "The provided selectionKey cannot be null.");
 
         return switch(cmd.command()) {
-
             case REGISTER_COMMAND_NAME -> processRegisterCommand(cmd.arguments());
             case LOGIN_COMMAND_NAME -> processLoginCommand(cmd.arguments(), selectionKey);
             case LOGOUT_COMMAND_NAME -> processLogoutCommand(selectionKey);
@@ -99,7 +98,6 @@ public class CommandExecutor {
     }
 
     private String processHelpCommand() {
-
         return ServerReply.HELP_COMMAND_REPLY.getReply();
     }
 
@@ -109,7 +107,6 @@ public class CommandExecutor {
 
             String result = processLogoutCommand(selectionKey);
             if (!result.equals(ServerReply.SERVER_EXCEPTION.getReply())) {
-
                 return ServerReply.DISCONNECT_COMMAND_SUCCESSFULLY_REPLY.getReply();
             }
 
@@ -122,7 +119,6 @@ public class CommandExecutor {
     private String processLogoutCommand(SelectionKey selectionKey) {
 
         try {
-
             streamingPlatform.logout(selectionKey);
         } catch (UserNotLoggedException e) {
 
@@ -138,7 +134,6 @@ public class CommandExecutor {
     private String processStopCommand(SelectionKey selectionKey) {
 
         try {
-
             streamingPlatform.stopSong(selectionKey);
         } catch (UserNotLoggedException e) {
 
@@ -162,7 +157,6 @@ public class CommandExecutor {
 
         String songName = arguments.get(0);
         try {
-
             streamingPlatform.playSong(songName, selectionKey);
         } catch (UserNotLoggedException e) {
 
@@ -195,7 +189,6 @@ public class CommandExecutor {
         String playlistName = arguments.get(0);
 
         try {
-
             streamingPlatform.playPlaylist(playlistName, selectionKey);
         } catch (UserNotLoggedException e) {
 
@@ -226,7 +219,6 @@ public class CommandExecutor {
         Objects.requireNonNull(toReturn, "The provided playlist cannot be null.");
 
         if (toReturn.getPlaylistSongs().isEmpty()) {
-
             return ServerReply.SHOW_PLAYLIST_NO_SONGS_REPLY.getReply();
         }
 
@@ -252,7 +244,6 @@ public class CommandExecutor {
 
         String playlistTitle = arguments.get(0);
         try {
-
             Playlist toReturn = streamingPlatform.showPlaylist(playlistTitle, selectionKey);
             return generateOutputShowPlaylistCommand(toReturn);
         } catch (UserNotLoggedException e) {
@@ -293,7 +284,6 @@ public class CommandExecutor {
     private String processShowPlaylistsCommand(SelectionKey selectionKey) {
 
         try {
-
             List<String> playlistTitles = streamingPlatform.showPlaylists(selectionKey);
             return generateOutputShowPlaylistsCommand(playlistTitles);
         } catch (UserNotLoggedException e) {
@@ -314,7 +304,6 @@ public class CommandExecutor {
         String songTitle = arguments.get(1);
 
         try {
-
             streamingPlatform.addSongToPlaylist(playlistTitle, songTitle, selectionKey);
         } catch (UserNotLoggedException e) {
 
@@ -351,7 +340,6 @@ public class CommandExecutor {
         String playlistTitle = arguments.get(0);
         String songTitle = arguments.get(1);
         try {
-
             streamingPlatform.removeSongFromPlaylist(playlistTitle, songTitle, selectionKey);
         } catch (UserNotLoggedException e) {
 
@@ -383,7 +371,6 @@ public class CommandExecutor {
 
         String playlistTitle = arguments.get(0);
         try {
-
             streamingPlatform.createPlaylist(playlistTitle, selectionKey);
         } catch (UserNotLoggedException e) {
 
@@ -411,7 +398,6 @@ public class CommandExecutor {
 
         String playlistTitle = arguments.get(0);
         try {
-
             streamingPlatform.deletePlaylist(playlistTitle, selectionKey);
         } catch (UserNotLoggedException e) {
 
@@ -505,13 +491,13 @@ public class CommandExecutor {
 
     private String getCorrectReply(Level level, String message, Exception e) {
 
-        this.spotifyLogger.log(level, REPLY_FIELD_TO_LOG + message, e);
+        spotifyLogger.log(level, REPLY_FIELD_TO_LOG + message, e);
         return message;
     }
 
     private String getCorrectReply(Level level, String email, String message, Exception e) {
 
-        this.spotifyLogger.log(level, EMAIL_MESSAGE_TO_LOG + email + " " + REPLY_FIELD_TO_LOG +
+        spotifyLogger.log(level, EMAIL_MESSAGE_TO_LOG + email + " " + REPLY_FIELD_TO_LOG +
             message, e);
         return message;
     }

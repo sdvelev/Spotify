@@ -287,7 +287,7 @@ public class StreamingPlatformTest {
         var songsListOut = new StringWriter();
         var playlistsListOut = new StringWriter();
 
-        this.streamingPlatform = new StreamingPlatform(playlistsListIn, playlistsListOut, songsListIn, songsListOut,
+        streamingPlatform = new StreamingPlatform(playlistsListIn, playlistsListOut, songsListIn, songsListOut,
             alreadyLoggedMock, alreadyRunningMock);
     }
 
@@ -296,10 +296,10 @@ public class StreamingPlatformTest {
 
         try {
 
-            this.streamingPlatform.getPlaylistsReader().close();
-            this.streamingPlatform.getPlaylistsWriter().close();
-            this.streamingPlatform.getSongsReader().close();
-            this.streamingPlatform.getSongsWriter().close();
+            streamingPlatform.getPlaylistsReader().close();
+            streamingPlatform.getPlaylistsWriter().close();
+            streamingPlatform.getSongsReader().close();
+            streamingPlatform.getSongsWriter().close();
         } catch(IOException e) {
 
             throw new IODatabaseException("There is an exception in closing streams", e);
@@ -311,16 +311,16 @@ public class StreamingPlatformTest {
         IODatabaseException {
 
         User user = new User("sdvelev@gmail.com", "123456");
-        this.streamingPlatform.setUser(user);
+        streamingPlatform.setUser(user);
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(true);
 
         String playlistTitle = "TestPlaylist";
-        this.streamingPlatform.createPlaylist(playlistTitle, selectionKey);
+        streamingPlatform.createPlaylist(playlistTitle, selectionKey);
 
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
 
-        String actual = this.streamingPlatform.getPlaylistsWriter().toString();
+        String actual = streamingPlatform.getPlaylistsWriter().toString();
         assertEquals(EXPECTED_TEST_CREATE_PLAYLIST_SUCCESSFULLY, actual,
             "The actual result after creating playlist is not the same as the expected.");
     }
@@ -330,16 +330,16 @@ public class StreamingPlatformTest {
         IODatabaseException {
 
         User user = new User("sdvelev@outlook.com", "123456");
-        this.streamingPlatform.setUser(user);
+        streamingPlatform.setUser(user);
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(true);
 
         String playlistTitle = "TestPlaylist";
-        this.streamingPlatform.createPlaylist(playlistTitle, selectionKey);
+        streamingPlatform.createPlaylist(playlistTitle, selectionKey);
 
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
 
-        String actual = this.streamingPlatform.getPlaylistsWriter().toString();
+        String actual = streamingPlatform.getPlaylistsWriter().toString();
         assertEquals(EXPECTED_TEST_CREATE_PLAYLIST_SUCCESSFULLY_NOT_LOGGED, actual,
             "The actual result after creating playlist is not the same as the expected.");
     }
@@ -347,30 +347,30 @@ public class StreamingPlatformTest {
     @Test
     void testCreatePlaylistNotLoggedException() {
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(false);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(false);
 
         String playlistTitle = "TestPlaylist";
 
         assertThrows(UserNotLoggedException.class ,() ->
-                this.streamingPlatform.createPlaylist(playlistTitle, selectionKey),
+                streamingPlatform.createPlaylist(playlistTitle, selectionKey),
             "UserNotLoggedException is expected but not thrown.");
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
     }
 
     @Test
     void testCreatePlaylistPlaylistAlreadyExistException() {
 
         User user = new User("sdvelev@gmail.com", "123456");
-        this.streamingPlatform.setUser(user);
+        streamingPlatform.setUser(user);
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(true);
 
         String playlistTitle = "CrownMusic";
 
         assertThrows(PlaylistAlreadyExistException.class, () ->
-                this.streamingPlatform.createPlaylist(playlistTitle, selectionKey),
+                streamingPlatform.createPlaylist(playlistTitle, selectionKey),
             "PlaylistAlreadyExistException is expected but not thrown.");
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
     }
 
     @Test
@@ -378,23 +378,23 @@ public class StreamingPlatformTest {
         PlaylistNotEmptyException, PlaylistAlreadyExistException {
 
         User user = new User("sdvelev@gmail.com", "123456");
-        this.streamingPlatform.setUser(user);
+        streamingPlatform.setUser(user);
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(true);
 
         String playlistTitle = "TestPlaylist";
-        this.streamingPlatform. createPlaylist(playlistTitle, selectionKey);
+        streamingPlatform. createPlaylist(playlistTitle, selectionKey);
 
-        String actual = this.streamingPlatform.getPlaylistsWriter().toString();
+        String actual = streamingPlatform.getPlaylistsWriter().toString();
         assertEquals(EXPECTED_TEST_CREATE_PLAYLIST_SUCCESSFULLY, actual,
             "The actual result after creating playlist is not the same as the expected.");
 
         var newWriter = new StringWriter();
-        this.streamingPlatform.setPlaylistsWriter(newWriter);
+        streamingPlatform.setPlaylistsWriter(newWriter);
 
-        this.streamingPlatform.deletePlaylist(playlistTitle, selectionKey);
+        streamingPlatform.deletePlaylist(playlistTitle, selectionKey);
 
-        actual = this.streamingPlatform.getPlaylistsWriter().toString();
+        actual = streamingPlatform.getPlaylistsWriter().toString();
 
         try {
             newWriter.close();
@@ -406,66 +406,66 @@ public class StreamingPlatformTest {
         assertEquals(PLAYLISTS_LIST, actual,
             "The actual result after deleting playlist is not the same as the expected.");
 
-        verify(this.alreadyLoggedMock, times(2)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(2)).contains(selectionKey);
     }
 
     @Test
     void testDeletePlaylistNotLoggedException() {
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(false);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(false);
 
         String playlistTitle = "CrownMusic";
 
         assertThrows(UserNotLoggedException.class ,() ->
-                this.streamingPlatform.deletePlaylist(playlistTitle, selectionKey),
+                streamingPlatform.deletePlaylist(playlistTitle, selectionKey),
             "UserNotLoggedException is expected but not thrown.");
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
     }
 
     @Test
     void testDeletePlaylistPlaylistNotEmptyException() {
 
         User user = new User("sdvelev@gmail.com", "123456");
-        this.streamingPlatform.setUser(user);
+        streamingPlatform.setUser(user);
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(true);
 
         String playlistTitle = "CrownMusic";
 
         assertThrows(PlaylistNotEmptyException.class ,() ->
-                this.streamingPlatform.deletePlaylist(playlistTitle, selectionKey),
+                streamingPlatform.deletePlaylist(playlistTitle, selectionKey),
             "PlaylistNotEmptyException is expected but not thrown.");
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
     }
 
     @Test
     void testDeletePlaylistNoSuchPlaylistException() {
 
         User user = new User("sdvelev@gmail.com", "123456");
-        this.streamingPlatform.setUser(user);
+        streamingPlatform.setUser(user);
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(true);
 
         String playlistTitle = "FilmMusic";
 
         assertThrows(NoSuchPlaylistException.class ,() ->
-                this.streamingPlatform.deletePlaylist(playlistTitle, selectionKey),
+                streamingPlatform.deletePlaylist(playlistTitle, selectionKey),
             "NoSuchPlaylistException is expected but not thrown.");
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
     }
 
     @Test
     void testShowPlaylistSuccessfully() throws UserNotLoggedException, NoSuchPlaylistException {
 
         User user = new User("sdvelev@gmail.com", "123456");
-        this.streamingPlatform.setUser(user);
+        streamingPlatform.setUser(user);
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(true);
 
         String playlistTitle = "CrownMusic";
-        Playlist returned = this.streamingPlatform.showPlaylist(playlistTitle, selectionKey);
+        Playlist returned = streamingPlatform.showPlaylist(playlistTitle, selectionKey);
 
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
 
         Playlist expected = new Playlist("sdvelev@gmail.com", "CrownMusic");
 
@@ -487,44 +487,44 @@ public class StreamingPlatformTest {
     @Test
     void testShowPlaylistNotLoggedException() {
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(false);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(false);
 
         String playlistTitle = "CrownMusic";
 
         assertThrows(UserNotLoggedException.class ,() ->
-                this.streamingPlatform.showPlaylist(playlistTitle, selectionKey),
+                streamingPlatform.showPlaylist(playlistTitle, selectionKey),
             "UserNotLoggedException is expected but not thrown.");
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
     }
 
     @Test
     void testShowPlaylistNoSuchPlaylistException() {
 
         User user = new User("sdvelev@gmail.com", "123456");
-        this.streamingPlatform.setUser(user);
+        streamingPlatform.setUser(user);
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(true);
 
         String playlistTitle = "FilmMusic";
 
         assertThrows(NoSuchPlaylistException.class ,() ->
-                this.streamingPlatform.showPlaylist(playlistTitle, selectionKey),
+                streamingPlatform.showPlaylist(playlistTitle, selectionKey),
             "NoSuchPlaylistException is expected but not thrown.");
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
     }
 
     @Test
     void testShowPlaylistsSuccessfully() throws UserNotLoggedException {
 
         User user = new User("sdvelev@gmail.com", "123456");
-        this.streamingPlatform.setUser(user);
+        streamingPlatform.setUser(user);
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(true);
 
 
-        List<String> returned = this.streamingPlatform.showPlaylists(selectionKey);
+        List<String> returned = streamingPlatform.showPlaylists(selectionKey);
 
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
 
 
         assertIterableEquals(List.of("MyPlaylist", "CrownMusic"), returned,
@@ -534,12 +534,12 @@ public class StreamingPlatformTest {
     @Test
     void testShowPlaylistsNotLoggedException() {
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(false);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(false);
 
         assertThrows(UserNotLoggedException.class ,() ->
-                this.streamingPlatform.showPlaylists(selectionKey),
+                streamingPlatform.showPlaylists(selectionKey),
             "UserNotLoggedException is expected but not thrown.");
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
     }
 
     @Test
@@ -548,13 +548,13 @@ public class StreamingPlatformTest {
         SongAlreadyInPlaylistException {
 
         User user = new User("sdvelev@gmail.com", "123456");
-        this.streamingPlatform.setUser(user);
+        streamingPlatform.setUser(user);
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(true);
 
         String playlistTitle = "MyPlaylist";
         String songTitleToAdd = "Vivaldi Variation";
-        this.streamingPlatform.addSongToPlaylist(playlistTitle, songTitleToAdd, selectionKey);
+        streamingPlatform.addSongToPlaylist(playlistTitle, songTitleToAdd, selectionKey);
 
         Playlist expected = new Playlist("sdvelev@gmail.com", "MyPlaylist");
 
@@ -568,9 +568,9 @@ public class StreamingPlatformTest {
         expected.addSong(secondSong);
         expected.addSong(thirdSong);
 
-        Playlist returned = this.streamingPlatform.showPlaylist(playlistTitle, selectionKey);
+        Playlist returned = streamingPlatform.showPlaylist(playlistTitle, selectionKey);
 
-        verify(this.alreadyLoggedMock, times(2)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(2)).contains(selectionKey);
 
         assertIterableEquals(expected.getPlaylistSongs(), returned.getPlaylistSongs(),
             "The song has to be added to the playlist but it was not found to be there.");
@@ -581,13 +581,13 @@ public class StreamingPlatformTest {
         NoSuchSongException, IODatabaseException, NoSuchPlaylistException, SongAlreadyInPlaylistException {
 
         User user = new User("sdvelev@gmail.com", "123456");
-        this.streamingPlatform.setUser(user);
+        streamingPlatform.setUser(user);
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(true);
 
         String playlistTitle = "MyPlaylist";
         String songTitleToAdd = "ViVaLdI vArIaTiOn";
-        this.streamingPlatform.addSongToPlaylist(playlistTitle, songTitleToAdd, selectionKey);
+        streamingPlatform.addSongToPlaylist(playlistTitle, songTitleToAdd, selectionKey);
 
         Playlist expected = new Playlist("sdvelev@gmail.com", "MyPlaylist");
 
@@ -601,9 +601,9 @@ public class StreamingPlatformTest {
         expected.addSong(secondSong);
         expected.addSong(thirdSong);
 
-        Playlist returned = this.streamingPlatform.showPlaylist(playlistTitle, selectionKey);
+        Playlist returned = streamingPlatform.showPlaylist(playlistTitle, selectionKey);
 
-        verify(this.alreadyLoggedMock, times(2)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(2)).contains(selectionKey);
 
         assertIterableEquals(expected.getPlaylistSongs(), returned.getPlaylistSongs(),
             "The song has to be added to the playlist but it was not found to be there.");
@@ -612,66 +612,66 @@ public class StreamingPlatformTest {
     @Test
     void testAddSongToNotLoggedException() {
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(false);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(false);
 
         String playListTitle = "MyPlaylist";
         String songTitleToAdd = "Vivaldi Variation";
 
         assertThrows(UserNotLoggedException.class ,() ->
-                this.streamingPlatform.addSongToPlaylist(playListTitle, songTitleToAdd, selectionKey),
+                streamingPlatform.addSongToPlaylist(playListTitle, songTitleToAdd, selectionKey),
             "UserNotLoggedException is expected but not thrown.");
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
     }
 
     @Test
     void testAddSongToNoSuchSongException() {
 
         User user = new User("sdvelev@gmail.com", "123456");
-        this.streamingPlatform.setUser(user);
+        streamingPlatform.setUser(user);
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(true);
 
         String playListTitle = "MyPlaylist";
         String songTitleToAdd = "Vivaldi Variation Classic";
 
         assertThrows(NoSuchSongException.class ,() ->
-                this.streamingPlatform.addSongToPlaylist(playListTitle, songTitleToAdd, selectionKey),
+                streamingPlatform.addSongToPlaylist(playListTitle, songTitleToAdd, selectionKey),
             "NoSuchSongException is expected but not thrown.");
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
     }
 
     @Test
     void testAddSongToNoSuchPlaylistExceptionCaseSensitivePlaylistTitles() {
 
         User user = new User("sdvelev@gmail.com", "123456");
-        this.streamingPlatform.setUser(user);
+        streamingPlatform.setUser(user);
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(true);
 
         String playListTitle = "myPlaylist";
         String songTitleToAdd = "Vivaldi Variation";
 
         assertThrows(NoSuchPlaylistException.class ,() ->
-                this.streamingPlatform.addSongToPlaylist(playListTitle, songTitleToAdd, selectionKey),
+                streamingPlatform.addSongToPlaylist(playListTitle, songTitleToAdd, selectionKey),
             "NoSuchPlaylistException is expected but not thrown.");
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
     }
 
     @Test
     void testAddSongToSongAlreadyInPlaylistException() {
 
         User user = new User("sdvelev@gmail.com", "123456");
-        this.streamingPlatform.setUser(user);
+        streamingPlatform.setUser(user);
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(true);
 
         String playListTitle = "CrownMusic";
         String songTitleToAdd = "The Crown - Bittersweet Symphony";
 
         assertThrows(SongAlreadyInPlaylistException.class ,() ->
-                this.streamingPlatform.addSongToPlaylist(playListTitle, songTitleToAdd, selectionKey),
+                streamingPlatform.addSongToPlaylist(playListTitle, songTitleToAdd, selectionKey),
             "SongAlreadyInPlaylistException is expected but not thrown.");
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
     }
 
     @Test
@@ -679,13 +679,13 @@ public class StreamingPlatformTest {
         IODatabaseException, NoSuchPlaylistException {
 
         User user = new User("sdvelev@gmail.com", "123456");
-        this.streamingPlatform.setUser(user);
+        streamingPlatform.setUser(user);
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(true);
 
         String playlistTitle = "MyPlaylist";
         String songTitleToRemove = "The Crown - Main title";
-        this.streamingPlatform.removeSongFromPlaylist(playlistTitle, songTitleToRemove, selectionKey);
+        streamingPlatform.removeSongFromPlaylist(playlistTitle, songTitleToRemove, selectionKey);
 
         Playlist expected = new Playlist("sdvelev@gmail.com", "MyPlaylist");
 
@@ -694,9 +694,9 @@ public class StreamingPlatformTest {
 
         expected.addSong(firstSong);
 
-        Playlist returned = this.streamingPlatform.showPlaylist(playlistTitle, selectionKey);
+        Playlist returned = streamingPlatform.showPlaylist(playlistTitle, selectionKey);
 
-        verify(this.alreadyLoggedMock, times(2)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(2)).contains(selectionKey);
 
         assertIterableEquals(expected.getPlaylistSongs(), returned.getPlaylistSongs(),
             "The song has to be removed from the playlist but it was found to be still there.");
@@ -707,13 +707,13 @@ public class StreamingPlatformTest {
         NoSuchSongException, IODatabaseException, NoSuchPlaylistException {
 
         User user = new User("sdvelev@gmail.com", "123456");
-        this.streamingPlatform.setUser(user);
+        streamingPlatform.setUser(user);
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(true);
 
         String playlistTitle = "MyPlaylist";
         String songTitleToRemove = "The CrOwN - Main TitLE";
-        this.streamingPlatform.removeSongFromPlaylist(playlistTitle, songTitleToRemove, selectionKey);
+        streamingPlatform.removeSongFromPlaylist(playlistTitle, songTitleToRemove, selectionKey);
 
         Playlist expected = new Playlist("sdvelev@gmail.com", "MyPlaylist");
 
@@ -722,9 +722,9 @@ public class StreamingPlatformTest {
 
         expected.addSong(firstSong);
 
-        Playlist returned = this.streamingPlatform.showPlaylist(playlistTitle, selectionKey);
+        Playlist returned = streamingPlatform.showPlaylist(playlistTitle, selectionKey);
 
-        verify(this.alreadyLoggedMock, times(2)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(2)).contains(selectionKey);
 
         assertIterableEquals(expected.getPlaylistSongs(), returned.getPlaylistSongs(),
             "The song has to be removed from the playlist but it was found to be still there.");
@@ -733,56 +733,56 @@ public class StreamingPlatformTest {
     @Test
     void testRemoveSongFromNotLoggedException() {
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(false);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(false);
 
         String playListTitle = "MyPlaylist";
         String songTitleToAdd = "The Crown - Main title";
 
         assertThrows(UserNotLoggedException.class ,() ->
-                this.streamingPlatform.removeSongFromPlaylist(playListTitle, songTitleToAdd, selectionKey),
+                streamingPlatform.removeSongFromPlaylist(playListTitle, songTitleToAdd, selectionKey),
             "UserNotLoggedException is expected but not thrown.");
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
     }
 
     @Test
     void testRemoveSongFromNoSuchSongException() {
 
         User user = new User("sdvelev@gmail.com", "123456");
-        this.streamingPlatform.setUser(user);
+        streamingPlatform.setUser(user);
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(true);
 
         String playListTitle = "MyPlaylist";
         String songTitleToAdd = "The Crown - Bittersweet Symphony";
 
         assertThrows(NoSuchSongException.class ,() ->
-                this.streamingPlatform.removeSongFromPlaylist(playListTitle, songTitleToAdd, selectionKey),
+                streamingPlatform.removeSongFromPlaylist(playListTitle, songTitleToAdd, selectionKey),
             "NoSuchSongException is expected but not thrown.");
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
     }
 
     @Test
     void testRemoveSongFromNoSuchPlaylistException() {
 
         User user = new User("sdvelev@gmail.com", "123456");
-        this.streamingPlatform.setUser(user);
+        streamingPlatform.setUser(user);
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(true);
 
         String playListTitle = "Crown Music";
         String songTitleToAdd = "The Crown - Bittersweet Symphony";
 
         assertThrows(NoSuchPlaylistException.class ,() ->
-                this.streamingPlatform.removeSongFromPlaylist(playListTitle, songTitleToAdd, selectionKey),
+                streamingPlatform.removeSongFromPlaylist(playListTitle, songTitleToAdd, selectionKey),
             "NoSuchPlaylistException is expected but not thrown.");
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
     }
 
     @Test
     void testGetTopNMostListenedSongsSuccessfully() {
 
         int nMostListenedNumber = 2;
-        List<SongEntity> actual = this.streamingPlatform.getTopNMostListenedSongs(nMostListenedNumber);
+        List<SongEntity> actual = streamingPlatform.getTopNMostListenedSongs(nMostListenedNumber);
 
         SongEntity firstPlaceSong = new SongEntity(new Song("Vivaldi Variation", "Florian Christl",
             114, "classical"), 30);
@@ -797,7 +797,7 @@ public class StreamingPlatformTest {
     void testGetTopNMostListenedSongsWithNEqualToZero() {
 
         int nMostListenedNumber = 0;
-        List<SongEntity> actual = this.streamingPlatform.getTopNMostListenedSongs(nMostListenedNumber);
+        List<SongEntity> actual = streamingPlatform.getTopNMostListenedSongs(nMostListenedNumber);
 
         assertTrue(actual.isEmpty(),
             "Empty list is expected but it is not.");
@@ -807,7 +807,7 @@ public class StreamingPlatformTest {
     void testGetTopNMostListenedSongsWithNNegative() {
 
         int nMostListenedNumber = -6;
-        assertThrows(IllegalArgumentException.class, () -> this.streamingPlatform
+        assertThrows(IllegalArgumentException.class, () -> streamingPlatform
                 .getTopNMostListenedSongs(nMostListenedNumber),
             "IllegalArgumentException is expected but not thrown.");
     }
@@ -817,7 +817,7 @@ public class StreamingPlatformTest {
     void testSearchSongsSuccessfullyOneWord() {
 
         String searchedWord = "crown";
-        List<SongEntity> actual = this.streamingPlatform.searchSongs(searchedWord);
+        List<SongEntity> actual = streamingPlatform.searchSongs(searchedWord);
 
         SongEntity firstPlaceSong = new SongEntity(new Song("The Crown - Main title", "Hans Zimmer",
             87, "classical"), 11);
@@ -832,7 +832,7 @@ public class StreamingPlatformTest {
     void testSearchSongsSuccessfullyTwoWords() {
 
         String searchedWord = "crown zimmer";
-        List<SongEntity> actual = this.streamingPlatform.searchSongs(searchedWord);
+        List<SongEntity> actual = streamingPlatform.searchSongs(searchedWord);
 
         SongEntity firstPlaceSong = new SongEntity(new Song("The Crown - Main title", "Hans Zimmer",
             87, "classical"), 11);
@@ -843,7 +843,7 @@ public class StreamingPlatformTest {
 
     private int getListeningTimesBySongTitle(String songTitle) {
 
-        for (SongEntity currentSongEntity : this.streamingPlatform.getSongs()) {
+        for (SongEntity currentSongEntity : streamingPlatform.getSongs()) {
 
             if (currentSongEntity.getSong().getTitle().equalsIgnoreCase(songTitle)) {
 
@@ -859,20 +859,20 @@ public class StreamingPlatformTest {
         SongIsAlreadyPlayingException {
 
         User user = new User("sdvelev@gmail.com", "123456");
-        this.streamingPlatform.setUser(user);
+        streamingPlatform.setUser(user);
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(true);
 
         String songTitle = "The Crown - Main title";
 
         int listeningTimesBefore = getListeningTimesBySongTitle(songTitle);
 
-        this.streamingPlatform.playSong(songTitle, this.selectionKey);
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
+        streamingPlatform.playSong(songTitle, selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
 
         int listeningTimesAfter = getListeningTimesBySongTitle(songTitle);
 
-        assertFalse(this.streamingPlatform.getAlreadyRunning().isEmpty(),
+        assertFalse(streamingPlatform.getAlreadyRunning().isEmpty(),
             "Song is expected to run but it isn't playing.");
         assertEquals(listeningTimesAfter, listeningTimesBefore + 1,
             "The number of listening times is expected to increase with one when playing song but it isn't.");
@@ -881,129 +881,129 @@ public class StreamingPlatformTest {
     @Test
     void testPlaySongUserNotLoggedException() {
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(false);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(false);
 
         String songTitle = "The Crown - Bittersweet Symphony";
 
         assertThrows(UserNotLoggedException.class ,() ->
-                this.streamingPlatform.playSong(songTitle, selectionKey),
+                streamingPlatform.playSong(songTitle, selectionKey),
             "UserNotLoggedException is expected but not thrown.");
 
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
     }
 
     @Test
     void testPlaySongSongIsAlreadyPlayingException() {
 
         User user = new User("sdvelev@gmail.com", "123456");
-        this.streamingPlatform.setUser(user);
+        streamingPlatform.setUser(user);
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(true);
 
         String songTitle = "The Crown - Bittersweet Symphony";
 
-        when(this.alreadyRunningMock.containsKey(this.selectionKey)).thenReturn(true);
+        when(alreadyRunningMock.containsKey(selectionKey)).thenReturn(true);
 
         assertThrows(SongIsAlreadyPlayingException.class ,() ->
-                this.streamingPlatform.playSong(songTitle, selectionKey),
+                streamingPlatform.playSong(songTitle, selectionKey),
             "SongIsAlreadyPlayingException is expected but not thrown.");
 
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
-        verify(this.alreadyRunningMock, times(1)).containsKey(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
+        verify(alreadyRunningMock, times(1)).containsKey(selectionKey);
     }
 
     @Test
     void testPlaySongUserNoSuchSongException() {
 
         User user = new User("sdvelev@gmail.com", "123456");
-        this.streamingPlatform.setUser(user);
+        streamingPlatform.setUser(user);
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(true);
 
         String songTitle = "Bittersweet Symphony Classic";
 
         assertThrows(NoSuchSongException.class ,() ->
-                this.streamingPlatform.playSong(songTitle, selectionKey),
+                streamingPlatform.playSong(songTitle, selectionKey),
             "NoSuchSongException is expected but not thrown.");
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
     }
 
     @Test
     void testStopSongSuccessfully() throws InterruptedException, UserNotLoggedException, NoSongPlayingException {
 
         User user = new User("sdvelev@gmail.com", "123456");
-        this.streamingPlatform.setUser(user);
+        streamingPlatform.setUser(user);
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(true);
 
-        when(this.alreadyRunningMock.containsKey(this.selectionKey)).thenReturn(true);
+        when(alreadyRunningMock.containsKey(selectionKey)).thenReturn(true);
 
-        when(this.alreadyRunningMock.get(selectionKey)).thenReturn(playSongThreadMock);
+        when(alreadyRunningMock.get(selectionKey)).thenReturn(playSongThreadMock);
         doNothing().when(playSongThreadMock).terminateSong();
         doNothing().when(playSongThreadMock).join();
 
-        this.streamingPlatform.stopSong(selectionKey);
+        streamingPlatform.stopSong(selectionKey);
 
-        verify(this.playSongThreadMock, times(1)).terminateSong();
-        verify(this.playSongThreadMock, times(1)).join();
+        verify(playSongThreadMock, times(1)).terminateSong();
+        verify(playSongThreadMock, times(1)).join();
     }
 
     @Test
     void testStopSongNoSongPlayingException() {
 
         User user = new User("sdvelev@gmail.com", "123456");
-        this.streamingPlatform.setUser(user);
+        streamingPlatform.setUser(user);
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(true);
 
-        when(this.alreadyRunningMock.containsKey(this.selectionKey)).thenReturn(false);
+        when(alreadyRunningMock.containsKey(selectionKey)).thenReturn(false);
 
-        assertThrows(NoSongPlayingException.class, () -> this.streamingPlatform.stopSong(selectionKey),
+        assertThrows(NoSongPlayingException.class, () -> streamingPlatform.stopSong(selectionKey),
             "NoSongPlayingException is expected but not thrown.");
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
-        verify(this.alreadyRunningMock, times(1)).containsKey(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
+        verify(alreadyRunningMock, times(1)).containsKey(selectionKey);
     }
 
     @Test
     void testStopSongUserNotLoggedException() {
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(false);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(false);
 
-        assertThrows(UserNotLoggedException.class, () -> this.streamingPlatform.stopSong(selectionKey),
+        assertThrows(UserNotLoggedException.class, () -> streamingPlatform.stopSong(selectionKey),
             "UserNotLoggedException is expected but not thrown.");
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
     }
 
     @Test
     void testLogoutSuccessfully() throws InterruptedException, UserNotLoggedException, NoSongPlayingException {
 
         User user = new User("sdvelev@gmail.com", "123456");
-        this.streamingPlatform.setUser(user);
+        streamingPlatform.setUser(user);
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(true);
 
-        when(this.alreadyRunningMock.containsKey(this.selectionKey)).thenReturn(true);
+        when(alreadyRunningMock.containsKey(selectionKey)).thenReturn(true);
 
-        when(this.alreadyRunningMock.get(selectionKey)).thenReturn(playSongThreadMock);
+        when(alreadyRunningMock.get(selectionKey)).thenReturn(playSongThreadMock);
         doNothing().when(playSongThreadMock).terminateSong();
         doNothing().when(playSongThreadMock).join();
 
-        this.streamingPlatform.logout(this.selectionKey);
+        streamingPlatform.logout(selectionKey);
 
-        verify(this.playSongThreadMock, times(1)).terminateSong();
-        verify(this.playSongThreadMock, times(1)).join();
+        verify(playSongThreadMock, times(1)).terminateSong();
+        verify(playSongThreadMock, times(1)).join();
 
-        verify(this.alreadyLoggedMock, times(1)).remove(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).remove(selectionKey);
     }
 
     @Test
     void testLogoutUserNotLoggedException() {
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(false);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(false);
 
-        assertThrows(UserNotLoggedException.class, () -> this.streamingPlatform.logout(selectionKey),
+        assertThrows(UserNotLoggedException.class, () -> streamingPlatform.logout(selectionKey),
             "UserNotLoggedException is expected but not thrown.");
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
     }
 
     @Test
@@ -1011,11 +1011,11 @@ public class StreamingPlatformTest {
         InterruptedException, NoSongPlayingException, NoSuchPlaylistException, NoSongsInPlaylistException {
 
         User user = new User("sdvelev@gmail.com", "123456");
-        this.streamingPlatform.setUser(user);
+        streamingPlatform.setUser(user);
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(true);
 
-        when(this.alreadyRunningMock.containsKey(this.selectionKey)).thenReturn(false);
+        when(alreadyRunningMock.containsKey(selectionKey)).thenReturn(false);
 
         String playlistTitle = "CrownMusic";
 
@@ -1025,27 +1025,27 @@ public class StreamingPlatformTest {
         int firstSongListeningTimesBefore = getListeningTimesBySongTitle(firstSongInPlaylistTitle);
         int secondSongListeningTimesBefore = getListeningTimesBySongTitle(secondsSongInPlaylistTitle);
 
-        this.streamingPlatform.playPlaylist(playlistTitle, this.selectionKey);
+        streamingPlatform.playPlaylist(playlistTitle, selectionKey);
 
         Thread.sleep(500);
 
-        when(this.alreadyRunningMock.containsKey(this.selectionKey)).thenReturn(true);
+        when(alreadyRunningMock.containsKey(selectionKey)).thenReturn(true);
 
-        when(this.alreadyRunningMock.get(selectionKey)).thenReturn(playSongThreadMock);
+        when(alreadyRunningMock.get(selectionKey)).thenReturn(playSongThreadMock);
         doNothing().when(playSongThreadMock).terminateSong();
         doNothing().when(playSongThreadMock).join();
 
-        this.streamingPlatform.stopSong(selectionKey);
+        streamingPlatform.stopSong(selectionKey);
 
         Thread.sleep(500);
 
-        when(this.alreadyRunningMock.containsKey(this.selectionKey)).thenReturn(true);
+        when(alreadyRunningMock.containsKey(selectionKey)).thenReturn(true);
 
-        when(this.alreadyRunningMock.get(selectionKey)).thenReturn(playSongThreadMock);
+        when(alreadyRunningMock.get(selectionKey)).thenReturn(playSongThreadMock);
         doNothing().when(playSongThreadMock).terminateSong();
         doNothing().when(playSongThreadMock).join();
 
-        this.streamingPlatform.stopSong(selectionKey);
+        streamingPlatform.stopSong(selectionKey);
 
         int firstSongListeningTimesAfter = getListeningTimesBySongTitle(firstSongInPlaylistTitle);
         int secondSongListeningTimesAfter = getListeningTimesBySongTitle(secondsSongInPlaylistTitle);
@@ -1059,51 +1059,51 @@ public class StreamingPlatformTest {
     @Test
     void testPlayPlaylistNotLoggedException() {
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(false);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(false);
 
         String playlistTitle = "MyPlaylist";
         assertThrows(UserNotLoggedException.class ,() ->
-                this.streamingPlatform.playPlaylist(playlistTitle, selectionKey),
+                streamingPlatform.playPlaylist(playlistTitle, selectionKey),
             "UserNotLoggedException is expected but not thrown.");
 
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
     }
 
     @Test
     void testPlayPlaylistSongIsAlreadyPlayingException() {
 
         User user = new User("sdvelev@gmail.com", "123456");
-        this.streamingPlatform.setUser(user);
+        streamingPlatform.setUser(user);
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(true);
 
         String playListTitle = "MyPlaylist";
 
-        when(this.alreadyRunningMock.containsKey(this.selectionKey)).thenReturn(true);
+        when(alreadyRunningMock.containsKey(selectionKey)).thenReturn(true);
 
         assertThrows(SongIsAlreadyPlayingException.class ,() ->
-                this.streamingPlatform.playPlaylist(playListTitle, selectionKey),
+                streamingPlatform.playPlaylist(playListTitle, selectionKey),
             "SongIsAlreadyPlayingException is expected but not thrown.");
 
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
-        verify(this.alreadyRunningMock, times(1)).containsKey(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
+        verify(alreadyRunningMock, times(1)).containsKey(selectionKey);
     }
 
     @Test
     void testPlayPlaylistNoSuchPlaylistException() {
 
         User user = new User("sm@sm.com", "123456");
-        this.streamingPlatform.setUser(user);
+        streamingPlatform.setUser(user);
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(true);
 
         String playListTitle = "MyPlaylist";
 
         assertThrows(NoSuchPlaylistException.class ,() ->
-                this.streamingPlatform.playPlaylist(playListTitle, selectionKey),
+                streamingPlatform.playPlaylist(playListTitle, selectionKey),
             "NoSuchPlaylistException is expected but not thrown.");
 
-        verify(this.alreadyLoggedMock, times(1)).contains(this.selectionKey);
+        verify(alreadyLoggedMock, times(1)).contains(selectionKey);
     }
 
     @Test
@@ -1111,21 +1111,21 @@ public class StreamingPlatformTest {
         IODatabaseException {
 
         User user = new User("sdvelev@gmail.com", "123456");
-        this.streamingPlatform.setUser(user);
+        streamingPlatform.setUser(user);
 
-        when(this.alreadyLoggedMock.contains(this.selectionKey)).thenReturn(true);
+        when(alreadyLoggedMock.contains(selectionKey)).thenReturn(true);
 
-        when(this.alreadyRunningMock.containsKey(this.selectionKey)).thenReturn(false);
+        when(alreadyRunningMock.containsKey(selectionKey)).thenReturn(false);
 
         String playListTitle = "EmptyPlaylist";
 
-        this.streamingPlatform.createPlaylist(playListTitle, this.selectionKey);
+        streamingPlatform.createPlaylist(playListTitle, selectionKey);
 
         assertThrows(NoSongsInPlaylistException.class ,() ->
-                this.streamingPlatform.playPlaylist(playListTitle, selectionKey),
+                streamingPlatform.playPlaylist(playListTitle, selectionKey),
             "NoSongsInPlaylistException is expected but not thrown.");
 
-        verify(this.alreadyLoggedMock, times(2)).contains(this.selectionKey);
-        verify(this.alreadyRunningMock, times(1)).containsKey(this.selectionKey);
+        verify(alreadyLoggedMock, times(2)).contains(selectionKey);
+        verify(alreadyRunningMock, times(1)).containsKey(selectionKey);
     }
 }

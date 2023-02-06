@@ -31,13 +31,13 @@ public class PlaySongThreadTest {
     @Test
     void testRunSongThreadTerminateSong() {
 
-        PlaySongThread playSongThread = new PlaySongThread("The Crown - Main title", this.selectionKeyMock,
-            this.streamingPlatformMock, this.spotifyLoggerMock);
+        PlaySongThread playSongThread = new PlaySongThread("The Crown - Main title", selectionKeyMock,
+            streamingPlatformMock, spotifyLoggerMock);
 
         Map<SelectionKey, PlaySongThread> toReturnAlreadyRunning = new LinkedHashMap<>();
-        toReturnAlreadyRunning.put(this.selectionKeyMock, null);
+        toReturnAlreadyRunning.put(selectionKeyMock, null);
 
-        when(this.streamingPlatformMock.getAlreadyRunning()).thenReturn(toReturnAlreadyRunning);
+        when(streamingPlatformMock.getAlreadyRunning()).thenReturn(toReturnAlreadyRunning);
 
         playSongThread.start();
 
@@ -53,6 +53,6 @@ public class PlaySongThreadTest {
             fail("There was a problem with thread sleep method.");
         }
 
-        verify(this.streamingPlatformMock, times(1)).getAlreadyRunning();
+        verify(streamingPlatformMock, times(1)).getAlreadyRunning();
     }
 }

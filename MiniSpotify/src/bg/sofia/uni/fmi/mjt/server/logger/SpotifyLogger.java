@@ -19,7 +19,6 @@ public class SpotifyLogger {
     public SpotifyLogger(String nameLogger) {
 
         try {
-
             SPOTIFY_LOGGER.setUseParentHandlers(false);
             FileHandler fileHandler = new FileHandler(SPOTIFY_LOGGER_PATH + nameLogger, true);
             SPOTIFY_LOGGER.addHandler(fileHandler);
@@ -33,12 +32,10 @@ public class SpotifyLogger {
     }
 
     public void log(Level level, String message, Exception exception) {
-
         SPOTIFY_LOGGER.log(level, message, exception);
     }
 
     public Logger getLogger() {
-
         return SPOTIFY_LOGGER;
     }
 }

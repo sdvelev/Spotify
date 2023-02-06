@@ -88,13 +88,13 @@ public class Server {
                     }
                 } catch (IOException e) {
 
-                    this.spotifyLogger.log(Level.SEVERE, ERROR_CLIENT_REQUEST, e);
+                    spotifyLogger.log(Level.SEVERE, ERROR_CLIENT_REQUEST, e);
                     System.out.println(ERROR_CLIENT_REQUEST);
                 }
             }
         } catch (IOException e) {
 
-            this.spotifyLogger.log(Level.SEVERE, UNABLE_TO_START_SERVER, e);
+            spotifyLogger.log(Level.SEVERE, UNABLE_TO_START_SERVER, e);
             System.out.println(ERROR_CLIENT_REQUEST);
         }
     }

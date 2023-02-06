@@ -32,7 +32,7 @@ public class AuthenticationServiceTest {
         var authenticationReader = new StringReader(REGISTERED_USERS);
         var authenticationWriter = new StringWriter();
 
-        this.authenticationService = new AuthenticationService(authenticationReader, authenticationWriter);
+        authenticationService = new AuthenticationService(authenticationReader, authenticationWriter);
     }
 
     @AfterEach
@@ -40,8 +40,8 @@ public class AuthenticationServiceTest {
 
         try {
 
-            this.authenticationService.getAuthenticationReader().close();
-            this.authenticationService.getAuthenticationWriter().close();
+            authenticationService.getAuthenticationReader().close();
+            authenticationService.getAuthenticationWriter().close();
         } catch(IOException e) {
 
             throw new IODatabaseException(IO_EXCEPTION_ERROR_MESSAGE, e);
@@ -55,9 +55,9 @@ public class AuthenticationServiceTest {
         String emailToRegister = "sdvelev@outlook.com";
         String passwordToRegister = "123456";
 
-        this.authenticationService.register(emailToRegister, passwordToRegister);
+        authenticationService.register(emailToRegister, passwordToRegister);
 
-        String actualResult = this.authenticationService.getAuthenticationWriter().toString();
+        String actualResult = authenticationService.getAuthenticationWriter().toString();
 
         String expectedResult = emailToRegister + " 8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92" +
             System.lineSeparator();
@@ -72,7 +72,7 @@ public class AuthenticationServiceTest {
         String emailToRegister = "sdvelev@gmail.com";
         String passwordToRegister = "123456";
 
-        assertThrows(EmailAlreadyRegisteredException.class, () -> this.authenticationService
+        assertThrows(EmailAlreadyRegisteredException.class, () -> authenticationService
             .register(emailToRegister, passwordToRegister),
             "EmailAlreadyRegisteredException is expected but not thrown.");
     }
@@ -83,7 +83,7 @@ public class AuthenticationServiceTest {
         String emailToRegister = "sdvelev@outlook";
         String passwordToRegister = "123456";
 
-        assertThrows(NotValidEmailFormatException.class, () -> this.authenticationService
+        assertThrows(NotValidEmailFormatException.class, () -> authenticationService
                 .register(emailToRegister, passwordToRegister),
             "NotValidEmailFormatException is expected but not thrown.");
     }
@@ -96,7 +96,7 @@ public class AuthenticationServiceTest {
 
         User expectedUser = new User("sdvelev@gmail.com", "123456");
 
-        assertEquals(expectedUser, this.authenticationService.login(emailToLogin, passwordToLogin),
+        assertEquals(expectedUser, authenticationService.login(emailToLogin, passwordToLogin),
             "Actual returned user is not the same as the expected.");
     }
 
@@ -106,7 +106,7 @@ public class AuthenticationServiceTest {
         String emailToLogin = "sdvelev@outlook.com";
         String passwordToLogin = "123456";
 
-        assertThrows(UserNotFoundException.class, () -> this.authenticationService
+        assertThrows(UserNotFoundException.class, () -> authenticationService
                 .login(emailToLogin, passwordToLogin),
             "UserNotFoundException is expected but not thrown.");
     }

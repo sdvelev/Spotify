@@ -8,7 +8,6 @@ public class SongEntity {
     private final Song song;
     private final AtomicInteger listeningTimes;
     public SongEntity(Song song, int listeningTimes) {
-
         this.song = song;
         this.listeningTimes = new AtomicInteger(listeningTimes);
     }
@@ -22,7 +21,6 @@ public class SongEntity {
     }
 
     public void increaseListeningTimes() {
-
         listeningTimes.getAndIncrement();
     }
 
