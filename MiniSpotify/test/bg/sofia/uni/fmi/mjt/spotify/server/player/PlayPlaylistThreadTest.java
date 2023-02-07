@@ -9,8 +9,6 @@ import bg.sofia.uni.fmi.mjt.spotify.server.exceptions.SpotifyException;
 import bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotLoggedException;
 import bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger;
 import bg.sofia.uni.fmi.mjt.spotify.server.login.User;
-import bg.sofia.uni.fmi.mjt.spotify.server.player.PlayPlaylistThread;
-import bg.sofia.uni.fmi.mjt.spotify.server.player.PlaySongThread;
 import bg.sofia.uni.fmi.mjt.spotify.server.storage.Playlist;
 import bg.sofia.uni.fmi.mjt.spotify.server.storage.Song;
 import org.junit.jupiter.api.Test;

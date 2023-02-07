@@ -2,7 +2,6 @@ package bg.sofia.uni.fmi.mjt.spotify.server.player;
 
 import bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform;
 import bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger;
-import bg.sofia.uni.fmi.mjt.spotify.server.player.PlaySongThread;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;

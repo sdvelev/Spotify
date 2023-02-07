@@ -1,6 +1,5 @@
 package bg.sofia.uni.fmi.mjt.spotify.server.command;
 
-import bg.sofia.uni.fmi.mjt.spotify.server.command.Command;
 import org.junit.jupiter.api.Test;
 
 import static bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExtractor.newCommand;

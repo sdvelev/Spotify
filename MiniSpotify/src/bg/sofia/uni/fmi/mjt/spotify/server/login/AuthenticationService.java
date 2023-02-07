@@ -3,7 +3,6 @@ package bg.sofia.uni.fmi.mjt.spotify.server.login;
 import bg.sofia.uni.fmi.mjt.spotify.server.ServerReply;
 import bg.sofia.uni.fmi.mjt.spotify.server.exceptions.EmailAlreadyRegisteredException;
 import bg.sofia.uni.fmi.mjt.spotify.server.exceptions.IODatabaseException;
-import bg.sofia.uni.fmi.mjt.spotify.server.exceptions.NoSuchPlaylistException;
 import bg.sofia.uni.fmi.mjt.spotify.server.exceptions.NotValidEmailFormatException;
 import bg.sofia.uni.fmi.mjt.spotify.server.exceptions.SpotifyException;
 import bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotFoundException;

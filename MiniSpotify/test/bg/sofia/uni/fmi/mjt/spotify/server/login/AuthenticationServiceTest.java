@@ -5,8 +5,6 @@ import bg.sofia.uni.fmi.mjt.spotify.server.exceptions.IODatabaseException;
 import bg.sofia.uni.fmi.mjt.spotify.server.exceptions.NotValidEmailFormatException;
 import bg.sofia.uni.fmi.mjt.spotify.server.exceptions.SpotifyException;
 import bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotFoundException;
-import bg.sofia.uni.fmi.mjt.spotify.server.login.AuthenticationService;
-import bg.sofia.uni.fmi.mjt.spotify.server.login.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

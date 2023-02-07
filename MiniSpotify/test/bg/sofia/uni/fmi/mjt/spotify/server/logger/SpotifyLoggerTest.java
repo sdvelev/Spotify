@@ -1,6 +1,5 @@
 package bg.sofia.uni.fmi.mjt.spotify.server.logger;
 
-import bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
