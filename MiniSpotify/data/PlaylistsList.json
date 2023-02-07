@@ -1,10 +1,5 @@
 [
   {
-    "emailCreator": "s@s.com",
-    "title": "My",
-    "playlistSongs": []
-  },
-  {
     "emailCreator": "sdvelev@gmail.com",
     "title": "MyPlaylist",
     "playlistSongs": [
@@ -55,23 +50,6 @@
         "artist": "Richard Ashcroft",
         "duration": 248,
         "genre": "modern"
-      }
-    ]
-  },
-  {
-    "emailCreator": "qw@qw.com",
-    "title": "Hi",
-    "playlistSongs": []
-  },
-  {
-    "emailCreator": "s@s.info",
-    "title": "GFD",
-    "playlistSongs": [
-      {
-        "title": "No Time To Die",
-        "artist": "Billie Eilish",
-        "duration": 239,
-        "genre": "pop"
       }
     ]
   }
