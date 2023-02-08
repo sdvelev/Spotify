@@ -20,7 +20,7 @@ import java.util.logging.Level;
 
 public class Server {
 
-    private static final int SERVER_PORT = 6677;
+    private static final int SERVER_PORT = 6767;
     private static final int BUFFER_SIZE = 2048;
     private static final String HOST = "localhost";
 

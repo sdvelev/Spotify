@@ -138,6 +138,20 @@ public class CommandExtractorTest {
     }
 
     @Test
+    void testNewCommandAddSongToCommandSuccessfullyWithWhitespaces() {
+        String clientInput = "add-song-to MyPlaylist  The  Crown   -  Main title";
+
+        Command returnedCommand = newCommand(clientInput);
+
+        assertTrue(returnedCommand.command().equalsIgnoreCase("add-song-to"),
+            "Actual command name is not the same as the expected.");
+        assertEquals("MyPlaylist", returnedCommand.arguments().get(0),
+            "Actual command playlist argument is not the same as the expected.");
+        assertEquals("The Crown - Main title", returnedCommand.arguments().get(1),
+            "Actual command song argument is not the same as the expected");
+    }
+
+    @Test
     void testNewCommandAddSongToCommandOneArgument() {
         String clientInput = "add-song-to MyPlaylist";
 
@@ -164,6 +178,20 @@ public class CommandExtractorTest {
     @Test
     void testNewCommandRemoveSongFromCommandSuccessfully() {
         String clientInput = "remove-song-from MyPlaylist The Crown - Main title";
+
+        Command returnedCommand = newCommand(clientInput);
+
+        assertTrue(returnedCommand.command().equalsIgnoreCase("remove-song-from"),
+            "Actual command name is not the same as the expected.");
+        assertEquals("MyPlaylist", returnedCommand.arguments().get(0),
+            "Actual command playlist argument is not the same as the expected.");
+        assertEquals("The Crown - Main title", returnedCommand.arguments().get(1),
+            "Actual command song argument is not the same as the expected");
+    }
+
+    @Test
+    void testNewCommandRemoveSongFromCommandSuccessfullyWithWhitespaces() {
+        String clientInput = "remove-song-from MyPlaylist   The   Crown  - Main  title ";
 
         Command returnedCommand = newCommand(clientInput);
 
@@ -212,6 +240,18 @@ public class CommandExtractorTest {
     }
 
     @Test
+    void testNewCommandSearchCommandSuccessfullyTwoWordsWithWhitespaces() {
+        String clientInput = "search   the  crown  ";
+
+        Command returnedCommand = newCommand(clientInput);
+
+        assertTrue(returnedCommand.command().equalsIgnoreCase("search"),
+            "Actual command name is not the same as the expected.");
+        assertEquals("the crown", returnedCommand.arguments().get(0),
+            "Actual command keywords argument is not the same as the expected.");
+    }
+
+    @Test
     void testNewCommandSearchCommandSuccessfullyOneWord() {
         String clientInput = "search crown";
 
@@ -238,6 +278,18 @@ public class CommandExtractorTest {
     @Test
     void testNewCommandPlayCommandSuccessfully() {
         String clientInput = "play Vivaldi Variation";
+
+        Command returnedCommand = newCommand(clientInput);
+
+        assertTrue(returnedCommand.command().equalsIgnoreCase("play"),
+            "Actual command name is not the same as the expected.");
+        assertEquals("Vivaldi Variation", returnedCommand.arguments().get(0),
+            "Actual command song title argument is not the same as the expected.");
+    }
+
+    @Test
+    void testNewCommandPlayCommandSuccessfullyWithWhitespaces() {
+        String clientInput = "play Vivaldi   Variation";
 
         Command returnedCommand = newCommand(clientInput);
 

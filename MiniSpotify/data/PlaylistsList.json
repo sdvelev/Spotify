@@ -36,6 +36,42 @@
     ]
   },
   {
+    "emailCreator": "sdvelev@gmail.com",
+    "title": "MoreSongs",
+    "playlistSongs": [
+      {
+        "title": "Wildest Dreams",
+        "artist": "Taylor Swift",
+        "duration": 218,
+        "genre": "pop"
+      },
+      {
+        "title": "How Does A Moment Last Forever",
+        "artist": "Celine Dion",
+        "duration": 225,
+        "genre": "pop"
+      },
+      {
+        "title": "My Verse",
+        "artist": "Nevena Tsoneva",
+        "duration": 194,
+        "genre": "pop"
+      },
+      {
+        "title": "Wondering",
+        "artist": "Olivia Rodrigo",
+        "duration": 225,
+        "genre": "pop"
+      },
+      {
+        "title": "No Time To Die",
+        "artist": "Billie Eilish",
+        "duration": 239,
+        "genre": "pop"
+      }
+    ]
+  },
+  {
     "emailCreator": "sdvelev@gmail.con",
     "title": "Playlist2",
     "playlistSongs": [

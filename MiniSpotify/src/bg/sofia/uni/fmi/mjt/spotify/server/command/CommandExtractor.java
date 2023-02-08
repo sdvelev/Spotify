@@ -67,6 +67,9 @@ public class CommandExtractor {
 
         StringBuilder secondArgument = new StringBuilder();
         for (int i = 2; i < lineArray.length; i++) {
+            if (lineArray[i].isBlank()) {
+                continue;
+            }
             secondArgument.append(lineArray[i]).append(INTERVAL_REGEX);
         }
 
@@ -87,6 +90,9 @@ public class CommandExtractor {
 
         StringBuilder firstArgument = new StringBuilder();
         for (int i = 1; i < lineArray.length; i++) {
+            if (lineArray[i].isBlank()) {
+                continue;
+            }
             firstArgument.append(lineArray[i]).append(INTERVAL_REGEX);
         }
 

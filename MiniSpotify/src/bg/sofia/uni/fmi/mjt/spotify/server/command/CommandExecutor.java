@@ -482,19 +482,22 @@ public class CommandExecutor {
                 new IllegalArgumentException(ServerReply.TOP_COMMAND_INVALID_ARGUMENT_REPLY.getReply()));
         }
 
-        List<SongEntity> result = streamingPlatform.getTopNMostListenedSongs(
-            Integer.parseInt(arguments.get(0)));
+        try {
+            List<SongEntity> result = streamingPlatform.getTopNMostListenedSongs(
+                Integer.parseInt(arguments.get(0)));
+            StringBuilder toReturn = new StringBuilder();
+            toReturn.append(ServerReply.TOP_COMMAND_SUCCESSFULLY_REPLY.getReply()).append(System.lineSeparator());
+            for (SongEntity currentSongEntity : result) {
+                String toAppend = TIMES_SIGN + currentSongEntity.getListeningTimes() + TITLE_LABEL +
+                    currentSongEntity.getSong().getTitle() + ARTIST_LABEL + currentSongEntity.getSong().getArtist() +
+                    GENRE_LABEL + currentSongEntity.getSong().getGenre() + DURATION_LABEL +
+                    currentSongEntity.getSong().getDuration() + System.lineSeparator();
+                toReturn.append(toAppend);
+            }
 
-        StringBuilder toReturn = new StringBuilder();
-        toReturn.append(ServerReply.TOP_COMMAND_SUCCESSFULLY_REPLY.getReply()).append(System.lineSeparator());
-        for (SongEntity currentSongEntity : result) {
-            String toAppend = TIMES_SIGN + currentSongEntity.getListeningTimes() + TITLE_LABEL +
-                currentSongEntity.getSong().getTitle() + ARTIST_LABEL + currentSongEntity.getSong().getArtist() +
-                GENRE_LABEL + currentSongEntity.getSong().getGenre() + DURATION_LABEL +
-                currentSongEntity.getSong().getDuration() + System.lineSeparator();
-            toReturn.append(toAppend);
+            return toReturn.toString();
+        } catch (NumberFormatException e) {
+            return getCorrectReply(Level.WARNING, ServerReply.SERVER_EXCEPTION.getReply(), e);
         }
-
-        return toReturn.toString();
     }
 }

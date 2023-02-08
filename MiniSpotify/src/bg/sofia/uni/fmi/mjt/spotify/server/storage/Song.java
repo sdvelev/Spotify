@@ -4,13 +4,14 @@ import java.util.Objects;
 
 public class Song {
 
+    private final static String EMPTY_STRING = "";
     private String title;
     private String artist;
     private int duration;
     private String genre;
 
     public Song() {
-
+        this(EMPTY_STRING, EMPTY_STRING, 0, EMPTY_STRING);
     }
     public Song(String title, String artist, int duration, String genre) {
         this.title = title;
