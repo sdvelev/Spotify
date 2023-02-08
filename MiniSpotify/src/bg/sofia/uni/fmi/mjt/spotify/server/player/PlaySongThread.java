@@ -41,6 +41,7 @@ public class PlaySongThread extends Thread {
 
         isRunning = true;
         try {
+            //Take format of the song of the server
             AudioInputStream stream = AudioSystem.getAudioInputStream(new File(DATA_PATH + songName +
                 WAV_FORMAT));
 
@@ -53,6 +54,7 @@ public class PlaySongThread extends Thread {
                 stream = AudioSystem.getAudioInputStream(format, stream);
             }
 
+            //SourceDataLine on the client side
             SourceDataLine.Info info = new DataLine.Info(SourceDataLine.class, stream.getFormat(),
                 ((int) stream.getFrameLength() * format.getFrameSize()));
 
@@ -66,6 +68,7 @@ public class PlaySongThread extends Thread {
             while ((numRead = stream.read(buf, 0, buf.length)) >= 0 && isRunning) {
                 int offset = 0;
                 while (offset < numRead) {
+                    //Write data in SourceDataLine
                     offset += line.write(buf, offset, numRead - offset);
                 }
             }

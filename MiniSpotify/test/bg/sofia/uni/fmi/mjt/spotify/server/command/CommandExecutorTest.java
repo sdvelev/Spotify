@@ -60,7 +60,6 @@ public class CommandExecutorTest {
 
     @BeforeEach
     void setTests() {
-
         commandExecutor = new CommandExecutor(streamingPlatformMock, authenticationServiceMock, spotifyLoggerMock);
     }
 
