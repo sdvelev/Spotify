@@ -12,7 +12,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 
 public class Client {
-    private final static int SERVER_PORT = 6767;
+    private final static int SERVER_PORT = 7687;
     private final static String SERVER_HOST = "localhost";
     private final static int BUFFER_SIZE = 2048;
     private static ByteBuffer buffer = ByteBuffer.allocateDirect(BUFFER_SIZE);

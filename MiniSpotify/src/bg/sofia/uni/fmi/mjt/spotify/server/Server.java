@@ -8,7 +8,10 @@ import bg.sofia.uni.fmi.mjt.spotify.server.login.AuthenticationService;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.SocketException;
 import java.nio.ByteBuffer;
+import java.nio.channels.ClosedChannelException;
+import java.nio.channels.ClosedSelectorException;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
@@ -20,7 +23,7 @@ import java.util.logging.Level;
 
 public class Server {
 
-    private static final int SERVER_PORT = 6767;
+    private static final int SERVER_PORT = 7687;
     private static final int BUFFER_SIZE = 2048;
     private static final String HOST = "localhost";
 
@@ -65,17 +68,29 @@ public class Server {
                     while (keyIterator.hasNext()) {
 
                         SelectionKey key = keyIterator.next();
+
                         if (key.isReadable()) {
                             SocketChannel clientChannel = (SocketChannel) key.channel();
-                            String clientInput = getClientInput(clientChannel);
+                            try {
+                                String clientInput = getClientInput(clientChannel);
 
-                            if (clientInput == null) {
+                                if (clientInput == null) {
+                                    key.channel().close();
+                                    key.cancel();
+                                    keyIterator.remove();
+                                    continue;
+                                }
+
+                                String output = commandExecutor.executeCommand(CommandExtractor.newCommand(clientInput),
+                                    key);
+                                writeClientOutput(clientChannel, output);
+
+                            } catch (SocketException e) {
+                                key.channel().close();
+                                key.cancel();
+                                keyIterator.remove();
                                 continue;
                             }
-
-                            String output = commandExecutor.executeCommand(CommandExtractor.newCommand(clientInput),
-                                key);
-                            writeClientOutput(clientChannel, output);
 
                         } else if (key.isAcceptable()) {
                             accept(selector, key);
@@ -113,7 +128,11 @@ public class Server {
         int readBytes = clientChannel.read(buffer);
         if (readBytes < 0) {
             System.out.println(CLIENT_LABEL + numberOfConnection.incrementAndGet() + CLOSE_CONNECTION_LABEL);
+            SelectionKey key = clientChannel.keyFor(selector);
             clientChannel.close();
+            if (key != null) {
+                key.cancel();
+            }
             return null;
         }
 

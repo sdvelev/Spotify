@@ -3227,3 +3227,875 @@ bg.sofia.uni.fmi.mjt.spotify.server.exceptions.NoSongPlayingException: There isn
 	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:76)
 	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:151)
 
+Feb 08, 2023 4:18:08 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: Reply from server: You cannot view playlists as you aren't logged in. Please, try to log in first.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotLoggedException: You cannot view playlist as you aren't logged in. Please, try to log in first.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.showPlaylists(StreamingPlatform.java:259)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processShowPlaylistsCommand(CommandExecutor.java:262)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:88)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:76)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:151)
+
+Feb 08, 2023 4:46:40 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: Reply from server: You cannot play songs unless you are logged in.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotLoggedException: You cannot play songs unless you are logged in.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.playSong(StreamingPlatform.java:304)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:150)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:89)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:76)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:151)
+
+Feb 08, 2023 4:52:40 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:434)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:113)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:70)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:151)
+
+Feb 08, 2023 4:52:47 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:113)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:70)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:151)
+
+Feb 08, 2023 4:53:24 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:113)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:70)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:151)
+
+Feb 08, 2023 9:55:23 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:434)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:113)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:70)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:151)
+
+Feb 08, 2023 9:55:35 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:113)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:70)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:151)
+
+Feb 23, 2023 11:07:44 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Unable to connect to the server. Try again later or contact administrator
+java.net.ConnectException: Connection refused: connect
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:579)
+	at java.base/sun.nio.ch.Net.connect(Net.java:586)
+	at java.base/sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:880)
+	at bg.sofia.uni.fmi.mjt.spotify.client.Client.main(Client.java:28)
+
+Feb 24, 2023 3:07:14 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvlelev@gmail.com Reply from server: The login process is unsuccessful as there's not such a profile registered.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotFoundException: The login process is unsuccessful as there's not such a profile registered.
+	at bg.sofia.uni.fmi.mjt.spotify.server.login.AuthenticationService.login(AuthenticationService.java:53)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:454)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:78)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:76)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:151)
+
+Feb 24, 2023 3:07:25 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvleelv@gmai.con Reply from server: The login process is unsuccessful as there's not such a profile registered.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotFoundException: The login process is unsuccessful as there's not such a profile registered.
+	at bg.sofia.uni.fmi.mjt.spotify.server.login.AuthenticationService.login(AuthenticationService.java:53)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:454)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:78)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:76)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:151)
+
+Feb 24, 2023 3:08:13 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:434)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:113)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:70)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:151)
+
+Feb 24, 2023 3:08:57 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:113)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:70)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:151)
+
+Feb 24, 2023 3:09:09 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:113)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:70)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:151)
+
+Feb 24, 2023 3:09:14 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:113)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:70)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:151)
+
+Feb 24, 2023 3:09:55 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:434)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:113)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:70)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:151)
+
+Feb 24, 2023 3:09:57 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:113)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:70)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:151)
+
+Feb 24, 2023 3:10:03 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:113)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:70)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:151)
+
+Feb 24, 2023 3:10:12 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:113)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:70)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:151)
+
+Feb 24, 2023 3:10:20 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:113)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:70)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:151)
+
+Feb 24, 2023 3:10:22 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:113)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:70)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:151)
+
+Feb 24, 2023 3:10:24 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:113)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:70)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:151)
+
+Feb 24, 2023 3:10:27 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:434)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:113)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:70)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:151)
+
+Feb 24, 2023 3:10:29 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:113)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:70)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:151)
+
+Feb 24, 2023 3:15:48 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:434)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:116)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:71)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:154)
+
+Feb 24, 2023 3:15:54 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:116)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:71)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:154)
+
+Feb 24, 2023 3:15:59 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:116)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:71)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:154)
+
+Feb 24, 2023 3:16:01 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:116)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:71)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:154)
+
+Feb 24, 2023 3:16:08 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.con Reply from server: There isn't such a song in the platform.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.NoSuchSongException: There isn't such a song in the platform.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.playSong(StreamingPlatform.java:313)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:150)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:89)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:77)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:154)
+
+Feb 24, 2023 3:16:08 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:116)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:71)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:154)
+
+Feb 24, 2023 4:57:30 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:434)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:119)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:76)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:157)
+
+Feb 24, 2023 4:57:36 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:119)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:76)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:157)
+
+Feb 24, 2023 4:57:38 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:119)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:76)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:157)
+
+Feb 24, 2023 4:57:41 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.con Reply from server: There isn't such a song in the platform.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.NoSuchSongException: There isn't such a song in the platform.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.playSong(StreamingPlatform.java:313)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:150)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:89)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:82)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:157)
+
+Feb 24, 2023 4:57:41 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:119)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:76)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:157)
+
+Feb 24, 2023 4:58:24 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.con Reply from server: There isn't such a song in the platform.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.NoSuchSongException: There isn't such a song in the platform.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.playSong(StreamingPlatform.java:313)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:150)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:89)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:82)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:157)
+
+Feb 24, 2023 4:58:24 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:119)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:76)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:157)
+
+Feb 24, 2023 4:58:31 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:119)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:76)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:157)
+
+Feb 24, 2023 4:59:59 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:119)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:76)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:157)
+
+Feb 24, 2023 4:59:59 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:119)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:76)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:157)
+
+Feb 24, 2023 5:03:51 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: Reply from server: We couldn't process the command as the provided argument is invalid. Please, try with whole positive number.
+java.lang.IllegalArgumentException: We couldn't process the command as the provided argument is invalid. Please, try with whole positive number.
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processTopCommand(CommandExecutor.java:482)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:82)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:78)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:153)
+
+Feb 24, 2023 5:04:12 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.con Reply from server: The login process is unsuccessful as there's not such a profile registered.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotFoundException: The login process is unsuccessful as there's not such a profile registered.
+	at bg.sofia.uni.fmi.mjt.spotify.server.login.AuthenticationService.login(AuthenticationService.java:53)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:454)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:78)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:78)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:153)
+
+Feb 24, 2023 5:04:20 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.con Reply from server: The login process is unsuccessful as there's not such a profile registered.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotFoundException: The login process is unsuccessful as there's not such a profile registered.
+	at bg.sofia.uni.fmi.mjt.spotify.server.login.AuthenticationService.login(AuthenticationService.java:53)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:454)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:78)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:78)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:153)
+
+Feb 24, 2023 5:04:32 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.con Reply from server: There isn't such a song in the platform.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.NoSuchSongException: There isn't such a song in the platform.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.playSong(StreamingPlatform.java:313)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:150)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:89)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:78)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:153)
+
+Feb 24, 2023 5:05:03 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:434)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:115)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:72)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:153)
+
+Feb 24, 2023 5:05:08 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:115)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:72)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:153)
+
+Feb 24, 2023 5:06:25 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:434)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:120)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:77)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:158)
+
+Feb 24, 2023 5:06:28 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:120)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:77)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:158)
+
+Feb 24, 2023 5:07:20 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:120)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:77)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:158)
+
+Feb 24, 2023 5:07:31 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:120)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:77)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:158)
+
+Mar 14, 2023 9:31:45 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:434)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:115)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:72)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:153)
+
+Mar 14, 2023 9:31:48 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:115)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:72)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:153)
+
+Mar 14, 2023 9:31:57 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:115)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:72)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:153)
+
+Mar 14, 2023 9:32:05 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:115)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:72)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:153)
+
+Mar 14, 2023 9:32:11 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:115)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:72)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:153)
+
+Mar 14, 2023 9:32:19 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.con Reply from server: The login process is unsuccessful as there's not such a profile registered.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotFoundException: The login process is unsuccessful as there's not such a profile registered.
+	at bg.sofia.uni.fmi.mjt.spotify.server.login.AuthenticationService.login(AuthenticationService.java:53)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:454)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:78)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:78)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:153)
+
+Mar 14, 2023 9:32:19 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:115)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:72)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:153)
+
+Mar 14, 2023 9:32:25 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:115)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:72)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:153)
+
+Mar 14, 2023 9:32:29 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:115)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:72)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:153)
+
+Mar 14, 2023 9:32:30 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:115)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:72)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:153)
+
+Mar 14, 2023 9:32:30 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:115)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:72)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:153)
+
+Mar 14, 2023 9:32:39 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:115)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:72)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:153)
+
+Mar 14, 2023 9:32:43 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:115)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:72)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:153)
+
+Mar 14, 2023 9:32:43 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:115)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:72)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:153)
+
+Mar 14, 2023 9:36:43 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: Reply from server: You cannot play songs unless you are logged in.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotLoggedException: You cannot play songs unless you are logged in.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.playSong(StreamingPlatform.java:304)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:150)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:89)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:79)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:154)
+
+Mar 14, 2023 9:37:19 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:434)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:116)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:72)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:154)
+
+Mar 14, 2023 9:37:35 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:116)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:72)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:154)
+
+Mar 14, 2023 9:37:45 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:116)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:72)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:154)
+
+Mar 14, 2023 9:37:52 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:116)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:72)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:154)
+
+Mar 14, 2023 9:38:00 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:116)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:72)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:154)
+
+Mar 14, 2023 9:40:30 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.con Reply from server: There isn't such a song in the platform.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.NoSuchSongException: There isn't such a song in the platform.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.playSong(StreamingPlatform.java:313)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:150)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:89)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:81)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:156)
+
+Mar 14, 2023 9:41:02 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:434)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:118)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:72)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:156)
+
+Mar 14, 2023 9:41:05 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:118)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:72)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:156)
+
+Mar 14, 2023 9:44:20 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: Reply from server: You cannot play songs unless you are logged in.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotLoggedException: You cannot play songs unless you are logged in.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.playSong(StreamingPlatform.java:304)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:150)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:89)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:81)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:156)
+
+Mar 14, 2023 9:44:20 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:118)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:72)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:156)
+
+Mar 14, 2023 9:44:30 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:118)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:72)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:156)
+
+Mar 14, 2023 9:44:35 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:118)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:72)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:156)
+
+Mar 14, 2023 9:47:56 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:434)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:118)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:72)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:160)
+
+Mar 14, 2023 9:48:00 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:118)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:72)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:160)
+
+Mar 14, 2023 9:56:14 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:434)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:123)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:73)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:165)
+
+Mar 14, 2023 9:56:19 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:123)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:73)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:165)
+
+Mar 14, 2023 9:56:23 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:123)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:73)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:165)
+
+Mar 14, 2023 9:56:26 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:123)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:73)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:165)
+
+Mar 14, 2023 9:56:28 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:123)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:73)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:165)
+
+Mar 14, 2023 9:59:08 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:434)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:124)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:73)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:166)
+
+Mar 14, 2023 9:59:15 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:124)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:73)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:166)
+
+Mar 14, 2023 9:59:28 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:124)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:73)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:166)
+
+Mar 14, 2023 10:02:42 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: With email: sdvelev@gmail.con Reply from server: You cannot log in as there is a user associated with the current session. Please, log out first.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserAlreadyLoggedException: You cannot log in as there is a user associated with the current session. Please, log out first.
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.validateIsLogged(CommandExecutor.java:432)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:453)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:78)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:82)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:165)
+
+Mar 14, 2023 10:03:00 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:434)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:123)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:73)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:165)
+
+Mar 14, 2023 10:03:02 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:123)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:73)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:165)
+
+Mar 14, 2023 10:03:06 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:123)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:73)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:165)
+
+Mar 14, 2023 10:04:21 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:434)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:123)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:73)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:165)
+
+Mar 14, 2023 10:05:53 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:434)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:123)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:73)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:165)
+
+Mar 14, 2023 10:05:58 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:123)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:73)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:165)
+
+Mar 14, 2023 10:08:17 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: The login process is unsuccessful as there's not such a profile registered.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotFoundException: The login process is unsuccessful as there's not such a profile registered.
+	at bg.sofia.uni.fmi.mjt.spotify.server.login.AuthenticationService.login(AuthenticationService.java:53)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:454)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:78)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:82)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:165)
+
+Mar 14, 2023 10:12:01 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:434)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:123)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:73)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:165)
+
+Mar 14, 2023 10:13:47 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Error occurred while processing your request. Please, try again later or contact administrator
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:418)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.getClientInput(Server.java:123)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:73)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:165)
+
+Mar 14, 2023 10:18:55 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: Reply from server: You cannot play songs unless you are logged in.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotLoggedException: You cannot play songs unless you are logged in.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.playSong(StreamingPlatform.java:304)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:150)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:89)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:84)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:170)
+
