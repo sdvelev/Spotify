@@ -134,6 +134,25 @@ data
 
 Друг ключов момент от работата по проекта беше неговото тестване с JUnit и Mockito. Постигането на 84% code coverage беше предизвикателство, което несъмнено си заслужаваше, тъй като това до голяма степен верифицира правилното функциониране на кода. От друга страна, работата по създаването на тестове помогна за намирането и изчистването на бъгове в кода. Тестването на многонишков код изискваше използването на редица функции на Mockito, което беше поучително по отношение на усвояването на една нова, сравнително от скоро позната за мен, библиотека.    
 
+## Демонстрация
+
+<p align="center">
+<img width="860px" src="https://github.com/sdvelev/Spotify/blob/main/resources/screen01.png" alt="screen01">
+</p>
+
+<p align="center">
+<img width="860px" src="https://github.com/sdvelev/Spotify/blob/main/resources/screen02.png" alt="screen01">
+</p>
+
+<p align="center">
+<img width="860px" src="https://github.com/sdvelev/Spotify/blob/main/resources/screen03.png" alt="screen01">
+</p>
+
+<p align="center">
+<img width="860px" src="https://github.com/sdvelev/Spotify/blob/main/resources/screen04.png" alt="screen01">
+</p>
+
+
 ## Забележки и други особености
 
 1. За да можете да се изпълняват песни от `Spotify` клиента е използвано API-то `javax.sound.sampled`.
