@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.SocketException;
 import java.nio.ByteBuffer;
-import java.nio.channels.ClosedChannelException;
-import java.nio.channels.ClosedSelectorException;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
@@ -23,17 +21,17 @@ import java.util.logging.Level;
 
 public class Server {
 
-    private static final int SERVER_PORT = 7687;
+    private static final int SERVER_PORT = 7600;
     private static final int BUFFER_SIZE = 2048;
     private static final String HOST = "localhost";
 
-    private final static String ERROR_CLIENT_REQUEST = "Error occurred while processing your request. " +
+    private static final String ERROR_CLIENT_REQUEST = "Error occurred while processing your request. " +
         "Please, try again later or contact administrator";
 
-    private final static String UNABLE_TO_START_SERVER = "A problem arise in starting the server";
+    private static final String UNABLE_TO_START_SERVER = "A problem arise in starting the server";
 
-    private final static String CLIENT_LABEL = "Client ";
-    private final static String CLOSE_CONNECTION_LABEL = " has closed the connection.";
+    private static final String CLIENT_LABEL = "Client ";
+    private static final String CLOSE_CONNECTION_LABEL = " has closed the connection.";
     private final CommandExecutor commandExecutor;
     private final int port;
     private boolean isServerWorking;
@@ -160,7 +158,7 @@ public class Server {
         accept.register(selector, SelectionKey.OP_READ);
     }
 
-    public static void main(String[] args) throws InterruptedException, IODatabaseException {
+    public static void main(String[] args) throws InterruptedException, IODatabaseException, IOException {
         SpotifyLogger spotifyLogger = new SpotifyLogger("SpotifyLogger.log");
 
         Server s = new Server(SERVER_PORT, new CommandExecutor(new StreamingPlatform(spotifyLogger),

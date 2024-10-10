@@ -6,12 +6,12 @@ import java.util.Objects;
 
 public class CommandExtractor {
 
-    private final static String INTERVAL_REGEX = " ";
-    private final static String UNKNOWN_COMMAND_NAME = "unknown";
-    private final static int NUMBER_ARGUMENTS_REGISTRATION_LOGIN = 3;
-    private final static int NUMBER_OF_ARGUMENTS_IN_TWO_ARGUMENTS = 3;
-    private final static int NUMBER_OF_ARGUMENTS_IN_ONE_ARGUMENT = 2;
-    private final static int NUMBER_OF_ARGUMENTS_IN_NO_ARGUMENTS = 1;
+    private static final String INTERVAL_REGEX = " ";
+    private static final String UNKNOWN_COMMAND_NAME = "unknown";
+    private static final int NUMBER_ARGUMENTS_REGISTRATION_LOGIN = 3;
+    private static final int NUMBER_OF_ARGUMENTS_IN_TWO_ARGUMENTS = 3;
+    private static final int NUMBER_OF_ARGUMENTS_IN_ONE_ARGUMENT = 2;
+    private static final int NUMBER_OF_ARGUMENTS_IN_NO_ARGUMENTS = 1;
 
     public static Command newCommand(String clientInput) {
         Objects.requireNonNull(clientInput, "The provided client input cannot be null.");

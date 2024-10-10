@@ -11,9 +11,9 @@ import java.util.logging.SimpleFormatter;
 
 public class SpotifyLogger {
 
-    private final static Logger SPOTIFY_LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-    private final static String SPOTIFY_LOGGER_PATH = "data" + File.separator;
-    private final static String SPOTIFY_LOGGER_NOT_CREATED_MESSAGE = "The SpotifyLogger object was not created " +
+    private static final Logger SPOTIFY_LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    private static final String SPOTIFY_LOGGER_PATH = "data" + File.separator;
+    private static final String SPOTIFY_LOGGER_NOT_CREATED_MESSAGE = "The SpotifyLogger object was not created " +
         "successfully.";
 
     public SpotifyLogger(String nameLogger) {

@@ -20,10 +20,10 @@ import java.security.NoSuchAlgorithmException;
 
 public class AuthenticationService {
 
-    private final static String VALID_EMAIL_REGEX = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
-    private final static String REGISTERED_USERS_LIST_PATH = "data" + File.separator + "authentication" +
+    private static final String VALID_EMAIL_REGEX = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
+    private static final String REGISTERED_USERS_LIST_PATH = "data" + File.separator + "authentication" +
         File.separator + "RegisteredUsersList.txt";
-    private final static String INTERVAL_REGEX = " ";
+    private static final String INTERVAL_REGEX = " ";
 
     private Reader authenticationReader;
 

@@ -13,6 +13,7 @@ public class Playlist {
     public Playlist() {
         playlistSongs = new LinkedHashSet<>();
     }
+
     public Playlist(String emailCreator, String title) {
         this.emailCreator = emailCreator;
         this.title = title;

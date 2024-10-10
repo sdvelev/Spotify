@@ -31,32 +31,32 @@ import java.util.logging.Level;
 
 public class CommandExecutor {
 
-    private final static String REGISTER_COMMAND_NAME = "register";
-    private final static String LOGIN_COMMAND_NAME = "login";
-    private final static String SEARCH_COMMAND_NAME = "search";
-    private final static String TOP_COMMAND_NAME = "top";
-    private final static String CREATE_PLAYLIST_COMMAND_NAME = "create-playlist";
-    private final static String ADD_SONG_TO_COMMAND_NAME = "add-song-to";
-    private final static String SHOW_PLAYLIST_COMMAND_NAME = "show-playlist";
-    private final static String PLAY_SONG_COMMAND_NAME = "play";
-    private final static String STOP_COMMAND_NAME = "stop";
-    private final static String LOGOUT_COMMAND_NAME = "logout";
-    private final static String DISCONNECT_COMMAND_NAME = "disconnect";
-    private final static String DELETE_PLAYLIST_COMMAND_NAME = "delete-playlist";
-    private final static String REMOVE_SONG_FROM_COMMAND_NAME = "remove-song-from";
-    private final static String SHOW_PLAYLISTS_COMMAND_NAME = "show-playlists";
-    private final static String PLAY_PLAYLIST_COMMAND_NAME = "play-playlist";
-    private final static String HELP_COMMAND_NAME = "help";
+    private static final String REGISTER_COMMAND_NAME = "register";
+    private static final String LOGIN_COMMAND_NAME = "login";
+    private static final String SEARCH_COMMAND_NAME = "search";
+    private static final String TOP_COMMAND_NAME = "top";
+    private static final String CREATE_PLAYLIST_COMMAND_NAME = "create-playlist";
+    private static final String ADD_SONG_TO_COMMAND_NAME = "add-song-to";
+    private static final String SHOW_PLAYLIST_COMMAND_NAME = "show-playlist";
+    private static final String PLAY_SONG_COMMAND_NAME = "play";
+    private static final String STOP_COMMAND_NAME = "stop";
+    private static final String LOGOUT_COMMAND_NAME = "logout";
+    private static final String DISCONNECT_COMMAND_NAME = "disconnect";
+    private static final String DELETE_PLAYLIST_COMMAND_NAME = "delete-playlist";
+    private static final String REMOVE_SONG_FROM_COMMAND_NAME = "remove-song-from";
+    private static final String SHOW_PLAYLISTS_COMMAND_NAME = "show-playlists";
+    private static final String PLAY_PLAYLIST_COMMAND_NAME = "play-playlist";
+    private static final String HELP_COMMAND_NAME = "help";
 
-    private final static String EMAIL_MESSAGE_TO_LOG = "With email: ";
-    private final static String REPLY_FIELD_TO_LOG = "Reply from server: ";
-    private final static String TITLE_LABEL = " Title: ";
-    private final static String ARTIST_LABEL = " Artist: ";
-    private final static String DURATION_LABEL = " Duration (in seconds): ";
-    private final static String GENRE_LABEL = " Genre: ";
-    private final static String ZERO_CHARACTER = "0";
-    private final static String TIMES_SIGN = "# ";
-    private final static String POSITIVE_NUMBER_REGEX = "^[0-9]+$";
+    private static final String EMAIL_MESSAGE_TO_LOG = "With email: ";
+    private static final String REPLY_FIELD_TO_LOG = "Reply from server: ";
+    private static final String TITLE_LABEL = " Title: ";
+    private static final String ARTIST_LABEL = " Artist: ";
+    private static final String DURATION_LABEL = " Duration (in seconds): ";
+    private static final String GENRE_LABEL = " Genre: ";
+    private static final String ZERO_CHARACTER = "0";
+    private static final String TIMES_SIGN = "# ";
+    private static final String POSITIVE_NUMBER_REGEX = "^[0-9]+$";
 
     private final StreamingPlatform streamingPlatform;
     private final AuthenticationService authenticationService;

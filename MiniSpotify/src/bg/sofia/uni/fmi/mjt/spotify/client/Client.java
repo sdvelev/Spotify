@@ -12,14 +12,14 @@ import java.util.Scanner;
 import java.util.logging.Level;
 
 public class Client {
-    private final static int SERVER_PORT = 7687;
-    private final static String SERVER_HOST = "localhost";
-    private final static int BUFFER_SIZE = 2048;
+    private static final int SERVER_PORT = 7600;
+    private static final String SERVER_HOST = "localhost";
+    private static final int BUFFER_SIZE = 2048;
     private static ByteBuffer buffer = ByteBuffer.allocateDirect(BUFFER_SIZE);
 
-    private final static String TO_SERVER_CONNECTED = "Connected to the server";
-    private final static String CLIENT_PROMPT = "Enter command: ";
-    private final static String NETWORK_COMMUNICATION_PROBLEM_MESSAGE =
+    private static final String TO_SERVER_CONNECTED = "Connected to the server";
+    private static final String CLIENT_PROMPT = "Enter command: ";
+    private static final String NETWORK_COMMUNICATION_PROBLEM_MESSAGE =
         "Unable to connect to the server. Try again later or contact administrator";
 
     public static void main(String[] args) {

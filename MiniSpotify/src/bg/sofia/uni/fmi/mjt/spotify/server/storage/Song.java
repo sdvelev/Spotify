@@ -4,15 +4,16 @@ import java.util.Objects;
 
 public class Song {
 
-    private final static String EMPTY_STRING = "";
-    private String title;
-    private String artist;
-    private int duration;
-    private String genre;
+    private static final String EMPTY_STRING = "";
+    private final String title;
+    private final String artist;
+    private final int duration;
+    private final String genre;
 
     public Song() {
         this(EMPTY_STRING, EMPTY_STRING, 0, EMPTY_STRING);
     }
+
     public Song(String title, String artist, int duration, String genre) {
         this.title = title;
         this.artist = artist;
@@ -48,5 +49,4 @@ public class Song {
     public String getGenre() {
         return genre;
     }
-
 }

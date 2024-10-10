@@ -45,11 +45,11 @@ import java.util.stream.Collectors;
 public class StreamingPlatform {
 
     private static final String INTERVAL_REGEX = " ";
-    private final static String UNDERSCORE = "_";
-    private final static String EMPTY_STRING = "";
-    private final static String PLAYLISTS_LIST_PATH = "data" + File.separator + "PlaylistsList.json";
-    private final static String SONGS_LIST_PATH = "data" + File.separator + "SongsList.json";
-    private final static String NEGATIVE_N_ARGUMENT = "The provided argument cannot be negative.";
+    private static final String UNDERSCORE = "_";
+    private static final String EMPTY_STRING = "";
+    private static final String PLAYLISTS_LIST_PATH = "data" + File.separator + "PlaylistsList.json";
+    private static final String SONGS_LIST_PATH = "data" + File.separator + "SongsList.json";
+    private static final String NEGATIVE_N_ARGUMENT = "The provided argument cannot be negative.";
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
@@ -450,9 +450,7 @@ public class StreamingPlatform {
         List<Playlist> allPlaylists = new ArrayList<>();
         for (Map.Entry<String, Set<Playlist>> currentEntry : playlists.entrySet()) {
 
-            for (Playlist currentPlaylist : currentEntry.getValue()) {
-                allPlaylists.add(currentPlaylist);
-            }
+            allPlaylists.addAll(currentEntry.getValue());
         }
 
         try {

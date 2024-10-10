@@ -7,10 +7,10 @@ import java.security.NoSuchAlgorithmException;
 
 public class SHAAlgorithm {
 
-    private final static int RADIX = 16;
-    private final static int MAX_LENGTH = 32;
-    private final static Character ZERO_CHARACTER = '0';
-    private final static String ALGORITHM_NAME = "SHA-256";
+    private static final int RADIX = 16;
+    private static final int MAX_LENGTH = 32;
+    private static final Character ZERO_CHARACTER = '0';
+    private static final String ALGORITHM_NAME = "SHA-256";
 
     public static String getHash(String toEncrypt) throws NoSuchAlgorithmException {
 

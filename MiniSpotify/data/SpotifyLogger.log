@@ -4099,3 +4099,408 @@ bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotLoggedException: You canno
 	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:84)
 	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:170)
 
+Jul 16, 2023 1:03:33 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: The registration process is unsuccessful as the email is already registered.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.EmailAlreadyRegisteredException: The registration process is unsuccessful as the email is already registered.
+	at bg.sofia.uni.fmi.mjt.spotify.server.login.AuthenticationService.register(AuthenticationService.java:59)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processRegisterCommand(CommandExecutor.java:409)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:77)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:84)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:170)
+
+Jul 16, 2023 1:03:51 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: The login process is unsuccessful as there's not such a profile registered.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotFoundException: The login process is unsuccessful as there's not such a profile registered.
+	at bg.sofia.uni.fmi.mjt.spotify.server.login.AuthenticationService.login(AuthenticationService.java:53)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:454)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:78)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:84)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:170)
+
+Jul 16, 2023 1:10:15 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: There isn't such a playlist associated with this account.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.NoSuchPlaylistException: There isn't such a playlist associated with this account.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.showPlaylist(StreamingPlatform.java:240)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processShowPlaylistCommand(CommandExecutor.java:226)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:87)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:84)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:170)
+
+Jul 16, 2023 1:15:01 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: There isn't such a song in the platform.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.NoSuchSongException: There isn't such a song in the platform.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.playSong(StreamingPlatform.java:313)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:150)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:89)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:84)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:170)
+
+Jul 25, 2023 6:33:17 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: The login process is unsuccessful as there's not such a profile registered.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotFoundException: The login process is unsuccessful as there's not such a profile registered.
+	at bg.sofia.uni.fmi.mjt.spotify.server.login.AuthenticationService.login(AuthenticationService.java:53)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:454)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:78)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:84)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:170)
+
+Jul 25, 2023 6:36:04 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: Song has already been started and is now playing. You can stop it with the relevant command or wait for it to finish.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.SongIsAlreadyPlayingException: Song has already been started and is now playing. You can stop it with the relevant command or wait for it to finish.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.playSong(StreamingPlatform.java:308)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:150)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:89)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:84)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:170)
+
+Jul 25, 2023 6:36:07 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: Song has already been started and is now playing. You can stop it with the relevant command or wait for it to finish.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.SongIsAlreadyPlayingException: Song has already been started and is now playing. You can stop it with the relevant command or wait for it to finish.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.playSong(StreamingPlatform.java:308)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:150)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:89)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:84)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:170)
+
+Jul 26, 2023 10:21:45 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: ioivanov@gmail.com Reply from server: The login process is unsuccessful as there's not such a profile registered.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotFoundException: The login process is unsuccessful as there's not such a profile registered.
+	at bg.sofia.uni.fmi.mjt.spotify.server.login.AuthenticationService.login(AuthenticationService.java:53)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:454)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:78)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:85)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:173)
+
+Jul 26, 2023 10:23:27 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: With email: sdvelev@gmail.con Reply from server: You cannot log in as there is a user associated with the current session. Please, log out first.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserAlreadyLoggedException: You cannot log in as there is a user associated with the current session. Please, log out first.
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.validateIsLogged(CommandExecutor.java:432)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:453)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:78)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:85)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:173)
+
+Jul 26, 2023 10:23:48 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@mail.con Reply from server: The login process is unsuccessful as there's not such a profile registered.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotFoundException: The login process is unsuccessful as there's not such a profile registered.
+	at bg.sofia.uni.fmi.mjt.spotify.server.login.AuthenticationService.login(AuthenticationService.java:53)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:454)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:78)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:85)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:173)
+
+Jul 26, 2023 10:24:38 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: The login process is unsuccessful as there's not such a profile registered.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotFoundException: The login process is unsuccessful as there's not such a profile registered.
+	at bg.sofia.uni.fmi.mjt.spotify.server.login.AuthenticationService.login(AuthenticationService.java:53)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:454)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:78)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:85)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:173)
+
+Jul 26, 2023 10:24:50 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: The login process is unsuccessful as there's not such a profile registered.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotFoundException: The login process is unsuccessful as there's not such a profile registered.
+	at bg.sofia.uni.fmi.mjt.spotify.server.login.AuthenticationService.login(AuthenticationService.java:53)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:454)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:78)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:85)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:173)
+
+Jul 26, 2023 10:39:35 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: The playlist was not deleted successfully as it contains songs. Please, remove them from playlist first so as to delete it.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.PlaylistNotEmptyException: The playlist was not deleted successfully as it contains songs. Please, remove them from playlist first so as to delete it.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.removePlaylistFromPlaylists(StreamingPlatform.java:512)
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.deletePlaylist(StreamingPlatform.java:177)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processDeletePlaylistCommand(CommandExecutor.java:359)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:84)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:85)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:173)
+
+Sept 09, 2023 11:43:01 AM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: The login process is unsuccessful as there's not such a profile registered.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotFoundException: The login process is unsuccessful as there's not such a profile registered.
+	at bg.sofia.uni.fmi.mjt.spotify.server.login.AuthenticationService.login(AuthenticationService.java:53)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:454)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:78)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:85)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:173)
+
+Sept 09, 2023 11:43:12 AM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: The login process is unsuccessful as there's not such a profile registered.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotFoundException: The login process is unsuccessful as there's not such a profile registered.
+	at bg.sofia.uni.fmi.mjt.spotify.server.login.AuthenticationService.login(AuthenticationService.java:53)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:454)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:78)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:85)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:173)
+
+Sept 09, 2023 12:13:09 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: There isn't such a playlist to play associated with this account.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.NoSuchPlaylistException: There isn't such a playlist to play associated with this account.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.playPlaylist(StreamingPlatform.java:285)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processPlayPlaylistCommand(CommandExecutor.java:177)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:90)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:85)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:173)
+
+Sept 09, 2023 12:46:10 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: There isn't such a song in the platform.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.NoSuchSongException: There isn't such a song in the platform.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.playSong(StreamingPlatform.java:313)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:150)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:89)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:85)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:173)
+
+Sept 09, 2023 12:46:16 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: There isn't such a song in the platform.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.NoSuchSongException: There isn't such a song in the platform.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.playSong(StreamingPlatform.java:313)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:150)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:89)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:85)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:173)
+
+Sept 09, 2023 12:46:30 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: There isn't such a song in the platform.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.NoSuchSongException: There isn't such a song in the platform.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.playSong(StreamingPlatform.java:313)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:150)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:89)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:85)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:173)
+
+Sept 09, 2023 12:47:05 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: Reply from server: You cannot play songs unless you are logged in.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotLoggedException: You cannot play songs unless you are logged in.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.playSong(StreamingPlatform.java:304)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:150)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:89)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:85)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:173)
+
+Sept 09, 2023 12:49:40 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: Reply from server: You cannot play songs unless you are logged in.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotLoggedException: You cannot play songs unless you are logged in.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.playSong(StreamingPlatform.java:304)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:150)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:89)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:85)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:173)
+
+Nov 08, 2023 4:25:36 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: A problem arise in starting the server
+java.net.BindException: Address already in use: bind
+	at java.base/sun.nio.ch.Net.bind0(Native Method)
+	at java.base/sun.nio.ch.Net.bind(Net.java:555)
+	at java.base/sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:344)
+	at java.base/sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:301)
+	at java.base/java.nio.channels.ServerSocketChannel.bind(ServerSocketChannel.java:224)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.configureServerSocketChannel(Server.java:120)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:56)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:170)
+
+Nov 08, 2023 4:25:42 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Unable to connect to the server. Try again later or contact administrator
+java.net.ConnectException: Connection refused: connect
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:579)
+	at java.base/sun.nio.ch.Net.connect(Net.java:586)
+	at java.base/sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:880)
+	at bg.sofia.uni.fmi.mjt.spotify.client.Client.main(Client.java:28)
+
+Nov 08, 2023 4:27:06 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: A problem arise in starting the server
+java.net.BindException: Address already in use: bind
+	at java.base/sun.nio.ch.Net.bind0(Native Method)
+	at java.base/sun.nio.ch.Net.bind(Net.java:555)
+	at java.base/sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:344)
+	at java.base/sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:301)
+	at java.base/java.nio.channels.ServerSocketChannel.bind(ServerSocketChannel.java:224)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.configureServerSocketChannel(Server.java:120)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:56)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:170)
+
+Nov 08, 2023 4:29:57 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: A problem arise in starting the server
+java.net.BindException: Address already in use: bind
+	at java.base/sun.nio.ch.Net.bind0(Native Method)
+	at java.base/sun.nio.ch.Net.bind(Net.java:555)
+	at java.base/sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:344)
+	at java.base/sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:301)
+	at java.base/java.nio.channels.ServerSocketChannel.bind(ServerSocketChannel.java:224)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.configureServerSocketChannel(Server.java:120)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:56)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:170)
+
+Nov 08, 2023 4:30:32 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: A problem arise in starting the server
+java.net.BindException: Address already in use: bind
+	at java.base/sun.nio.ch.Net.bind0(Native Method)
+	at java.base/sun.nio.ch.Net.bind(Net.java:555)
+	at java.base/sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:344)
+	at java.base/sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:301)
+	at java.base/java.nio.channels.ServerSocketChannel.bind(ServerSocketChannel.java:224)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.configureServerSocketChannel(Server.java:120)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:56)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:170)
+
+Nov 08, 2023 4:35:01 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: A problem arise in starting the server
+java.net.BindException: Address already in use: bind
+	at java.base/sun.nio.ch.Net.bind0(Native Method)
+	at java.base/sun.nio.ch.Net.bind(Net.java:555)
+	at java.base/sun.nio.ch.ServerSocketChannelImpl.netBind(ServerSocketChannelImpl.java:344)
+	at java.base/sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:301)
+	at java.base/java.nio.channels.ServerSocketChannel.bind(ServerSocketChannel.java:224)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.configureServerSocketChannel(Server.java:120)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:56)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:170)
+
+Feb 08, 2024 6:01:24 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Unable to connect to the server. Try again later or contact administrator
+java.net.ConnectException: Connection refused: connect
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:579)
+	at java.base/sun.nio.ch.Net.connect(Net.java:586)
+	at java.base/sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:880)
+	at bg.sofia.uni.fmi.mjt.spotify.client.Client.main(Client.java:28)
+
+Feb 08, 2024 6:01:34 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Unable to connect to the server. Try again later or contact administrator
+java.net.ConnectException: Connection refused: connect
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:579)
+	at java.base/sun.nio.ch.Net.connect(Net.java:586)
+	at java.base/sun.nio.ch.SocketChannelImpl.connect(SocketChannelImpl.java:880)
+	at bg.sofia.uni.fmi.mjt.spotify.client.Client.main(Client.java:28)
+
+Feb 08, 2024 6:03:09 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: The login process is unsuccessful as there's not such a profile registered.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotFoundException: The login process is unsuccessful as there's not such a profile registered.
+	at bg.sofia.uni.fmi.mjt.spotify.server.login.AuthenticationService.login(AuthenticationService.java:53)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:454)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:78)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:86)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:172)
+
+Feb 08, 2024 6:03:23 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@uni-sofia.bg Reply from server: The login process is unsuccessful as there's not such a profile registered.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotFoundException: The login process is unsuccessful as there's not such a profile registered.
+	at bg.sofia.uni.fmi.mjt.spotify.server.login.AuthenticationService.login(AuthenticationService.java:53)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:454)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:78)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:86)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:172)
+
+Feb 08, 2024 6:06:29 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: Song has already been started and is now playing. You can stop it with the relevant command or wait for it to finish.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.SongIsAlreadyPlayingException: Song has already been started and is now playing. You can stop it with the relevant command or wait for it to finish.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.playSong(StreamingPlatform.java:308)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:150)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:89)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:86)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:172)
+
+Feb 08, 2024 6:07:09 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: Reply from server: You cannot play songs unless you are logged in.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotLoggedException: You cannot play songs unless you are logged in.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.playSong(StreamingPlatform.java:304)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:150)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:89)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:86)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:172)
+
+Feb 23, 2024 11:22:32 AM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: Reply from server: You cannot play songs unless you are logged in.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotLoggedException: You cannot play songs unless you are logged in.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.playSong(StreamingPlatform.java:304)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:150)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:89)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:86)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:172)
+
+Feb 23, 2024 11:23:05 AM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: There isn't such a song in the platform.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.NoSuchSongException: There isn't such a song in the platform.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.playSong(StreamingPlatform.java:313)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:150)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:89)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:86)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:172)
+
+Feb 23, 2024 11:26:49 AM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: There isn't a song which is playing at the moment.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.NoSongPlayingException: There isn't a song which is playing at the moment.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.stopSong(StreamingPlatform.java:349)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processStopCommand(CommandExecutor.java:131)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:91)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:86)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:172)
+
+Sept 24, 2024 10:18:25 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: The login process is unsuccessful as there's not such a profile registered.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotFoundException: The login process is unsuccessful as there's not such a profile registered.
+	at bg.sofia.uni.fmi.mjt.spotify.server.login.AuthenticationService.login(AuthenticationService.java:53)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:454)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:78)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:86)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:172)
+
+Oct 10, 2024 3:51:11 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: The login process is unsuccessful as there's not such a profile registered.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotFoundException: The login process is unsuccessful as there's not such a profile registered.
+	at bg.sofia.uni.fmi.mjt.spotify.server.login.AuthenticationService.login(AuthenticationService.java:53)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processLoginCommand(CommandExecutor.java:454)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:78)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:82)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:168)
+
+Oct 10, 2024 3:53:54 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: Song has already been started and is now playing. You can stop it with the relevant command or wait for it to finish.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.SongIsAlreadyPlayingException: Song has already been started and is now playing. You can stop it with the relevant command or wait for it to finish.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.playSong(StreamingPlatform.java:308)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:150)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:89)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:82)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:168)
+
+Oct 10, 2024 4:02:55 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: There isn't such a song in the platform.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.NoSuchSongException: There isn't such a song in the platform.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.playSong(StreamingPlatform.java:313)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:150)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:89)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:82)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:168)
+
+Oct 10, 2024 4:03:06 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: With email: sdvelev@gmail.com Reply from server: There isn't such a song in the platform.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.NoSuchSongException: There isn't such a song in the platform.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.playSong(StreamingPlatform.java:313)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processPlayCommand(CommandExecutor.java:150)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:89)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:82)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:168)
+
+Oct 10, 2024 4:07:19 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+INFO: Reply from server: You cannot log out as there's not a logged in user associated with the current session. Please, log in first.
+bg.sofia.uni.fmi.mjt.spotify.server.exceptions.UserNotLoggedException: You cannot log out as there's not a logged in user associated with the current session. Please, log in first.
+	at bg.sofia.uni.fmi.mjt.spotify.server.StreamingPlatform.logout(StreamingPlatform.java:329)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.processLogoutCommand(CommandExecutor.java:116)
+	at bg.sofia.uni.fmi.mjt.spotify.server.command.CommandExecutor.executeCommand(CommandExecutor.java:79)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.start(Server.java:82)
+	at bg.sofia.uni.fmi.mjt.spotify.server.Server.main(Server.java:168)
+
+Oct 10, 2024 4:10:47 PM bg.sofia.uni.fmi.mjt.spotify.server.logger.SpotifyLogger log
+SEVERE: Unable to connect to the server. Try again later or contact administrator
+java.io.IOException: Connection reset by peer
+	at java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)
+	at java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:54)
+	at java.base/sun.nio.ch.IOUtil.writeFromNativeBuffer(IOUtil.java:136)
+	at java.base/sun.nio.ch.IOUtil.write(IOUtil.java:80)
+	at java.base/sun.nio.ch.IOUtil.write(IOUtil.java:57)
+	at java.base/sun.nio.ch.SocketChannelImpl.write(SocketChannelImpl.java:542)
+	at bg.sofia.uni.fmi.mjt.spotify.client.Client.main(Client.java:44)
+

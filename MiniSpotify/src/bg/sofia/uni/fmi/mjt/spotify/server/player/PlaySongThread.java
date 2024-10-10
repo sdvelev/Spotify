@@ -18,8 +18,8 @@ import java.util.logging.Level;
 
 public class PlaySongThread extends Thread {
 
-    private final static String DATA_PATH = "data" + File.separator + "music" + File.separator;
-    private final static String WAV_FORMAT = ".wav";
+    private static final String DATA_PATH = "data" + File.separator + "music" + File.separator;
+    private static final String WAV_FORMAT = ".wav";
 
     private final String songName;
     private final SelectionKey selectionKey;
@@ -95,5 +95,4 @@ public class PlaySongThread extends Thread {
         }
 
     }
-
 }

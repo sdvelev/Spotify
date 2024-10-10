@@ -26,6 +26,12 @@
         "artist": "Richard Ashcroft",
         "duration": 248,
         "genre": "modern"
+      },
+      {
+        "title": "The Crown - Main title",
+        "artist": "Hans Zimmer",
+        "duration": 87,
+        "genre": "classical"
       }
     ]
   },
@@ -54,6 +60,48 @@
       {
         "title": "Wondering",
         "artist": "Olivia Rodrigo",
+        "duration": 225,
+        "genre": "pop"
+      },
+      {
+        "title": "No Time To Die",
+        "artist": "Billie Eilish",
+        "duration": 239,
+        "genre": "pop"
+      }
+    ]
+  },
+  {
+    "emailCreator": "sdvelev@gmail.com",
+    "title": "TheCrownMusic",
+    "playlistSongs": [
+      {
+        "title": "The Crown - Main title",
+        "artist": "Hans Zimmer",
+        "duration": 87,
+        "genre": "classical"
+      },
+      {
+        "title": "The Crown - Bittersweet Symphony",
+        "artist": "Richard Ashcroft",
+        "duration": 248,
+        "genre": "modern"
+      }
+    ]
+  },
+  {
+    "emailCreator": "sdvelev@gmail.com",
+    "title": "AnotherPlaylist",
+    "playlistSongs": [
+      {
+        "title": "Once Upon a December",
+        "artist": "Christy Altomare",
+        "duration": 179,
+        "genre": "pop"
+      },
+      {
+        "title": "How Does A Moment Last Forever",
+        "artist": "Celine Dion",
         "duration": 225,
         "genre": "pop"
       },
